@@ -13,8 +13,8 @@ return new class extends Migration
     {
         Schema::create('songs', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('genre_id')->constrained('genres');
-            $table->foreignId('performer_id')->constrained('performers');
+            $table->foreignId('genre_id')->constrained('genres', 'id')->cascadeOnDelete();
+            $table->foreignId('performer_id')->constrained('performers', 'id')->cascadeOnDelete();
             $table->string('name');
             $table->integer('size');
             $table->integer('rate');

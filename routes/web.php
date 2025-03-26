@@ -38,9 +38,9 @@ Route::middleware('auth')->group(function () {
         Route::get('genres', [GenreController::class, 'index'])->name("genres");
         Route::get('genreCreate', [GenreController::class, 'create'])->name("genreCreate");
         Route::post('genreStore', [GenreController::class, 'store'])->name("genreStore");
-        Route::get('genreDelete', [GenreController::class, 'remove'])->name("generDelete");
-        Route::get('genreEdit', [GenreController::class, 'edit'])->name("genreEdit");
-        Route::post('genreUpdate', [GenreController::class, 'update'])->name("genreUpdate");
+        Route::delete('genreDelete/{id}', [GenreController::class, 'remove'])->name("genreDelete");
+        Route::get('genreEdit/{id}', [GenreController::class, 'edit'])->name("genreEdit");
+        Route::patch('genreUpdate/{id}', [GenreController::class, 'update'])->name("genreUpdate");
 
         Route::get('discography', [DiscographyController::class, 'index'])->name("discography");
         Route::get('diskCreate', [DiscographyController::class, 'create'])->name("diskCreate");

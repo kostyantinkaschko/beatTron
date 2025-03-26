@@ -14,13 +14,19 @@
             </thead>
             @foreach ($genres as $genre)
             <tr>
-                <td class="border border-gray-400 dark:text-white">{{ $genre["id"] }}</td>
-                <td class="border border-gray-400 dark:text-white">{{ $genre["title"] }}</td>
-                <td class="border border-gray-400 dark:text-white">{{ $genre["description"] }}</td>
-                <td class="border border-gray-400 dark:text-white">{{ $genre["created_at"] }}</td>
-                <td class="border border-gray-400 dark:text-white">{{ $genre["updated_at"] }}</td>
-                <td class="border border-gray-400 dark:text-white"><a href="genreDelete?id=<?= $genre['id'] ?>">Remove</a></td>
-                <td class="border border-gray-400 dark:text-white"><a href="genreEdit?id=<?= $genre['id'] ?>">Edit</a></td>
+                <td class="border border-gray-400 dark:text-white">{{ $genre->id }}</td>
+                <td class="border border-gray-400 dark:text-white">{{ $genre->title }}</td>
+                <td class="border border-gray-400 dark:text-white">{{ $genre->description }}</td>
+                <td class="border border-gray-400 dark:text-white">{{ $genre->created_at }}</td>
+                <td class="border border-gray-400 dark:text-white">{{ $genre->updated_at }}</td>
+                <td class="border border-gray-400 dark:text-white">
+                    <form action="{{ route("genreDelete", $genre->id) }}" method="post">
+                        @csrf
+                        @method('delete')
+                        <input type="submit" value="Remove">
+                    </form>
+                </td>
+                <td class="border border-gray-400 dark:text-white"><a href="{{ route("genreEdit", $genre->id) }}">Edit</a></td>
             </tr>
             @endforeach
         </table>

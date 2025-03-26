@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('performers', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
+            $table->foreignId('user_id')->constrained('users', 'id')->onDelete('cascade');
             $table->string('name');
             $table->integer('rate');
             $table->string('icon');

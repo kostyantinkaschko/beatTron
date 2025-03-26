@@ -41,29 +41,26 @@ class GenreController extends Controller
         return to_route("genres");
     }
 
-    public function remove()
+    public function remove($id)
     {
-        Genre::deleteGenre();
+        Genre::deleteGenre($id);
 
         return to_route("genres");
     }
 
-    public function edit(){
-        if(empty($_GET["id"])){
-            return to_route("genres");
-        }
-        $genre = Genre::getGenre();
+    public function edit($id){
+        $genre = Genre::getGenre($id);
+        // dd($genre);
 
         return view("admin.genres.edit", compact('genre'));
     }
 
-    public function update(Request $request){
+    public function update(Request $request, $id){
         $genre = [
-            'id' => $request->post("id"),
             'title' => $request->post("title"),
             'description' => $request->post("description")
         ];
-        Genre::updateGenre($genre);
+        Genre::updateGenre($genre, $id);
 
         return to_route("genres");
     }

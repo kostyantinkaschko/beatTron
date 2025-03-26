@@ -22,7 +22,7 @@ class Genre extends Model
 
     public static function getGenres()
     {
-        return json_decode(DB::table("genres")->get(), true);
+        return DB::table("genres")->get();
     }
 
     public static function store($data)
@@ -30,24 +30,20 @@ class Genre extends Model
         return DB::table("genres")->insert($data);
     }
 
-    public static function deleteGenre()
+    public static function deleteGenre($id)
     {
-        return DB::table("genres")->delete($_GET['id']);
+        return DB::table("genres")->delete($id);
     }
 
-    public static function getGenre()
+    public static function getGenre($id)
     {
-        $genre = DB::table("genres")->where("id", $_GET["id"])->get();
-        return  $genre = [
-            'title' => $genre->first()->title,
-            'description' => $genre->first()->description,
-        ];
+        return DB::table("genres")->find($id);
     }
 
-    public static function updateGenre($genre)
+    public static function updateGenre($genre, $id)
     {
         return DB::table('genres')
-            ->where('id', $genre["id"])
+            ->where('id', $id)
             ->update([
                 'title' => $genre["title"],
                 'description' => $genre["description"],
