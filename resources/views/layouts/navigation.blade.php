@@ -12,12 +12,26 @@
 
                 <!-- Navigation Links -->
                 <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                    <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
+                <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
                         {{ __('Dashboard') }}
+                    </x-nav-link>
+                    <x-nav-link :href="route('discography')" :active="request()->routeIs('discography')">
+                        {{ __('Discography') }}
+                    </x-nav-link>
+                    <x-nav-link :href="route('genres')" :active="request()->routeIs('genres')">
+                        {{ __('Genres') }}
+                    </x-nav-link>
+                    <x-nav-link :href="route('medals')" :active="request()->routeIs('medals')">
+                        {{ __('Medals') }}
+                    </x-nav-link>
+                    <x-nav-link :href="route('performers')" :active="request()->routeIs('performers')">
+                        {{ __('Performers') }}
+                    </x-nav-link>
+                    <x-nav-link :href="route('songs')" :active="request()->routeIs('songs')">
+                        {{ __('Songs') }}
                     </x-nav-link>
                 </div>
             </div>
-
             <!-- Settings Dropdown -->
             <div class="hidden sm:flex sm:items-center sm:ms-6">
                 <x-dropdown align="right" width="48">
@@ -69,9 +83,6 @@
         <div class="pt-2 pb-3 space-y-1">
             <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
                 {{ __('Dashboard') }}
-            </x-responsive-nav-link>
-            <x-responsive-nav-link :href="route('test')" :active="request()->routeIs('test')">
-                {{ __('Test') }}
             </x-responsive-nav-link>
         </div>
 
