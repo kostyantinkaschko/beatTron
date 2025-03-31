@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Site;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
-class MedalsController extends Controller
+class GenreSiteController extends Controller
 {
     //
 }

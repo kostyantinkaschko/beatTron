@@ -11,20 +11,38 @@
                     <th class="border border-gray-400 dark:text-white">Difficult:</th>
                     <th class="border border-gray-400 dark:text-white">Created_at:</th>
                     <th class="border border-gray-400 dark:text-white">Updated_at:</th>
+                    <th class="border border-gray-400 dark:text-white">Deleted_at:</th>
                     <th class="border border-gray-400 dark:text-white" colspan="2">Act:</th>
                 </tr>
             </thead>
             @foreach ($medals as $medal)
             <tr>
-                <td class="border border-gray-400 dark:text-white">{{ $medal["id"] }}</td>
-                <td class="border border-gray-400 dark:text-white">{{ $medal["name"] }}</td>
-                <td class="border border-gray-400 dark:text-white">{{ $medal["type"] }}</td>
-                <td class="border border-gray-400 dark:text-white">{{ $medal["description"] }}</td>
-                <td class="border border-gray-400 dark:text-white">{{ $medal["difficult"] }}</td>
-                <td class="border border-gray-400 dark:text-white">{{ $medal["created_at"] }}</td>
-                <td class="border border-gray-400 dark:text-white">{{ $medal["updated_at"] }}</td>
-                <td class="border border-gray-400 dark:text-white"><a href="medalDelete?id=<?= $medal['id'] ?>">Remove</a></td>
-                <td class="border border-gray-400 dark:text-white"><a href="medalEdit?id=<?= $medal['id'] ?>">Edit</a></td>
+                <td class="border border-gray-400 dark:text-white">{{ $medal->id }}</td>
+                <td class="border border-gray-400 dark:text-white">{{ $medal->name }}</td>
+                <td class="border border-gray-400 dark:text-white">{{ $medal->type }}</td>
+                <td class="border border-gray-400 dark:text-white">{{ $medal->description }}</td>
+                <td class="border border-gray-400 dark:text-white">{{ $medal->difficult }}</td>
+                <td class="border border-gray-400 dark:text-white">{{ $medal->created_at }}</td>
+                <td class="border border-gray-400 dark:text-white">{{ $medal->updated_at }}</td>
+                <td class="border border-gray-400 dark:text-white">{{ $medal->deleted_at }}</td>
+                @if ($medal->trashed())
+                <td class="border border-gray-400 dark:text-white text-center" colspan="2">
+                    <form action="{{ route("medalRestore", $medal->id) }}" method="post">
+                        @csrf
+                        @method('patch')
+                        <input type="submit" value="Restore">
+                    </form>
+                </td>
+                @else
+                <td class="border border-gray-400 dark:text-white">
+                    <form action="{{ route("medalDelete", $medal->id) }}" method="post">
+                        @csrf
+                        @method('delete')
+                        <input type="submit" value="Remove">
+                    </form>
+                </td>
+                <td class="border border-gray-400 dark:text-white"><a href="{{ route("medalEdit", $medal->id) }}">Edit</a></td>
+                @endif
             </tr>
             @endforeach
         </table>

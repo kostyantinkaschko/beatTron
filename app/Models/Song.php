@@ -2,10 +2,13 @@
 
 namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\DB;
+use App\Traits\StoreTrait;
 
 class Song extends Model
 {
+    use SoftDeletes, StoreTrait;
     protected $table = 'songs';
     protected $primaryKey = 'id';
     /**
@@ -25,23 +28,4 @@ class Song extends Model
         'status',
         'creationDate',
     ];
-
-    public static function getSongs()
-    {
-        return json_decode(DB::table("songs")->get(), true);
-    }
-
-
-    public static function getSongsByGenre($genre)
-    {
-        return DB::table("songs")->where("genre_id", $genre)->get();
-    }
-
-    public static function store($data)
-    {
-        return DB::table("songs")->insert($data);
-    }
-
-
-
 }

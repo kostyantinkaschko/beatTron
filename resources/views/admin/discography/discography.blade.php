@@ -11,6 +11,7 @@
                     <th class="border border-gray-400 dark:text-white">Description:</th>
                     <th class="border border-gray-400 dark:text-white">Created_at:</th>
                     <th class="border border-gray-400 dark:text-white">Updated_at:</th>
+                    <th class="border border-gray-400 dark:text-white">Deleted_at:</th>
                     <th class="border border-gray-400 dark:text-white" colspan="2">Act:</th>
                 </tr>
             </thead>
@@ -23,8 +24,25 @@
                 <td class="border border-gray-400 dark:text-white">{{ $disk->description }}</td>
                 <td class="border border-gray-400 dark:text-white">{{ $disk->created_at }}</td>
                 <td class="border border-gray-400 dark:text-white">{{ $disk->updated_at }}</td>
-                <td class="border border-gray-400 dark:text-white"><a href="disksDelete?id=<?= $disk->id ?>">Remove</a></td>
-                <td class="border border-gray-400 dark:text-white"><a href="disksEdit?id=<?= $disk->id ?>">Edit</a></td>
+                <td class="border border-gray-400 dark:text-white">{{ $disk->deleted_at }}</td>
+                @if ($disk->trashed())
+                <td class="border border-gray-400 dark:text-white text-center" colspan="2">
+                    <form action="{{ route("diskRestore", $disk->id) }}" method="post">
+                        @csrf
+                        @method('patch')
+                        <input type="submit" value="Restore">
+                    </form>
+                </td>
+                @else
+                <td class="border border-gray-400 dark:text-white">
+                    <form action="{{ route("diskDelete", $disk->id) }}" method="post">
+                        @csrf
+                        @method('delete')
+                        <input type="submit" value="Remove">
+                    </form>
+                </td>
+                <td class="border border-gray-400 dark:text-white"><a href="{{ route("diskEdit", $disk->id) }}">Edit</a></td>
+                @endif
             </tr>
             @endforeach
         </table>

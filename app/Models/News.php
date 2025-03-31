@@ -4,9 +4,11 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
-
+use Illuminate\Database\Eloquent\SoftDeletes;
+use App\Traits\StoreTrait;
 class News extends Model
 {
+    use SoftDeletes, StoreTrait;
     protected $table = 'news';
     protected $primaryKey = 'id';
   /**
@@ -21,8 +23,4 @@ class News extends Model
         'author',
     ];
 
-    public static function getNews()
-    {
-        return DB::table("news")->get();
     }
-}

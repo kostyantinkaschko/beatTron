@@ -4,9 +4,12 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Database\Eloquent\SoftDeletes;
+use App\Traits\StoreTrait;
 
 class Discrography extends Model
 {
+    use SoftDeletes, StoreTrait;
     protected $table = 'discography';
     protected $primaryKey = 'id';
     /**
@@ -23,46 +26,4 @@ class Discrography extends Model
         'duration',
     ];
 
-    public static function getDisks()
-    {
-        return json_decode(json_encode(DB::table("discography")->get()));
-    }
-
-    public static function store($data)
-    {
-        return DB::table("discography")->insert($data);
-    }
-
-    public static function deleteDisc()
-    {
-        return DB::table("discography")->delete($_GET['id']);
-    }
-
-    public static function getDisk()
-    {
-        $disk = DB::table("discography")->where("id", $_GET["id"])->get();
-        return  $disk = [
-            'id' => $_GET["id"],
-            'genre_id' => $disk->first()->genre_id,
-            'author' => $disk->first()->author,
-            'type' => $disk->first()->type,
-            'description' => $disk->first()->description,
-            'duration' => $disk->first()->duration,
-            'updated_at' => now(),
-        ];
-    }
-
-    public static function updateDisk($disk)
-    {
-        return DB::table('discography')
-            ->where('id', $disk["id"])
-            ->update([
-                'genre_id' => $disk->first()->title,
-                'author' => $disk->first()->author,
-                'type' => $disk->first()->type,
-                'description' => $disk->first()->description,
-                'duration' => $disk->first()->duration,
-                'updated_at' => now(),
-            ]);
-    }
 }

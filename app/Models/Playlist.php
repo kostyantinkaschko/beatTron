@@ -4,9 +4,12 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Database\Eloquent\SoftDeletes;
+use App\Traits\StoreTrait;
 
 class Playlist extends Model
 {
+    use SoftDeletes, StoreTrait;
     protected $table = 'playlists';
     protected $primaryKey = 'id';
     /**
@@ -19,10 +22,4 @@ class Playlist extends Model
         'duration',
         'creationData'
     ];
-
-    public static function getPlaylists()
-    {
-        return DB::table("playlists")->get();
-    }
-
 }

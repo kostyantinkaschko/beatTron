@@ -1,12 +1,12 @@
 <x-app-layout>
     <x-slot name="slot">
-        <form action="{{ route("genreUpdate") }}" method="post">
+        <form action="{{ route("diskUpdate", $disk) }}" method="post">
             @csrf
-            <label>title:</label>
-            <input type="text" name="title" value="{{ $genre['title'] }}">
-            <textarea name="description" placeholder="description">{{ $genre["description"] }}</textarea>
-            <input type="hidden" name="id" value="{{ $_GET['id'] }}">
+            <input type="text" name="genre_id" value="{{ $disk->genre_id }}" placeholder="genre_id">
+            <input type="text" name="author" value="{{ $disk->author }}" placeholder="author">
+            <input type="text" name="type" value="{{ $disk->type }}" placeholder="type">
+            <input type="text" name="description" value="{{ $disk->description }}" placeholder="description">
             <input type="submit">
         </form>
     </x-slot>
-</x-app-layout>{{}}
+</x-app-layout>

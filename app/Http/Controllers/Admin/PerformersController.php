@@ -13,7 +13,7 @@ class PerformersController extends Controller
 {
   public function index()
   {
-    $performers = Performer::getPerformers();
+    $performers = Performer::withTrashed()->get();
 
     return view("admin.performers.performers", compact("performers"));
   }
@@ -38,34 +38,34 @@ class PerformersController extends Controller
     return to_route("performers");
   }
 
-  public function edit(){
-    if(empty($_GET["id"])){
-        return to_route("performers");
-    }
-    $performer = Performer::getPerformer();
-
-    return view("admin.performers.edit", compact('performer'));
-}
-
-
-  public function remove()
+  public function edit($id)
   {
-      Performer::deletePerformer();
-
-      return to_route("performers");
+    $performer = Performer::find($id);
+    return view("admin.performers.edit", compact('performer'));
   }
 
-  public function update(Request $request){
-    $performer = [
-        'id' => $request->post("id"),
-        'user_id' => $request->post("user_id"),
-        'name' => $request->post("name"),
-        'instagram' => $request->post("instagram"),
-        'facebook' => $request->post("facebook"),
-        'youtube' => $request->post("youtube"),
-    ];
-    Performer::updatePerformer($performer);
+  public function update(Request $request, Performer $performer)
+  {
+    $performer->update([
+      'user_id' => $request->post("user_id"),
+      'name' => $request->post("name"),
+      'instagram' => $request->post("instagram"),
+      'facebook' => $request->post("facebook"),
+      'youtube' => $request->post("youtube"),
+    ]);
 
     return to_route("performers");
-}
+  }
+  public function remove($id)
+  {
+    $performer = Performer::findOrFail($id);
+    $performer->delete();
+    return to_route("performers");
+  }
+  public function restore($id)
+  {
+    $performer = Performer::onlyTrashed()->findOrFail($id);
+    $performer->restore();
+    return to_route("performers");
+  }
 }

@@ -12,8 +12,8 @@ class GenreController extends Controller
 
     public function index()
     {
-        $genres = Genre::getGenres();
-        
+        $genres = Genre::withTrashed()->get();
+
         return view("admin.genres.genres", compact("genres"));
     }
 
@@ -30,38 +30,46 @@ class GenreController extends Controller
 
     public function store(Request $request)
     {
-        $genreData = [
+        Genre::store([
             'title' => $request->post('title'),
             'description' => $request->post('description'),
             'created_at' => now(),
             "updated_at" => now(),
-        ];
-        Genre::store($genreData);
+        ]);
+
+        return to_route("genres");
+    }
+
+
+
+    public function edit($id)
+    {
+        $genre = Genre::find($id);
+
+        return view("admin.genres.edit", compact('genre'));
+    }
+
+    public function update(Request $request, Genre $genre)
+    {
+
+        $genre->update([
+            'title' => $request->post("title"),
+            'description' => $request->post("description"),
+        ]);
 
         return to_route("genres");
     }
 
     public function remove($id)
     {
-        Genre::deleteGenre($id);
-
+        $genre = Genre::findOrFail($id);
+        $genre->delete();
         return to_route("genres");
     }
-
-    public function edit($id){
-        $genre = Genre::getGenre($id);
-        // dd($genre);
-
-        return view("admin.genres.edit", compact('genre'));
-    }
-
-    public function update(Request $request, $id){
-        $genre = [
-            'title' => $request->post("title"),
-            'description' => $request->post("description")
-        ];
-        Genre::updateGenre($genre, $id);
-
+    public function restore($id)
+    {
+        $genre = Genre::onlyTrashed()->findOrFail($id);
+        $genre->restore();
         return to_route("genres");
     }
 }

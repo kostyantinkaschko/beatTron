@@ -9,6 +9,7 @@
                     <th class="border border-gray-400 dark:text-white">Description:</th>
                     <th class="border border-gray-400 dark:text-white">Created_at:</th>
                     <th class="border border-gray-400 dark:text-white">Updated_at:</th>
+                    <th class="border border-gray-400 dark:text-white">Deleted_at:</th>
                     <th class="border border-gray-400 dark:text-white" colspan="2">Act:</th>
                 </tr>
             </thead>
@@ -19,6 +20,16 @@
                 <td class="border border-gray-400 dark:text-white">{{ $genre->description }}</td>
                 <td class="border border-gray-400 dark:text-white">{{ $genre->created_at }}</td>
                 <td class="border border-gray-400 dark:text-white">{{ $genre->updated_at }}</td>
+                <td class="border border-gray-400 dark:text-white">{{ $genre->deleted_at }}</td>
+                @if ($genre->trashed())
+                <td class="border border-gray-400 dark:text-white text-center" colspan="2">
+                    <form action="{{ route("genreRestore", $genre->id) }}" method="post">
+                        @csrf
+                        @method('patch')
+                        <input type="submit" value="Restore">
+                    </form>
+                </td>
+                @else
                 <td class="border border-gray-400 dark:text-white">
                     <form action="{{ route("genreDelete", $genre->id) }}" method="post">
                         @csrf
@@ -27,6 +38,7 @@
                     </form>
                 </td>
                 <td class="border border-gray-400 dark:text-white"><a href="{{ route("genreEdit", $genre->id) }}">Edit</a></td>
+                @endif
             </tr>
             @endforeach
         </table>

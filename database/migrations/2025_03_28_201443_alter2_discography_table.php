@@ -11,12 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('songs', function (Blueprint $table) {
-            $table->integer('size')->default('0')->change();
-            $table->integer('rate')->default('0')->change();
-            $table->dropColumn('duration');
-            $table->integer('listeningCount')->default('0')->change();
-        }); 
+        Schema::table('discography', function (Blueprint $table) {
+            $table->softDeletes();
+        });
     }
 
     /**
@@ -24,6 +21,8 @@ return new class extends Migration
      */
     public function down(): void
     {
-        //
+        Schema::table('discography', function (Blueprint $table) {
+            $table->dropColumn('deleted_at');
+        });
     }
 };

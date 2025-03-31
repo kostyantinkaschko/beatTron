@@ -12,10 +12,10 @@ class MedalController extends Controller
 {
     public function index()
     {
-      $medals = Medal::getMedals();
-    
-  
-      return view("admin.medals.medals", compact("medals"));
+        $medals = Medal::withTrashed()->get();
+
+
+        return view("admin.medals.medals", compact("medals"));
     }
 
     public function create(): View
@@ -23,40 +23,50 @@ class MedalController extends Controller
         return view('admin.medals.create');
     }
 
-    public function edit(){
-        if(empty($_GET["id"])){
-            return to_route("medals");
-        }
-        $medal = Medal::getMedal();
-
-        return view("admin.medals.edit", compact('medal'));
-    }
-
-    public function update(Request $request){
-        $medal = [
-            'id' => $request->post('id'),
-            'name' => $request->post('name'),
-            'type' => $request->post('type'),
-            'description' => $request->post('description'),
-            'difficult' => $request->post('difficult'),
-        ];
-        Medal::updateMedal($medal);
-
-        return to_route("medals");
-    }
-
     public function store(Request $request)
     {
-        $medalData = [
+        Medal::store([
             'name' => $request->post('name'),
             'type' => $request->post('type'),
             'description' => $request->post('description'),
             'difficult' => $request->post('difficult'),
             'created_at' => now(),
             "updated_at" => now(),
-        ];
-        Medal::store($medalData);
+        ]);
 
         return to_route("medals");
+    }
+
+    public function edit($id)
+    {
+        $medal = Medal::find($id);
+
+        return view("admin.medals.edit", compact('medal'));
+    }
+
+    public function update(Request $request, Medal $medal)
+    {
+        $medal->update([
+            'id' => $request->post('id'),
+            'name' => $request->post('name'),
+            'type' => $request->post('type'),
+            'description' => $request->post('description'),
+            'difficult' => $request->post('difficult'),
+        ]);
+
+        return to_route("medals");
+    }
+
+    public function remove($id)
+    {
+        $medal = Medal::findOrFail($id);
+        $medal->delete();
+        return to_route("medals");
+    }
+    public function restore($id)
+    {
+      $medal = Medal::onlyTrashed()->findOrFail($id);
+      $medal->restore();
+      return to_route("medals");
     }
 }
