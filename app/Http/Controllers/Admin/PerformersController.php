@@ -11,6 +11,12 @@ use App\Models\Performer;
 
 class PerformersController extends Controller
 {
+
+  /**
+     * Routing to the performers display page
+     *
+     * @return View
+     */
   public function index()
   {
     $performers = Performer::withTrashed()->get();
@@ -18,10 +24,22 @@ class PerformersController extends Controller
     return view("admin.performers.performers", compact("performers"));
   }
 
+  /**
+     * Routing to the performer creation display page
+     *
+     * @return View
+     */
   public function create()
   {
     return view("admin.performers.create");
   }
+
+  
+    /**
+     * Stores a new performer in the database
+     *
+     * @param Request $request
+     */
   public function store(Request $request)
   {
     Performer::store([
@@ -38,12 +56,24 @@ class PerformersController extends Controller
     return to_route("performers");
   }
 
+     /**
+     * Routing to the performer edit display page
+     *
+     * @param int $id
+     * @return View
+     */
   public function edit($id)
   {
     $performer = Performer::find($id);
     return view("admin.performers.edit", compact('performer'));
   }
 
+     /**
+     * Updates the data of an existing performer in the database
+     *
+     * @param Request $request
+     * @param Performer $performer
+     */
   public function update(Request $request, Performer $performer)
   {
     $performer->update([
@@ -56,12 +86,23 @@ class PerformersController extends Controller
 
     return to_route("performers");
   }
+  /**
+   * Delete a performer (mild delete)
+   *
+   * @param int $id
+   */
+
   public function remove($id)
   {
     $performer = Performer::findOrFail($id);
     $performer->delete();
     return to_route("performers");
   }
+    /**
+     * Restores a deleted performer
+     *
+     * @param int $id
+     */
   public function restore($id)
   {
     $performer = Performer::onlyTrashed()->findOrFail($id);

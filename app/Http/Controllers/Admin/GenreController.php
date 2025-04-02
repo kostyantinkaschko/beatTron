@@ -10,6 +10,11 @@ use App\Models\Genre;
 class GenreController extends Controller
 {
 
+    /**
+     * Routing to the genres display page
+     *
+     * @return View
+     */
     public function index()
     {
         $genres = Genre::withTrashed()->get();
@@ -17,17 +22,22 @@ class GenreController extends Controller
         return view("admin.genres.genres", compact("genres"));
     }
 
-    /** 
-     * Transfer to create genre
-     * 
-     * @param int $genres  
+    /**
+     * Routing to the genre creation display page
+     *
      * @return View
      */
+
     public function create(): View
     {
         return view('admin.genres.create');
     }
 
+    /**
+     * Stores a new genre in the database
+     *
+     * @param Request $request
+     */
     public function store(Request $request)
     {
         Genre::store([
@@ -42,12 +52,25 @@ class GenreController extends Controller
 
 
 
+    /**
+     * Routing to the genre edit display page
+     *
+     * @param int $id
+     * @return View
+     */
     public function edit($id)
     {
         $genre = Genre::find($id);
 
         return view("admin.genres.edit", compact('genre'));
     }
+
+    /**
+     * Updates the data of an existing disk in the database
+     *
+     * @param Request $request
+     * @param Genre $genre
+     */
 
     public function update(Request $request, Genre $genre)
     {
@@ -60,12 +83,24 @@ class GenreController extends Controller
         return to_route("genres");
     }
 
+
+    /**
+     * Delete a disk (mild delete)
+     *
+     * @param int $id
+     */
     public function remove($id)
     {
         $genre = Genre::findOrFail($id);
         $genre->delete();
         return to_route("genres");
     }
+    
+    /**
+     * Restores a deleted disk
+     *
+     * @param int $id
+     */
     public function restore($id)
     {
         $genre = Genre::onlyTrashed()->findOrFail($id);

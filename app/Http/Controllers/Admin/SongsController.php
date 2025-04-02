@@ -10,6 +10,11 @@ use App\Models\Song;
 
 class SongsController extends Controller
 {
+    /**
+     * Routing to the songs display page
+     *
+     * @return View
+     */
     public function index()
     {
         $songs = Song::withTrashed()->get();
@@ -17,13 +22,22 @@ class SongsController extends Controller
         return view("admin.songs.songs", compact("songs"));
     }
 
+    /**
+     * Routing to the song creation display page
+     *
+     * @return View
+     */
     public function create(): View
     {
         return view("admin.songs.create");
     }
 
 
-
+ /**
+     * Stores a new song in the database
+     *
+     * @param Request $request
+     */
     public function store(Request $request)
     {
         Song::store([
@@ -39,6 +53,12 @@ class SongsController extends Controller
         return to_route("songs");
     }
 
+      /**
+     * Routing to the song edit display page
+     *
+     * @param int $id
+     * @return View
+     */
     public function edit($id)
     {
         $song = Song::find($id);
@@ -46,6 +66,13 @@ class SongsController extends Controller
         return view("admin.songs.edit", compact('song'));
     }
 
+
+    /**
+     * Updates the data of an existing song in the database
+     *
+     * @param Request $request
+     * @param Song $song
+     */
     public function update(Request $request, Song $song)
     {
         $song->update([
@@ -60,12 +87,23 @@ class SongsController extends Controller
         ]);
         return to_route("songs");
     }
+      /**
+     * Delete a song (mild delete)
+     *
+     * @param int $id
+     */
     public function remove($id)
     {
         $song = Song::findOrFail($id);
         $song->delete();
         return to_route("songs");
     }
+
+    /**
+     * Restores a deleted song
+     *
+     * @param int $id
+     */
     public function restore($id)
     {
         $song = Song::onlyTrashed()->findOrFail($id);

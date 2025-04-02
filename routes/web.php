@@ -19,18 +19,9 @@ use App\Http\Controllers\Site\PlaylistController;
 use App\Http\Controllers\Site\GenreSiteController;
 use App\Http\Controllers\Site\PerformerSiteController;
 
+Route::get('/', [GeneralController::class, 'index']);
+Route::get('general', [GeneralController::class, 'index'])->name("general");
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
-
-Route::get('/', function () {
-    return view('site.general');
-});
-
-Route::get('general', function () {
-    return view('site.general');
-})->name("general");
 
 Route::prefix('site')->middleware(['site'])->group(function () {
     Route::get('news', [NewsController::class, 'site'])->name("news");

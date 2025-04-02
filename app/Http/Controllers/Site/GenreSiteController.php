@@ -7,5 +7,8 @@ use Illuminate\Http\Request;
 
 class GenreSiteController extends Controller
 {
-    //
+    public function site() 
+    {
+        return view("site.genres.genres");
+    }
 }
