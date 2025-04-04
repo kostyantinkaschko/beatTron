@@ -40,7 +40,7 @@ class GenreController extends Controller
      */
     public function store(Request $request)
     {
-        Genre::store([
+        Genre::create([
             'title' => $request->post('title'),
             'description' => $request->post('description'),
             'created_at' => now(),

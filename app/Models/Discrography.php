@@ -5,11 +5,10 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use App\Traits\StoreTrait;
 
 class Discrography extends Model
 {
-    use SoftDeletes, StoreTrait;
+    use SoftDeletes;
     protected $table = 'discography';
     protected $primaryKey = 'id';
     /**
@@ -19,11 +18,9 @@ class Discrography extends Model
      */
     protected $fillable = [
         'genre_id',
+        'performer_id',
         'type',
-        'title',
-        'author',
         'description',
-        'duration',
     ];
 
 }

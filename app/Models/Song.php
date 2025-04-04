@@ -1,14 +1,16 @@
 <?php
 
 namespace App\Models;
+
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use  Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Support\Facades\DB;
-use App\Traits\StoreTrait;
 
 class Song extends Model
 {
-    use SoftDeletes, StoreTrait;
+    use SoftDeletes,
+        HasFactory;
     protected $table = 'songs';
     protected $primaryKey = 'id';
     /**
@@ -18,14 +20,13 @@ class Song extends Model
      */
     protected $fillable = [
         'genre_id',
-        'performerId',
+        'disk_id',
+        'performer_id',
         'name',
         'size',
         'rate',
-        'duration',
         'listeningCount',
         'year',
         'status',
-        'creationDate',
     ];
 }

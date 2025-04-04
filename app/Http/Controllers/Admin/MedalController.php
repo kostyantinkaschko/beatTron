@@ -41,7 +41,7 @@ class MedalController extends Controller
      */
     public function store(Request $request)
     {
-        Medal::store([
+        Medal::create([
             'name' => $request->post('name'),
             'type' => $request->post('type'),
             'description' => $request->post('description'),

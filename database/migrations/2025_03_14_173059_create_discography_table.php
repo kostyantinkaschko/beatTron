@@ -13,12 +13,12 @@ return new class extends Migration
     {
         Schema::create('discography', function (Blueprint $table) {
             $table->id();
-            $table->foreignid("genre_id");
-            $table->string("author");
+            $table->foreignid("genre_id")->constrained("genres", "id")->cascadeOnDelete();
+            $table->foreignid("performer_id")->constrained("performers", "id")->cascadeOnDelete();
             $table->string("type");
             $table->string("description");
-            $table->integer("duration");
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

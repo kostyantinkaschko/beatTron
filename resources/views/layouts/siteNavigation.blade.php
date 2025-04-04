@@ -57,7 +57,7 @@
                         </x-slot>
                     </x-dropdown>
                     @else
-                    <x-nav-link :href="route('auth.login')">
+                    <x-nav-link :href="route('login')">
                         {{ __('Login') }}
                     </x-nav-link>
                     @endif

@@ -21,8 +21,10 @@ return new class extends Migration
             $table->string('rank')->nullable()->default(1);
             $table->integer('level')->default(1);
             $table->bigInteger('exp')->default(0);
+            $table->string("role")->default("user");
             $table->rememberToken();    
             $table->timestamps();
+            $table->softDeletes();
         });
 
         Schema::create('password_reset_tokens', function (Blueprint $table) {

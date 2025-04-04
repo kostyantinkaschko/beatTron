@@ -6,8 +6,8 @@ use App\Http\Controllers\Controller;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\Request;
 use App\Models\Discrography;
-
-
+use App\Models\Genre;
+use App\Models\Performer;
 
 class DiscographyController extends Controller
 {
@@ -31,23 +31,24 @@ class DiscographyController extends Controller
      */
     public function create()
     {
-        return view("admin.discography.create");
+        $genres = Genre::select("id", "title")->get();
+        $performers = Performer::select("id", 'name')->get();
+
+        return view("admin.discography.create", compact("genres", "performers"));
     }
 
     /**
-     * Stores a new disk in the database
+     * Stores a new disk in the da  tabase
      *
      * @param Request $request
      */ 
     public function store(Request $request)
     {
-        Discrography::store([
+        Discrography::create([
             'genre_id' => $request->post('genre_id'),
             'author' => $request->post('author'),
             'type' => $request->post('type'),
             'description' => $request->post('description'),
-            'created_at' => now(),
-            "updated_at" => now(),
         ]);
 
         return to_route("discography");

@@ -40,7 +40,7 @@ class SongsController extends Controller
      */
     public function store(Request $request)
     {
-        Song::store([
+        Song::create([
             'genre_id' => $request->post('genre_id'),
             'performer_id' => $request->post('performer_id'),
             'name' => $request->post('name'),

@@ -5,10 +5,9 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use App\Traits\StoreTrait;
 class Performer extends Model
 {
-    use SoftDeletes, StoreTrait;
+    use SoftDeletes;
     protected $table = 'performers';
     protected $primaryKey = 'id';
 
@@ -25,7 +24,6 @@ class Performer extends Model
         'facebook',
         'x',
         'youtube',
-        'creationDate'
     ];
 
 }

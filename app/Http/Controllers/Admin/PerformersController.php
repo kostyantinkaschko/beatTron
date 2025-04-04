@@ -42,7 +42,7 @@ class PerformersController extends Controller
      */
   public function store(Request $request)
   {
-    Performer::store([
+    Performer::create([
       'id' => $request->post('id'),
       'user_id' => Auth::id(),
       'name' => $request->post('name'),

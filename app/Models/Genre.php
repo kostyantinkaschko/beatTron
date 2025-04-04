@@ -5,11 +5,12 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use App\Traits\StoreTrait;
+use  Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Genre extends Model
 {
-    use SoftDeletes, StoreTrait;
+    use SoftDeletes, 
+        HasFactory;
     protected $table = 'genres';
     protected $primaryKey = 'id';
     /**
@@ -18,7 +19,6 @@ class Genre extends Model
      * @var array<int, string>
      */
     protected $fillable = [
-        'id',
         'title',
         'description',
     ];

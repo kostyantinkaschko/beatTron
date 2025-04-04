@@ -5,11 +5,10 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use App\Traits\StoreTrait;
 
 class Medal extends Model
 {
-    use SoftDeletes, StoreTrait;
+    use SoftDeletes;
     protected $table = 'medals';
     protected $primaryKey = 'id';
     /**
