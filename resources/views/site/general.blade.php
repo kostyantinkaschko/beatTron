@@ -22,6 +22,18 @@
                             </p>
                         </audio>
                     </td>
+                    <td>
+                        <form action="{{ route("addSong") }}" method="post">
+                            @csrf
+                            <select name="playlist">
+                                @foreach ($playlists as $playlist)
+                                <option value="{{ $playlist->id }}">{{ $playlist->id }}</option>
+                                @endforeach
+                            </select>
+                            <input type="hidden" name="song" value="{{ $song->id }}">
+                            <input type="submit">
+                        </form>
+                    </td>
                 </tr>
                 @endif
                 @endforeach

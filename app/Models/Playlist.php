@@ -18,4 +18,14 @@ class Playlist extends Model
     protected $fillable = [
         'user_id',
     ];
+
+    public function songs()
+    {
+        return $this->belongsToMany(Song::class, 'playlists_songs');
+    }
+
+    public function songsAdd()
+    {
+        return $this->belongsToMany(Song::class, 'playlists_songs')->withPivot('id');
+    }
 }

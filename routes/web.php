@@ -25,6 +25,7 @@ use App\Http\Controllers\Admin\DiscographyController;
 use App\Http\Controllers\Site\PerformerSiteController;
 use App\Http\Controllers\PerformerPanel\PerformerPanelController;
 use App\Http\Controllers\Site\DiscographyController as DiskSiteController;
+use App\Models\Playlist;
 
 Route::get("/", [GeneralController::class, "index"]);
 Route::get("general", [GeneralController::class, "index"])->name("general");
@@ -43,6 +44,10 @@ Route::middleware([SiteMiddleware::class])->group(function (): void {
     Route::get("article/{id}", [NewsController::class, "article"])->name("article");
     Route::get("genre/{id}", [GenreSiteController::class, "genre"])->name("genrePage");
     Route::get("search", [SearchController::class, "index"])->name("search");
+    Route::patch("createPlaylist", [PlaylistController::class, "create"])->name("createPlaylist");
+    Route::get("playlist/{id}", [PlaylistController::class, "playlist"])->name("playlist");
+    Route::post("addSong", [PlaylistController::class, "addSong"])->name("addSong");
+    
 });
 
 Route::prefix("performerPanel")->middleware([PerformerPanelMiddleware::class])->group(function () {

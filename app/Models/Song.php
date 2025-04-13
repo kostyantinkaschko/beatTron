@@ -31,4 +31,14 @@ class Song extends Model
     {
         return $this->belongsTo(Performer::class);
     }
+
+    public function playlists()
+    {
+        return $this->belongsToMany(Playlist::class, 'playlists_songs');
+    }
+
+    public function playlistsAdd()
+    {
+        return $this->belongsToMany(Playlist::class, 'playlists_songs')->withPivot('id');
+    }
 }

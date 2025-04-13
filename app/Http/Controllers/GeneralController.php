@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Contracts\View\View;
 use App\Http\Controllers\Controller;
 use App\Models\Performer;
+use App\Models\Playlist;
 use Illuminate\Support\Facades\Auth;
 
 
@@ -30,6 +31,9 @@ class GeneralController extends Controller
         $news = News::withTrashed()->get();
         $performers = Performer::withTrashed()->get();
         $performersView = Performer::select('id', 'name')->withTrashed()->get();
+        $playlists = Playlist::where("user_id", "=", Auth::user()->id)->get();
+        
+        
 
         $getID3 = new \getID3;
         foreach ($songs as $song) {
@@ -58,6 +62,6 @@ class GeneralController extends Controller
             }
         }
 
-        return view("site.general", compact("songs", "news", "performers", 'performersView'));
+        return view("site.general", compact("songs", "news", "performers", 'performersView', "playlists"));
     }
 }
