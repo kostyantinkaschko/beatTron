@@ -9,9 +9,6 @@
                         <x-nav-link :href="route('general')" :active="request()->routeIs('general')">
                             {{ __('general') }}
                         </x-nav-link>
-                        <x-nav-link :href="route('news')" :active="request()->routeIs('news')">
-                            {{ __('news') }}
-                        </x-nav-link>
                         <x-nav-link :href="route('genresSite')" :active="request()->routeIs('genres')">
                             {{ __('genres') }}
                         </x-nav-link>
@@ -21,8 +18,16 @@
                         <x-nav-link :href="route('playlists')" :active="request()->routeIs('playlists')">
                             {{ __('playlists') }}
                         </x-nav-link>
+                        <x-nav-link :href="route('discographySite')" :active="request()->routeIs('discographySite')">
+                            {{ __('discography') }}
+                        </x-nav-link>
                     </div>
                 </div>
+
+                <form class="flex" method="get" action="{{ route("search") }}">
+                    <input type="text" name="search" placeholder="Search">
+                    <input type="submit" value="send">
+                </form>
 
                 <!-- User Profile or Authentication Dropdown -->
                 <div class="hidden sm:flex sm:items-center sm:ms-6">
@@ -43,8 +48,26 @@
                             <x-dropdown-link :href="route('profile.edit')">
                                 {{ __('Profile') }}
                             </x-dropdown-link>
+                            @php
+                            $performer = Auth::user()->performer;   
+                            @endphp
+
+                            @if($performer)
+                            <x-dropdown-link :href="route('performerPage', $performer->id)">
+                                {{ __('My Performer Page') }}
+                            </x-dropdown-link>
+                            @else
+                            <x-dropdown-link :href="route('createPerformer')">
+                                {{ __('Create Performer') }}
+                            </x-dropdown-link>
+                            @endif
+
                             <x-dropdown-link :href="route('users')">
                                 {{ __('adminpanel') }}
+                            </x-dropdown-link>
+
+                            <x-dropdown-link :href="route('performerPanel')">
+                                {{ __('performerPanel') }}
                             </x-dropdown-link>
 
                             <!-- Authentication -->

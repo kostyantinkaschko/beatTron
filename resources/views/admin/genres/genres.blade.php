@@ -7,6 +7,7 @@
                     <th class="border border-gray-400 dark:text-white">id:</th>
                     <th class="border border-gray-400 dark:text-white">Title:</th>
                     <th class="border border-gray-400 dark:text-white">Description:</th>
+                    <th class="border border-gray-400 dark:text-white">Year:</th>
                     <th class="border border-gray-400 dark:text-white">Created_at:</th>
                     <th class="border border-gray-400 dark:text-white">Updated_at:</th>
                     <th class="border border-gray-400 dark:text-white">Deleted_at:</th>
@@ -18,6 +19,7 @@
                 <td class="border border-gray-400 dark:text-white">{{ $genre->id }}</td>
                 <td class="border border-gray-400 dark:text-white">{{ $genre->title }}</td>
                 <td class="border border-gray-400 dark:text-white">{{ $genre->description }}</td>
+                <td class="border border-gray-400 dark:text-white">{{ $genre->year }}</td>
                 <td class="border border-gray-400 dark:text-white">{{ $genre->created_at }}</td>
                 <td class="border border-gray-400 dark:text-white">{{ $genre->updated_at }}</td>
                 <td class="border border-gray-400 dark:text-white">{{ $genre->deleted_at }}</td>

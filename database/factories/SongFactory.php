@@ -2,7 +2,7 @@
 
 namespace Database\Factories;
 
-use App\Models\Discrography;
+use App\Models\Discography;
 use App\Models\Genre;
 use App\Models\Performer;
 use Illuminate\Database\Eloquent\Factories\Factory;
@@ -20,7 +20,7 @@ class SongFactory extends Factory
     {
         return [
             'genre_id' => $this->faker->randomElement(Genre::pluck("id")),
-            'disk_id' => $this->faker->randomElement(Discrography::pluck("id")),
+            'disk_id' => $this->faker->randomElement(Discography::pluck("id")),
             'performer_id' => $this->faker->randomElement(Performer::pluck("id")),
             'name' => $this->faker->word(),
             'size' => rand(4000000, 20000000),

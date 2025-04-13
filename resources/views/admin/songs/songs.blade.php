@@ -8,9 +8,7 @@
                     <th class="border border-gray-400 dark:text-white">genre_id:</th>
                     <th class="border border-gray-400 dark:text-white">performer_id:</th>
                     <th class="border border-gray-400 dark:text-white">name:</th>
-                    <th class="border border-gray-400 dark:text-white">size:</th>
-                    <th class="border border-gray-400 dark:text-white">rate:</th>
-                    <th class="border border-gray-400 dark:text-white">listeningCount:</th>
+                    <th class="border border-gray-400 dark:text-white">listening_count:</th>
                     <th class="border border-gray-400 dark:text-white">year:</th>
                     <th class="border border-gray-400 dark:text-white">status:</th>
                     <th class="border border-gray-400 dark:text-white">disk_id:</th>
@@ -26,9 +24,7 @@
                 <td class="border border-gray-400 dark:text-white">{{ $song->genre_id }}</td>
                 <td class="border border-gray-400 dark:text-white">{{ $song->performer_id }}</td>
                 <td class="border border-gray-400 dark:text-white">{{ $song->name }}</td>
-                <td class="border border-gray-400 dark:text-white">{{ $song->size }}</td>
-                <td class="border border-gray-400 dark:text-white">{{ $song->rate }}</td>
-                <td class="border border-gray-400 dark:text-white">{{ $song->listeningCount }}</td>
+                <td class="border border-gray-400 dark:text-white">{{ $song->listening_count }}</td>
                 <td class="border border-gray-400 dark:text-white">{{ $song->year }}</td>
                 <td class="border border-gray-400 dark:text-white">{{ $song->status }}</td>
                 <td class="border border-gray-400 dark:text-white">{{ $song->disk_id }}</td>

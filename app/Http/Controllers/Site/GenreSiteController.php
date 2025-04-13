@@ -2,13 +2,22 @@
 
 namespace App\Http\Controllers\Site;
 
-use App\Http\Controllers\Controller;
+use App\Models\Genre;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 
 class GenreSiteController extends Controller
 {
     public function site() 
     {
-        return view("site.genres.genres");
+        $genres = Genre::get();
+
+        return view("site.genres.genres", compact("genres"));
+    }
+
+    public function genre($id){
+        $genre = Genre::find($id);
+
+        return view("site.genres.genre", compact("genre"));
     }
 }

@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Controllers\Controller;
-use Illuminate\Contracts\View\View;
-use Illuminate\Http\Request;
 use App\Models\Medal;
-use App\Models\Song;
+use Illuminate\Http\Request;
+use Illuminate\Contracts\View\View;
+use App\Http\Controllers\Controller;
+use App\Http\Requests\MedalStorePostRequest;
 
 class MedalController extends Controller
 {
@@ -39,16 +39,9 @@ class MedalController extends Controller
      *
      * @param Request $request
      */
-    public function store(Request $request)
+    public function store(MedalStorePostRequest $request)
     {
-        Medal::create([
-            'name' => $request->post('name'),
-            'type' => $request->post('type'),
-            'description' => $request->post('description'),
-            'difficult' => $request->post('difficult'),
-            'created_at' => now(),
-            "updated_at" => now(),
-        ]);
+        Medal::create($request->validated());
 
         return to_route("medals");
     }
@@ -72,15 +65,9 @@ class MedalController extends Controller
      * @param Request $request
      * @param Medal $medal
      */
-    public function update(Request $request, Medal $medal)
+    public function update(MedalStorePostRequest $request, Medal $medal)
     {
-        $medal->update([
-            'id' => $request->post('id'),
-            'name' => $request->post('name'),
-            'type' => $request->post('type'),
-            'description' => $request->post('description'),
-            'difficult' => $request->post('difficult'),
-        ]);
+        $medal->update($request->validated());
 
         return to_route("medals");
     }
@@ -92,8 +79,7 @@ class MedalController extends Controller
      */
     public function remove($id)
     {
-        $medal = Medal::findOrFail($id);
-        $medal->delete();
+        Medal::findOrFail($id)->delete();
         return to_route("medals");
     }
      /**
@@ -103,8 +89,7 @@ class MedalController extends Controller
      */
     public function restore($id)
     {
-        $medal = Medal::onlyTrashed()->findOrFail($id);
-        $medal->restore();
+        Medal::onlyTrashed()->findOrFail($id)->restore();
         return to_route("medals");
     }
 }

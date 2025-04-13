@@ -15,8 +15,8 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->string('type');
-            $table->string('description');
-            $table->string('difficult');
+            $table->string('description', 3000);
+            $table->string('difficulty');
             $table->timestamps();
             $table->softDeletes();
         });

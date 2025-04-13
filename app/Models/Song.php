@@ -5,7 +5,6 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use  Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Support\Facades\DB;
 
 class Song extends Model
 {
@@ -20,13 +19,16 @@ class Song extends Model
      */
     protected $fillable = [
         'genre_id',
-        'disk_id',
         'performer_id',
+        'disk_id',
         'name',
-        'size',
-        'rate',
-        'listeningCount',
+        'listening_count',
         'year',
         'status',
     ];
+
+    public function performer()
+    {
+        return $this->belongsTo(Performer::class);
+    }
 }

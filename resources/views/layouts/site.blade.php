@@ -13,7 +13,7 @@
     <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
 
     <!-- Scripts -->
-    @vite(['resources/css/style.css', 'resources/js/scripts.js'])
+    @vite(['resources/css/style.css', 'resources/js/apline.js'])
 </head>
 
 <body class="font-sans antialiased">
@@ -25,10 +25,12 @@
                 {{ $main }}
             </main>
 
-            
+
         </div>
         @include('layouts.footer')
     </div>
+
+    <script src="{{ mix('resources/js/scripts.js') }}"></script>
 </body>
 
 </html>

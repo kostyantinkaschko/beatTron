@@ -1,5 +1,9 @@
 <x-site-layout>
     <x-slot name="main">
-        <h1>Hello genres</h1>
+        <div class="performers">
+            @foreach ($genres as $genre)
+            <a href="{{ route("genrePage", $genre->id ) }}">{{ $genre->title }}</a>
+            @endforeach
+        </div>
     </x-slot>
 </x-site-layout>

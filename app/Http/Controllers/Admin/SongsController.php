@@ -2,11 +2,15 @@
 
 namespace App\Http\Controllers\admin;
 
-use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Contracts\View\View;
-use Illuminate\Http\Request;
 use App\Models\Song;
+use App\Models\Genre;
+use App\Models\Performer;
+use App\Models\Discography;
+use Illuminate\Http\Request;
+use Illuminate\Contracts\View\View;
+use App\Http\Controllers\Controller;
+use Illuminate\Http\RedirectResponse;
+use App\Http\Requests\SongStorePostRequest;
 
 class SongsController extends Controller
 {
@@ -29,41 +33,40 @@ class SongsController extends Controller
      */
     public function create(): View
     {
-        return view("admin.songs.create");
+        $disks = Discography::select("id", "name")->get();
+        $genres = Genre::select("id", "title")->get();
+        $performers = Performer::select("id", 'name')->get();
+
+        return view("admin.songs.create", compact('disks', 'genres', 'performers'));
     }
 
 
- /**
+    /**
      * Stores a new song in the database
      *
      * @param Request $request
      */
-    public function store(Request $request)
+    public function store(SongStorePostRequest   $request)
     {
-        Song::create([
-            'genre_id' => $request->post('genre_id'),
-            'performer_id' => $request->post('performer_id'),
-            'name' => $request->post('name'),
-            'year' => $request->post('year'),
-            'status' => $request->post('status'),
-            'disk_id' => $request->post('disk_id'),
-            'created_at' => now(),
-            "updated_at" => now(),
-        ]);
+        Song::create($request->validated());
+
         return to_route("songs");
     }
 
-      /**
+    /**
      * Routing to the song edit display page
      *
      * @param int $id
-     * @return View
+     * @return View|RedirectResponse
      */
-    public function edit($id)
+    public function edit($id): View|RedirectResponse
     {
-        $song = Song::find($id);
+        $song = Song::findOrFail($id);
+        $genres = Genre::select("id", 'title')->get();
+        $performers = Performer::select("id", 'name')->get();
+        $disks = Discography::select("id", 'name')->get();
 
-        return view("admin.songs.edit", compact('song'));
+        return view("admin.songs.edit", compact('song', 'genres', 'performers', 'disks'));
     }
 
 
@@ -73,29 +76,19 @@ class SongsController extends Controller
      * @param Request $request
      * @param Song $song
      */
-    public function update(Request $request, Song $song)
+     public function update(SongStorePostRequest $request, Song $song)
     {
-        $song->update([
-            'genre_id' => $request->post('genre_id'),
-            'performer_id' => $request->post('performer_id'),
-            'name' => $request->post('name'),
-            'year' => $request->post('year'),
-            'status' => $request->post('status'),
-            'disk_id' => $request->post('disk_id'),
-            'created_at' => now(),
-            "updated_at" => now(),
-        ]);
+        $song->update($request->validated());
         return to_route("songs");
     }
-      /**
-     * Delete a song (mild delete)
+    /**
+     * Delete a song (softDelete)
      *
      * @param int $id
      */
     public function remove($id)
     {
-        $song = Song::findOrFail($id);
-        $song->delete();
+        Song::findOrFail($id)->delete();
         return to_route("songs");
     }
 
@@ -106,8 +99,7 @@ class SongsController extends Controller
      */
     public function restore($id)
     {
-        $song = Song::onlyTrashed()->findOrFail($id);
-        $song->restore();
+        Song::onlyTrashed()->findOrFail($id)->restore();
         return to_route("songs");
     }
 }

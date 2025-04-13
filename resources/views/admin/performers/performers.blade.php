@@ -7,9 +7,9 @@
                     <th class="border border-gray-400 dark:text-white">id:</th>
                     <th class="border border-gray-400 dark:text-white">User_id:</th>
                     <th class="border border-gray-400 dark:text-white">Name:</th>
-                    <th class="border border-gray-400 dark:text-white">Rate:</th>
                     <th class="border border-gray-400 dark:text-white">instagram:</th>
                     <th class="border border-gray-400 dark:text-white">facebook:</th>
+                    <th class="border border-gray-400 dark:text-white">x:</th>
                     <th class="border border-gray-400 dark:text-white">youtube:</th>
                     <th class="border border-gray-400 dark:text-white">Created_at:</th>
                     <th class="border border-gray-400 dark:text-white">Updated_at:</th>
@@ -22,9 +22,9 @@
                 <td class="border border-gray-400 dark:text-white">{{ $performer->id }}</td>
                 <td class="border border-gray-400 dark:text-white">{{ $performer->user_id }}</td>
                 <td class="border border-gray-400 dark:text-white">{{ $performer->name }}</td>
-                <td class="border border-gray-400 dark:text-white">{{ $performer->rate }}</td>
                 <td class="border border-gray-400 dark:text-white">{{ $performer->instagram }}</td>
                 <td class="border border-gray-400 dark:text-white">{{ $performer->facebook }}</td>
+                <td class="border border-gray-400 dark:text-white">{{ $performer->x }}</td>
                 <td class="border border-gray-400 dark:text-white">{{ $performer->youtube }}</td>
                 <td class="border border-gray-400 dark:text-white">{{ $performer->created_at }}</td>
                 <td class="border border-gray-400 dark:text-white">{{ $performer->updated_at }}</td>

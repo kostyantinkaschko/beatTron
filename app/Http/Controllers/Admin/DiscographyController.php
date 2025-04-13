@@ -2,12 +2,14 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Controllers\Controller;
-use Illuminate\Contracts\View\View;
-use Illuminate\Http\Request;
-use App\Models\Discrography;
 use App\Models\Genre;
 use App\Models\Performer;
+use App\Models\Discography;
+use Illuminate\Http\Request;
+use Illuminate\Contracts\View\View;
+use App\Http\Controllers\Controller;
+use Illuminate\Http\RedirectResponse;
+use App\Http\Requests\DiscographyStorePostRequest;
 
 class DiscographyController extends Controller
 {
@@ -19,7 +21,7 @@ class DiscographyController extends Controller
      */
     public function index()
     {
-        $disks = Discrography::withTrashed()->get();
+        $disks = Discography::withTrashed()->get();
 
         return view("admin.discography.discography", compact("disks"));
     }
@@ -41,16 +43,12 @@ class DiscographyController extends Controller
      * Stores a new disk in the da  tabase
      *
      * @param Request $request
-     */ 
-    public function store(Request $request)
+     */
+    public function store(DiscographyStorePostRequest $request): RedirectResponse
     {
-        Discrography::create([
-            'genre_id' => $request->post('genre_id'),
-            'author' => $request->post('author'),
-            'type' => $request->post('type'),
-            'description' => $request->post('description'),
-        ]);
 
+        Discography::create($request->validated());
+        
         return to_route("discography");
     }
 
@@ -62,9 +60,11 @@ class DiscographyController extends Controller
      */
     public function edit($id)
     {
-        $disk = Discrography::find($id);
+        $disk = Discography::find($id);
+        $genres = Genre::select("id", "title")->get();
+        $performers = Performer::select("id", 'name')->get();
 
-        return view("admin.discography.edit", compact('disk'));
+        return view("admin.discography.edit", compact('disk', 'genres', 'performers'));
     }
 
 
@@ -72,17 +72,12 @@ class DiscographyController extends Controller
      * Updates the data of an existing disk in the database
      *
      * @param Request $request
-     * @param Discrography $disk
+     * @param Discography $disk
      */
-    public function update(Request $request, Discrography $disk)
+    public function update(DiscographyStorePostRequest $request, Discography $disk)
     {
 
-        $disk->update([
-            'genre_id' => $request->post('genre_id'),
-            'author' => $request->post('author'),
-            'type' => $request->post('type'),
-            'description' => $request->post('description'),
-        ]);
+        $disk->update($request->validated());
 
         return to_route("discography");
     }
@@ -94,7 +89,7 @@ class DiscographyController extends Controller
      */
     public function remove($id)
     {
-        Discrography::findOrFail($id)->delete();
+        Discography::findOrFail($id)->delete();
 
         return to_route("discography");
     }
@@ -106,7 +101,7 @@ class DiscographyController extends Controller
      */
     public function restore($id)
     {
-        Discrography::onlyTrashed()->findOrFail($id)->restore();
+        Discography::onlyTrashed()->findOrFail($id)->restore();
 
         return to_route("discography");
     }

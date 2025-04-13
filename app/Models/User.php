@@ -3,11 +3,12 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\SoftDeletes;
-use Illuminate\Foundation\Auth\User as Authenticatable;
+use App\Models\Performer;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Notifications\Notifiable;
-use Illuminate\Support\Facades\DB;
+use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Foundation\Auth\User as Authenticatable;
 
 class User extends Authenticatable
 {
@@ -38,4 +39,14 @@ class User extends Authenticatable
         'password',
         'remember_token',
     ];
+
+    public function performer()
+    {
+        return $this->hasOne(Performer::class);
+    }
+
+    public static function performerId()
+    {
+        return Performer::select("id")->where('user_id', '=', Auth::id())->value('id');
+    }
 }

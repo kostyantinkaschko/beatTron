@@ -8,7 +8,7 @@
                     <th class="border border-gray-400 dark:text-white">Name:</th>
                     <th class="border border-gray-400 dark:text-white">Type:</th>
                     <th class="border border-gray-400 dark:text-white">Description:</th>
-                    <th class="border border-gray-400 dark:text-white">Difficult:</th>
+                    <th class="border border-gray-400 dark:text-white">Difficulty:</th>
                     <th class="border border-gray-400 dark:text-white">Created_at:</th>
                     <th class="border border-gray-400 dark:text-white">Updated_at:</th>
                     <th class="border border-gray-400 dark:text-white">Deleted_at:</th>
@@ -21,7 +21,7 @@
                 <td class="border border-gray-400 dark:text-white">{{ $medal->name }}</td>
                 <td class="border border-gray-400 dark:text-white">{{ $medal->type }}</td>
                 <td class="border border-gray-400 dark:text-white">{{ $medal->description }}</td>
-                <td class="border border-gray-400 dark:text-white">{{ $medal->difficult }}</td>
+                <td class="border border-gray-400 dark:text-white">{{ $medal->difficulty }}</td>
                 <td class="border border-gray-400 dark:text-white">{{ $medal->created_at }}</td>
                 <td class="border border-gray-400 dark:text-white">{{ $medal->updated_at }}</td>
                 <td class="border border-gray-400 dark:text-white">{{ $medal->deleted_at }}</td>

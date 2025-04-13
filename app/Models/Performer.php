@@ -2,9 +2,10 @@
 
 namespace App\Models;
 
+use App\Models\News;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Eloquent\SoftDeletes;
+
 class Performer extends Model
 {
     use SoftDeletes;
@@ -19,11 +20,24 @@ class Performer extends Model
     protected $fillable = [
         'user_id',
         'name',
-        'rate',
         'instagram',
         'facebook',
         'x',
         'youtube',
     ];
 
+    public function discographies() 
+    {
+        return $this->hasMany(Discography::class);
+    }
+
+    public function news() 
+    {
+        return $this->hasMany(News::class);
+    }
+
+    public function song() 
+    {
+        return $this->hasMany(Song::class);
+    }
 }

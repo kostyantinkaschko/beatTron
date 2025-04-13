@@ -3,9 +3,18 @@
 @tailwind utilities;
 
 .audio-player {
-    background: white;
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    text-align: center;
+    width: 100%;
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    background: #fff;
+}
+
+.none {
+    display: none;
+}
+
+.performer{
+    background: #fff;
+    padding: 100px;
 }

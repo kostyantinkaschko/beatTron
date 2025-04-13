@@ -6,7 +6,8 @@
                 <tr>
                     <th class="border border-gray-400 dark:text-white">id:</th>
                     <th class="border border-gray-400 dark:text-white">genre_id:</th>
-                    <th class="border border-gray-400 dark:text-white">Author:</th>
+                    <th class="border border-gray-400 dark:text-white">performer_id:</th>
+                    <th class="border border-gray-400 dark:text-white">Name:</th>
                     <th class="border border-gray-400 dark:text-white">Type:</th>
                     <th class="border border-gray-400 dark:text-white">Description:</th>
                     <th class="border border-gray-400 dark:text-white">Created_at:</th>
@@ -19,8 +20,9 @@
             <tr>
                 <td class="border border-gray-400 dark:text-white">{{ $disk->id }}</td>
                 <td class="border border-gray-400 dark:text-white">{{ $disk->genre_id }}</td>
-                <td class="border border-gray-400 dark:text-white">{{ $disk->author }}</td>
+                <td class="border border-gray-400 dark:text-white">{{ $disk->performer_id }}</td>
                 <td class="border border-gray-400 dark:text-white">{{ $disk->type }}</td>
+                <td class="border border-gray-400 dark:text-white">{{ $disk->name }}</td>
                 <td class="border border-gray-400 dark:text-white">{{ $disk->description }}</td>
                 <td class="border border-gray-400 dark:text-white">{{ $disk->created_at }}</td>
                 <td class="border border-gray-400 dark:text-white">{{ $disk->updated_at }}</td>

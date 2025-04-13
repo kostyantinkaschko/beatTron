@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Controllers\Controller;
-use Illuminate\Contracts\View\View;
-use Illuminate\Http\Request;
 use App\Models\Genre;
+use Illuminate\Http\Request;
+use Illuminate\Contracts\View\View;
+use App\Http\Controllers\Controller;
+use App\Http\Requests\GenresStorePostRequest;
 
 class GenreController extends Controller
 {
@@ -17,7 +18,7 @@ class GenreController extends Controller
      */
     public function index()
     {
-        $genres = Genre::withTrashed()->get();
+        $genres = Genre::withTrashed()->with(["discographies"])->get();
 
         return view("admin.genres.genres", compact("genres"));
     }
@@ -38,14 +39,9 @@ class GenreController extends Controller
      *
      * @param Request $request
      */
-    public function store(Request $request)
+    public function store(GenresStorePostRequest $request)
     {
-        Genre::create([
-            'title' => $request->post('title'),
-            'description' => $request->post('description'),
-            'created_at' => now(),
-            "updated_at" => now(),
-        ]);
+        Genre::create($request->validated());
 
         return to_route("genres");
     }
@@ -60,7 +56,7 @@ class GenreController extends Controller
      */
     public function edit($id)
     {
-        $genre = Genre::find($id);
+        $genre = Genre::with(["discographies"])->find($id);
 
         return view("admin.genres.edit", compact('genre'));
     }
@@ -72,30 +68,27 @@ class GenreController extends Controller
      * @param Genre $genre
      */
 
-    public function update(Request $request, Genre $genre)
+    public function update(GenresStorePostRequest $request, Genre $genre)
     {
 
-        $genre->update([
-            'title' => $request->post("title"),
-            'description' => $request->post("description"),
-        ]);
+        $genre->update($request->validated());
 
         return to_route("genres");
     }
 
 
     /**
-     * Delete a disk (mild delete)
+     * Delete a disk (soft delete)
      *
      * @param int $id
      */
     public function remove($id)
     {
-        $genre = Genre::findOrFail($id);
-        $genre->delete();
+        Genre::findOrFail($id)->delete();
+
         return to_route("genres");
     }
-    
+
     /**
      * Restores a deleted disk
      *
@@ -103,8 +96,8 @@ class GenreController extends Controller
      */
     public function restore($id)
     {
-        $genre = Genre::onlyTrashed()->findOrFail($id);
-        $genre->restore();
+        Genre::onlyTrashed()->findOrFail($id)->restore();
+
         return to_route("genres");
     }
 }

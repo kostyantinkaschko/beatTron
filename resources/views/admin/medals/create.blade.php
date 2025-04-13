@@ -4,12 +4,24 @@
             @csrf
             <label>Name</label>
             <input type="text" name="name">
+            @error("name")
+            <p>{{ $message }}</p>
+            @enderror
             <label>type</label>
             <input type="text" name="type">
+            @error("type")
+            <p>{{ $message }}</p>
+            @enderror
             <label>description</label>
             <input type="text" name="description">
-            <label>difficult</label>
-            <input type="text" name="difficult">
+            @error("description")
+            <p>{{ $message }}</p>
+            @enderror
+            <label>difficulty</label>
+            <input type="text" name="difficulty">
+            @error("difficulty")
+            <p>{{ $message }}</p>
+            @enderror
             <input type="submit">
         </form>
     </x-slot>

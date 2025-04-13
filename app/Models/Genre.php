@@ -3,13 +3,12 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use  Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Genre extends Model
 {
-    use SoftDeletes, 
+    use SoftDeletes,
         HasFactory;
     protected $table = 'genres';
     protected $primaryKey = 'id';
@@ -21,5 +20,10 @@ class Genre extends Model
     protected $fillable = [
         'title',
         'description',
+        'year'
     ];
+    public function discographies()
+    {
+        return $this->hasMany(Discography::class);
+    }
 }

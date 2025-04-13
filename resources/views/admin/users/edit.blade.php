@@ -2,6 +2,7 @@
     <x-slot name="slot">
         <form action="{{ route("userUpdate", $user) }}" method="post">
             @csrf
+            @method("patch")
             <label>title:</label>
             <label>name:</label>
             <input type="text" name="name" value="{{ $user->name }}">

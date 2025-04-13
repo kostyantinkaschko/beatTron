@@ -11,15 +11,14 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('songs', function (Blueprint $table) {
+        Schema::create('performers', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('genre_id')->constrained('genres', 'id')->cascadeOnDelete();
-            $table->foreignId('performer_id')->constrained('performers', 'id')->cascadeOnDelete();
+            $table->foreignId('user_id')->constrained('users', 'id')->onDelete('cascade');
             $table->string('name');
-            $table->integer('rate');
-            $table->integer('listeningCount');
-            $table->integer('year');
-            $table->string('status');
+            $table->string('instagram')->nullable();
+            $table->string('facebook')->nullable();
+            $table->string('x')->nullable();
+            $table->string('youtube')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });
@@ -30,6 +29,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('songs');
+        Schema::dropIfExists('performers');
     }
 };
