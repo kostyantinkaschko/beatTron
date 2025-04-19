@@ -20,6 +20,7 @@ class GenreFactory extends Factory
         return [
             'title' => $this->faker->word(),
             'description' => $this->faker->text(),
+            'year' => rand(1995, 3000),
         ];
     }
 }

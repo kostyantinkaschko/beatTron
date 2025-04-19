@@ -1,5 +1,10 @@
 <x-app-layout>
     <x-slot name="slot">
+        <form action="{{ route('performers') }}" method="GET" class="mb-4 space-y-4">
+
+            <input type="text" name="search" placeholder="Search..." value="{{ request('search') }}" class="border p-2">
+            <button type="submit" class="bg-blue-500 text-white p-2">Search</button>
+        </form>
         <a href="performerCreate" class="dark:text-white">Create performer</a>
         <table class="border-collapse border border-gray-400">
             <thead>
@@ -50,5 +55,8 @@
             </tr>
             @endforeach
         </table>
+        <div class="mt-4">
+            {{ $performers->appends(request()->query())->links() }}
+        </div>
     </x-slot>
 </x-app-layout>

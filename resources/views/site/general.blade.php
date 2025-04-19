@@ -4,38 +4,7 @@
         <table>
             <tbody>
                 @foreach ($songs as $song)
-                @if ($song != null)
-                <tr>
-                    <td><button id="play-button" onclick="audio({{ $song->id }})">Відтворити</button></td>
-
-                    <td class="text-red-50">{{ $performersView[$song->performer_id - 1]['name'] }}:</td>
-                    <td class="text-blue-200">{{ $song->name }}</td>
-
-                    <td>
-                        <audio controls class="audio-player none" id="player{{ $song->id }}">
-                            <source src="{{ mix('resources/songs/' . $song->id . '.' . $song->extension) }}" type="audio/{{ 
-                                $song->extension == 'mp3' ? 'mpeg' : 
-                                ($song->extension == 'wav' ? 'wav' : 
-                                ($song->extension == 'flac' ? 'flac' : 'error')) }}" />
-                            <p>
-                                Ваш браузер не підтримує елемент <code>audio</code>.
-                            </p>
-                        </audio>
-                    </td>
-                    <td>
-                        <form action="{{ route("addSong") }}" method="post">
-                            @csrf
-                            <select name="playlist">
-                                @foreach ($playlists as $playlist)
-                                <option value="{{ $playlist->id }}">{{ $playlist->id }}</option>
-                                @endforeach
-                            </select>
-                            <input type="hidden" name="song" value="{{ $song->id }}">
-                            <input type="submit">
-                        </form>
-                    </td>
-                </tr>
-                @endif
+                @include('layouts.songPlay')
                 @endforeach
             </tbody>
         </table>

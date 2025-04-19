@@ -5,5 +5,8 @@
             <a href="{{ route("genrePage", $genre->id ) }}">{{ $genre->title }}</a>
             @endforeach
         </div>
+        <div class="mt-4">
+            {{ $genres->appends(request()->query())->links() }}
+        </div>
     </x-slot>
 </x-site-layout>

@@ -2,12 +2,13 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Medal extends Model
 {
-    use SoftDeletes;
+    use SoftDeletes, HasFactory;
     protected $table = 'medals';
     protected $primaryKey = 'id';
     /**
@@ -21,4 +22,14 @@ class Medal extends Model
         'description',
         'difficulty',
     ];
+
+    public function users()
+    {
+        return $this->belongsToMany(User::class, 'users_medals');
+    }
+    public function userAdd()
+    {
+        return $this->belongsToMany(User::class, 'users_medals')->withPivot('id');
+    }
+
 }

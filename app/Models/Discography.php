@@ -4,13 +4,17 @@ namespace App\Models;
 
 use App\Models\Genre;
 use App\Models\Performer;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Spatie\MediaLibrary\HasMedia;
+use Spatie\MediaLibrary\InteractsWithMedia;
 
-class Discography extends Model
+
+class Discography extends Model implements HasMedia
 {
-    use SoftDeletes;
+    use SoftDeletes, InteractsWithMedia, HasFactory;
     protected $table = 'discography';
     protected $primaryKey = 'id';
     /**
@@ -38,5 +42,10 @@ class Discography extends Model
     public function songs()
     {
         return $this->hasMany(Song::class, 'disk_id');
+    }
+
+    public function getMediaDirectory(): string
+    {
+        return 'disks/' . $this->id; 
     }
 }

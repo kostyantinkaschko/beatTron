@@ -11,7 +11,7 @@ class PlaylistController extends Controller
 {
     public function site()
     {
-
+        $playlists = Playlist::paginate(20);
 
         return view("site.playlists.playlists", compact("playlists"));
     }

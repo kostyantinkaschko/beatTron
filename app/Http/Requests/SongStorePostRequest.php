@@ -28,6 +28,12 @@ class SongStorePostRequest extends FormRequest
             "name" => ["required", "string", "max:255"],
             'year' => ["required", "integer"],
             'status' => ["required", "string", "max:32"],
+            'song' => [
+                'required',
+                'file',
+                'mimetypes:audio/mpeg,audio/wav,audio/flac'
+            ]
+
         ];
     }
 
@@ -40,6 +46,7 @@ class SongStorePostRequest extends FormRequest
             "name" => "This parameter is required and has a maximum length of 255 characters.",
             'year' => "This parameter is required and its value must be a number.",
             "status" => "This parameter is required and has a maximum length of 32 characters.",
+            "song" => "Something went wrong with the song file."
         ];
     }
 }

@@ -10,7 +10,7 @@ class DiscographyController extends Controller
 {
     public function index()
     {
-        $disks = Discography::withTrashed()->get();
+        $disks = Discography::withTrashed()->paginate(50);
 
         return view("site.discography.discography", compact("disks"));
     }

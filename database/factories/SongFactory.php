@@ -20,12 +20,10 @@ class SongFactory extends Factory
     {
         return [
             'genre_id' => $this->faker->randomElement(Genre::pluck("id")),
-            'disk_id' => $this->faker->randomElement(Discography::pluck("id")),
             'performer_id' => $this->faker->randomElement(Performer::pluck("id")),
+            'disk_id' => $this->faker->randomElement(Discography::pluck("id")),
             'name' => $this->faker->word(),
-            'size' => rand(4000000, 20000000),
-            'rate' => rand(0, 5),
-            'listeningCount' => rand(0, 1000),
+            'listening_count' => rand(0, 1000),
             'year' => rand(1995, 3000),
             'status' => $this->faker->randomElement(['private', 'public', 'protected']),
         ];

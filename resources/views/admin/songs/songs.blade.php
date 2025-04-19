@@ -1,7 +1,36 @@
 <x-app-layout>
     <x-slot name="slot">
+
+        <form action="{{ route('songs') }}" method="GET" class="mb-4 space-y-4">
+
+            <input type="text" name="search" placeholder="Search songs..." value="{{ request('search') }}" class="border p-2">
+
+            <label for="genre_id" class="dark:text-white">Genre:</label>
+            <select name="genre_id" id="genre_id" class="border">
+                <option value="">Select Genre</option>
+                @foreach ($genres as $genre)
+                <option value="{{ $genre->id }}" {{ request('genre_id') == $genre->id ? 'selected' : '' }}>
+                    {{ $genre->title }}
+                </option>
+                @endforeach
+            </select>
+
+            <label for="performer_id" class="dark:text-white">Performer:</label>
+            <select name="performer_id" id="performer_id" class="border">
+                <option value="">Select Performer</option>
+                @foreach ($performers as $performer)
+                <option value="{{ $performer->id }}" {{ request('performer_id') == $performer->id ? 'selected' : '' }}>
+                    {{ $performer->name }}
+                </option>
+                @endforeach
+            </select>
+
+            <button type="submit" class="bg-blue-500 text-white p-2">Search</button>
+        </form>
+
         <a href="songCreate" class="dark:text-white">Create song</a>
-        <table class="border-collapse border border-gray-400">
+
+        <table class="border-collapse border border-gray-400 mt-4">
             <thead>
                 <tr>
                     <th class="border border-gray-400 dark:text-white">id:</th>
@@ -47,10 +76,15 @@
                         <input type="submit" value="Remove">
                     </form>
                 </td>
-                <td class="border border-gray-400 dark:text-white"><a href="{{ route("songEdit", $song->id) }}">Edit</a></td>
+                <td class="border border-gray-400 dark:text-white">
+                    <a href="{{ route("songEdit", $song->id) }}">Edit</a>
+                </td>
                 @endif
             </tr>
             @endforeach
         </table>
+        <div class="mt-4">
+            {{ $songs->appends(request()->query())->links() }}
+        </div>
     </x-slot>
 </x-app-layout>

@@ -19,11 +19,29 @@ class SongsController extends Controller
      *
      * @return View
      */
-    public function index()
+    public function index(Request $request)
     {
-        $songs = Song::withTrashed()->get();
+        $songs = Song::withTrashed()
+            ->when($request->filled('genre_id'), fn($q) => $q->where('genre_id', $request->genre_id))
+            ->when($request->filled('performer_id'), fn($q) => $q->where('performer_id', $request->performer_id))
+            ->when($request->filled('name'), fn($q) => $q->where('name', 'like', '%' . $request->name . '%'))
+            ->when($request->filled('year'), fn($q) => $q->where('year', $request->year))
+            ->when($request->filled('status'), fn($q) => $q->where('status', 'like', '%' . $request->status . '%'))
+            ->when($request->filled('created_at'), fn($q) => $q->whereDate('created_at', $request->created_at))
+            ->when($request->filled('search'), function ($q) use ($request) {
+                $q->where(function ($query) use ($request) {
+                    $search = $request->search;
+                    $query->where('name', 'like', "%$search%")
+                        ->orWhere('status', 'like', "%$search%")
+                        ->orWhere('year', 'like', "%$search%");
+                });
+            })
+            ->paginate(50);
 
-        return view("admin.songs.songs", compact("songs"));
+        $genres = Genre::select('id', 'title')->get();
+        $performers = Performer::select('id', 'name')->get();
+
+        return view("admin.songs.songs", compact("songs", "genres", "performers"));
     }
 
     /**
@@ -48,7 +66,10 @@ class SongsController extends Controller
      */
     public function store(SongStorePostRequest   $request)
     {
-        Song::create($request->validated());
+        $song = Song::create($request->validated());
+        $song->song = $request->file('song')->store('songs', 'public');
+        $song->addMedia($request->file('song'))
+            ->toMediaCollection("songs");
 
         return to_route("songs");
     }
@@ -76,7 +97,7 @@ class SongsController extends Controller
      * @param Request $request
      * @param Song $song
      */
-     public function update(SongStorePostRequest $request, Song $song)
+    public function update(SongStorePostRequest $request, Song $song)
     {
         $song->update($request->validated());
         return to_route("songs");

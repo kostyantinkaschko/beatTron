@@ -1,6 +1,6 @@
 <x-app-layout>
     <x-slot name="slot">
-        <form action="{{ route("songStore") }}" method="post">
+        <form action="{{ route("songStore") }}" method="post" enctype="multipart/form-data">
             @csrf
             <label>name</label>
             <input type="text" name="name">
@@ -23,7 +23,7 @@
             <label>disk_id</label>
             <select name="disk_id">
                 @foreach ($disks as $disk)
-                <option value="{{ $disk->id }}">{{ $performer->name }}</option>
+                <option value="{{ $disk->id }}">{{ $disk->title }}</option>
                 @endforeach
             </select>
             @error("disk_id")
@@ -41,6 +41,10 @@
             </select>
             @error("status")
             <p>{{ $message }}</p>
+            @enderror
+            <input type="file" name="song">
+            @error("song")
+                <p>{{ $message }}</p>
             @enderror
             <input type="submit">
         </form>

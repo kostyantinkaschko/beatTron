@@ -18,9 +18,17 @@ class PerformersController extends Controller
      *
      * @return View
      */
-    public function index()
+    public function index(Request $request)
     {
-        $performers = Performer::withTrashed()->with(["discographies"])->get();
+        $performers = Performer::withTrashed()
+            ->with(["discographies"])
+            ->when($request->filled('search'), function ($q) use ($request) {
+                $q->where(function ($query) use ($request) {
+                    $search = $request->search;
+                    $query->where('name', 'like', "%$search%");
+                });
+            })
+            ->paginate(50);
 
         return view("admin.performers.performers", compact("performers"));
     }

@@ -18,11 +18,17 @@
                         <x-nav-link :href="route('performerPanel')" :active="request()->routeIs('performerPanel')">
                             {{ __('Panel') }}
                         </x-nav-link>
-                        <x-nav-link :href="route('news')" :active="request()->routeIs('news')">
+                        <x-nav-link :href="route('performerPanel/news')" :active="request()->routeIs('performerPanel/news')">
                             {{ __('News') }}
                         </x-nav-link>
                         <x-nav-link :href="route('performerPanel/performerEdit', $performer->id)" :active="request()->routeIs('performerEdit')">
                             {{ __('Performer edit') }}
+                        </x-nav-link>
+                        <x-nav-link :href="route('performerPanel/discography')" :active="request()->routeIs('Discography')">
+                            {{ __('Discography') }}
+                        </x-nav-link>
+                        <x-nav-link :href="route('performerPanel/songs')" :active="request()->routeIs('songs')">
+                            {{ __('Songs') }}
                         </x-nav-link>
                     </div>
                 </div>

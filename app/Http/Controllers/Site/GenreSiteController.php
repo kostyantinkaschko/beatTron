@@ -10,7 +10,7 @@ class GenreSiteController extends Controller
 {
     public function site() 
     {
-        $genres = Genre::get();
+        $genres = Genre::paginate(50);
 
         return view("site.genres.genres", compact("genres"));
     }

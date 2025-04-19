@@ -6,5 +6,8 @@
             <a class="performer" href="{{ route("performerPage", $performer->id ) }}">{{ $performer->name }}</a>
             @endforeach
         </div>
+        <div class="mt-4">
+            {{ $performers->appends(request()->query())->links() }}
+        </div>
     </x-slot>
 </x-site-layout>

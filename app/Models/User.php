@@ -49,4 +49,15 @@ class User extends Authenticatable
     {
         return Performer::select("id")->where('user_id', '=', Auth::id())->value('id');
     }
+
+    public function medals()
+    {
+        return $this->belongsToMany(Medal::class, 'users_medals');
+    }
+
+
+    public function medalsAdd()
+    {
+        return $this->belongsToMany(Medal::class, 'users_medals')->withPivot('id');
+    }
 }

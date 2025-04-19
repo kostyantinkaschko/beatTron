@@ -1,6 +1,6 @@
 <x-app-layout>
     <x-slot name="slot">
-        <form action="{{"diskStore"}}" method="post" class="">
+        <form action="{{"diskStore"}}" method="post" enctype="multipart/form-data">
             @csrf
             <div>
                 <select name="genre_id">
@@ -42,6 +42,12 @@
                 <label for="description"></label>
                 <input type="text" name="description">
                 @error("description")
+                    <p>{{ $message }}</p>
+                @enderror
+            </div>
+            <div>
+                <input type="file" name="image">
+                @error("file")
                     <p>{{ $message }}</p>
                 @enderror
             </div>

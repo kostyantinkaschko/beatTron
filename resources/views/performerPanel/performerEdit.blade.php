@@ -1,6 +1,6 @@
 <x-performer-layout>
     <x-slot name="main">
-        <form action="{{ route("performerUpdatePanel", $performer->id) }}" method="post">
+        <form action="{{ route("performerPanel/update", $performer) }}" method="post">
             @csrf
             @method("patch")
             <label>Name:</label>

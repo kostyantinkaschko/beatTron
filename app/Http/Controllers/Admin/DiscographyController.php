@@ -19,11 +19,26 @@ class DiscographyController extends Controller
      *
      * @return View
      */
-    public function index()
+    public function index(Request $request)
     {
-        $disks = Discography::withTrashed()->get();
+        $disks = Discography::withTrashed()
+        ->with(['genre', 'performer']) 
+        ->when($request->filled('genre_id'), fn($q) => $q->where('genre_id', $request->genre_id))
+        ->when($request->filled('type'), fn($q) => $q->where('type', $request->type))
+        ->when($request->filled('performer_id'), fn($q) => $q->where('performer_id', $request->performer_id))
+        ->when($request->filled('search'), function ($q) use ($request) {
+            $q->where(function ($query) use ($request) {
+                $search = $request->search;
+                $query->where('name', 'like', "%$search%")
+                    ->orWhere('description', 'like', "%$search%"); 
+            });
+        })
+        ->paginate(50);
 
-        return view("admin.discography.discography", compact("disks"));
+        $genres = Genre::select('id', 'title')->get();
+        $performers = Performer::select('id', 'name')->get();
+
+        return view("admin.discography.discography", compact('disks', 'genres', 'performers'));
     }
 
     /**
@@ -44,11 +59,14 @@ class DiscographyController extends Controller
      *
      * @param Request $request
      */
-    public function store(DiscographyStorePostRequest $request): RedirectResponse
+    public function store(DiscographyStorePostRequest $request)
     {
 
-        Discography::create($request->validated());
-        
+        $disk = Discography::create($request->validated());
+        $disk->image = $request->file('image')->store('disks', 'public');
+        $disk->addMedia($request->file('image'))
+            ->toMediaCollection("disks");
+
         return to_route("discography");
     }
 

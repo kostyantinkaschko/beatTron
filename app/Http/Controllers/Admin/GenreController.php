@@ -16,11 +16,28 @@ class GenreController extends Controller
      *
      * @return View
      */
-    public function index()
+    public function index(Request $request)
     {
-        $genres = Genre::withTrashed()->with(["discographies"])->get();
+        $genres = Genre::withTrashed()
+            ->with(["discographies"])
+            ->when($request->filled('title'), fn($q) => $q->where('title', 'like', '%' . $request->title . '%'))
+            ->when($request->filled('year'), fn($q) => $q->where('year', '=', $request->year))
+            ->when($request->filled('search'), function ($q) use ($request) {
+                $q->where(function ($query) use ($request) {
+                    $search = $request->search;
+                    $query->where('title', 'like', "%$search%")
+                        ->orWhere('year', '=', "$search");
+                });
+            })
+            ->paginate(50);
 
-        return view("admin.genres.genres", compact("genres"));
+        $years = Genre::select('year')
+            ->distinct()
+            ->whereNotNull('year')
+            ->orderByDesc('year')
+            ->pluck('year');
+
+        return view("admin.genres.genres", compact("genres", "years"));
     }
 
     /**

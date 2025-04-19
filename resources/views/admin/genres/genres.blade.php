@@ -1,5 +1,22 @@
 <x-app-layout>
     <x-slot name="slot">
+        <form action="{{ route('genres') }}" method="GET" class="mb-4 space-y-4">
+
+            <input type="text" name="search" placeholder="Search..." value="{{ request('search') }}" class="border p-2">
+
+            <label for="year" class="dark:text-white">Genre:</label>
+            <select name="year" id="year" class="border">
+                <option value="">Select year</option>
+                @foreach ($years as $year)
+                <option value="{{ $year }}" {{ request('year') == $year ? 'selected' : '' }}>
+                    {{ $year }}
+                </option>
+                @endforeach
+            </select>
+
+            <button type="submit" class="bg-blue-500 text-white p-2">Search</button>
+        </form>
+
         <a href="genreCreate" class="dark:text-white">Create genre</a>
         <table class="border-collapse border border-gray-400">
             <thead>
@@ -44,5 +61,8 @@
             </tr>
             @endforeach
         </table>
+        <div class="mt-4">
+            {{ $genres->appends(request()->query())->links() }}
+        </div>
     </x-slot>
 </x-app-layout>

@@ -14,7 +14,24 @@
     display: none;
 }
 
-.performer{
+.performer {
     background: #fff;
     padding: 100px;
+}
+
+.disks {
+    display: flex;
+    flex-wrap: wrap;
+    column-gap: 10px;
+    justify-content: center;
+}
+
+.diskBlock {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.diskBlock img {
+    width: 200px;
 }

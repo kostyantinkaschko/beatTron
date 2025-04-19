@@ -18,7 +18,7 @@ class UserController extends Controller
      */
     public function index()
     {
-        $users = User::withTrashed()->get();
+        $users = User::withTrashed()->paginate(50);;
 
         return view("admin.users.users", compact("users"));
     }

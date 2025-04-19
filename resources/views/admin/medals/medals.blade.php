@@ -1,5 +1,21 @@
 <x-app-layout>
     <x-slot name="slot">
+        <form action="{{ route('medals') }}" method="GET" class="mb-4 space-y-4">
+
+            <input type="text" name="search" placeholder="Search..." value="{{ request('search') }}" class="border p-2">
+
+            <label for="difficulty" class="dark:text-white">Difficulty:</label>
+            <select name="difficulty" id="difficulty" class="border">
+                <option value="">Select Difficulty</option>
+                <option value="easy">easy</option>
+                <option value="hard">hard</option>
+            </select>
+
+            <label for="performer_id" class="dark:text-white">Performer:</label>
+
+            <button type="submit" class="bg-blue-500 text-white p-2">Search</button>
+        </form>
+
         <a href="medalCreate" class="dark:text-white">Create medal</a>
         <table class="border-collapse border border-gray-400">
             <thead>
@@ -46,5 +62,8 @@
             </tr>
             @endforeach
         </table>
+        <div class="mt-4">
+            {{ $medals->appends(request()->query())->links() }}
+        </div>
     </x-slot>
 </x-app-layout>

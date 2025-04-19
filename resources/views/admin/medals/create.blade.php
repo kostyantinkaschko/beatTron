@@ -17,8 +17,10 @@
             @error("description")
             <p>{{ $message }}</p>
             @enderror
-            <label>difficulty</label>
-            <input type="text" name="difficulty">
+            <select name="difficulty">
+                <option value="easy">Easy</option>
+                <option value="hard">Hard</option>
+            </select>
             @error("difficulty")
             <p>{{ $message }}</p>
             @enderror

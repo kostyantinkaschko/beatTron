@@ -15,9 +15,21 @@ class MedalController extends Controller
      *
      * @return View
      */
-    public function index()
+    public function index(Request $request)
     {
-        $medals = Medal::withTrashed()->get();
+        $medals = Medal::withTrashed()
+        ->when($request->filled('name'), fn($q) => $q->where('name', 'like', '%' . $request->name . '%'))
+        ->when($request->filled('difficulty'), fn($q) => $q->where('difficulty', 'like', '%' . $request->difficulty . '%'))
+        ->when($request->filled('search'), function ($q) use ($request) {
+            $q->where(function ($query) use ($request) {
+                $search = $request->search;
+                $query->where('name', 'like', "%$search%")
+                      ->orWhere('difficulty', 'like', "%$search%")
+                      ->orWhere('status', 'like', "%$search%");
+            });
+        })
+        ->paginate(50);
+
 
 
         return view("admin.medals.medals", compact("medals"));
