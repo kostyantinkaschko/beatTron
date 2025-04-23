@@ -25,9 +25,9 @@ class User extends Authenticatable
         'email',
         'password',
         'phone',
-        'rank',
-        'level',
-        'exp',
+        // 'rank',
+        // 'level',
+        // 'exp',
     ];
 
     /**
@@ -40,6 +40,20 @@ class User extends Authenticatable
         'remember_token',
     ];
 
+    /**
+     * Represents a user in the system, extending the Authenticatable model for user authentication.
+     * This model includes the user's basic information, authentication details, and relationships with medals and performers.
+     *
+     * @property int $id The unique identifier for the user
+     * @property string $name The first name of the user
+     * @property string $surname The surname of the user
+     * @property string $email The email address of the user
+     * @property string $password The hashed password of the user
+     * @property string $phone The phone number of the user
+     * @property \Illuminate\Database\Eloquent\Relations\HasOne $performer The performer associated with the user (if any)
+     */
+
+
     public function performer()
     {
         return $this->hasOne(Performer::class);
@@ -50,14 +64,14 @@ class User extends Authenticatable
         return Performer::select("id")->where('user_id', '=', Auth::id())->value('id');
     }
 
-    public function medals()
-    {
-        return $this->belongsToMany(Medal::class, 'users_medals');
-    }
+    // public function medals()
+    // {
+    //     return $this->belongsToMany(Medal::class, 'users_medals');
+    // }
 
 
-    public function medalsAdd()
-    {
-        return $this->belongsToMany(Medal::class, 'users_medals')->withPivot('id');
-    }
+    // public function medalsAdd()
+    // {
+    //     return $this->belongsToMany(Medal::class, 'users_medals')->withPivot('id');
+    // }
 }

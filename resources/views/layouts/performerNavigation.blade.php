@@ -21,7 +21,7 @@
                         <x-nav-link :href="route('performerPanel/news')" :active="request()->routeIs('performerPanel/news')">
                             {{ __('News') }}
                         </x-nav-link>
-                        <x-nav-link :href="route('performerPanel/performerEdit', $performer->id)" :active="request()->routeIs('performerEdit')">
+                        <x-nav-link :href="route('performerPanel/performerEdit')" :active="request()->routeIs('performerEdit')">
                             {{ __('Performer edit') }}
                         </x-nav-link>
                         <x-nav-link :href="route('performerPanel/discography')" :active="request()->routeIs('Discography')">
@@ -63,6 +63,7 @@
                             <x-dropdown-link :href="route('performerPanel')">
                                 {{ __('performerPanel') }}
                             </x-dropdown-link>
+                            
 
                             <!-- Authentication -->
                             <form method="POST" action="{{ route('logout') }}">

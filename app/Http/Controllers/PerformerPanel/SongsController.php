@@ -11,12 +11,22 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\RedirectResponse;
 use App\Http\Requests\SongStorePostRequest;
+use Illuminate\Support\Facades\Auth;
 
 class SongsController extends Controller
 {
     public function index(Request $request)
     {
+        /**
+         * Displays a paginated list of songs filtered by various criteria.
+         * This method retrieves songs that belong to the authenticated performer and applies filters based on the provided request parameters.
+         * The filters can include genre, performer, name, year, status, creation date, or a general search query.
+         *
+         * @param \Illuminate\Http\Request $request  The request containing filter parameters
+         * @return \Illuminate\View\View
+         */
         $songs = Song::withTrashed()
+            ->where("performer_id", "=", Auth::user()->performer->id)
             ->when($request->filled('genre_id'), fn($q) => $q->where('genre_id', $request->genre_id))
             ->when($request->filled('performer_id'), fn($q) => $q->where('performer_id', $request->performer_id))
             ->when($request->filled('name'), fn($q) => $q->where('name', 'like', '%' . $request->name . '%'))
@@ -46,11 +56,10 @@ class SongsController extends Controller
      */
     public function create(): View
     {
-        $disks = Discography::select("id", "name")->get();
+        $disks = Discography::where("performer_id", "=", Auth::user()->performer->id)->select("id", "name")->get();
         $genres = Genre::select("id", "title")->get();
-        $performers = Performer::select("id", 'name')->get();
 
-        return view("performerPanel.songs.create", compact('disks', 'genres', 'performers'));
+        return view("performerPanel.songs.create", compact('disks', 'genres'    ));
     }
 
 
@@ -79,10 +88,9 @@ class SongsController extends Controller
     {
         $song = Song::findOrFail($id);
         $genres = Genre::select("id", 'title')->get();
-        $performers = Performer::select("id", 'name')->get();
-        $disks = Discography::select("id", 'name')->get();
+        $disks = Discography::where("performer_id", "=", Auth::user()->performer->id)->select("id", 'name')->get();
 
-        return view("perfromerPanel.songs.edit", compact('song', 'genres', 'performers', 'disks'));
+        return view("performerPanel.songs.edit", compact('song', 'genres', 'disks'));
     }
 
 
@@ -95,7 +103,7 @@ class SongsController extends Controller
     public function update(SongStorePostRequest $request, Song $song)
     {
         $song->update($request->validated());
-        return to_route("perfromerPanel/songs");
+        return to_route("performerPanel/songs");
     }
     /**
      * Delete a song (softDelete)
@@ -105,7 +113,7 @@ class SongsController extends Controller
     public function remove($id)
     {
         Song::findOrFail($id)->delete();
-        return to_route("perfromerPanel/songs");
+        return to_route("performerPanel/songs");
     }
 
     /**
@@ -116,6 +124,6 @@ class SongsController extends Controller
     public function restore($id)
     {
         Song::onlyTrashed()->findOrFail($id)->restore();
-        return to_route("perfromerPanel/songs");
+        return to_route("performerPanel/songs");
     }
 }

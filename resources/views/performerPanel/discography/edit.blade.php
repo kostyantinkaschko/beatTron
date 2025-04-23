@@ -1,6 +1,6 @@
 <x-performer-layout>
     <x-slot name="main">
-        <form action="{{ route("diskUpdate", $disk) }}" method="post">
+        <form action="{{ route("performerPanel/diskUpdate", $disk) }}" method="post">
             @csrf
             @method("patch")
             <select name="genre_id">

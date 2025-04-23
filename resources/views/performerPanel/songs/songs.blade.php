@@ -62,7 +62,7 @@
                 <td class="border border-gray-400 dark:text-white">{{ $song->deleted_at }}</td>
                 @if ($song->trashed())
                 <td class="border border-gray-400 dark:text-white text-center" colspan="2">
-                    <form action="{{ route("songRestore", $song->id) }}" method="post">
+                    <form action="{{ route("performerPanel/songRestore", $song->id) }}" method="post">
                         @csrf
                         @method('patch')
                         <input type="submit" value="Restore">
@@ -70,21 +70,21 @@
                 </td>
                 @else
                 <td class="border border-gray-400 dark:text-white">
-                    <form action="{{ route("songDelete", $song->id) }}" method="post">
+                    <form action="{{ route("performerPanel/songDelete", $song->id) }}" method="post">
                         @csrf
                         @method('delete')
                         <input type="submit" value="Remove">
                     </form>
                 </td>
                 <td class="border border-gray-400 dark:text-white">
-                    <a href="{{ route("songEdit", $song->id) }}">Edit</a>
+                    <a href="{{ route("performerPanel/songEdit", $song->id) }}">Edit</a>
                 </td>
                 @endif
             </tr>
             @endforeach
         </table>
         <div class="mt-4">
-            {{ $disks->appends(request()->query())->links() }}
+            {{ $songs->appends(request()->query())->links() }}
         </div>
     </x-slot>
     </x-app-layout>

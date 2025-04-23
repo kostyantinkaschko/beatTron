@@ -28,7 +28,7 @@
         </div>
         @endforeach
         <div class="mt-4">
-            {{ $disks->appends(request()->query())->links() }}
+            {{ $news->appends(request()->query())->links() }}
         </div>
     </x-slot>
 </x-performer-layout>

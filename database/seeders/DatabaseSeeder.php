@@ -48,12 +48,12 @@ class DatabaseSeeder extends Seeder
         //     );
         // }
 
-        $medals = Medal::factory(80)->create();
+        // $medals = Medal::factory(80)->create();
 
-        foreach ($medals as $medal) {
-            $medal->users()->attach(
-                $users->random(3)->pluck('id')
-            );
-        }
+        // foreach ($medals as $medal) {
+        //     $medal->users()->attach(
+        //         $users->random(3)->pluck('id')
+        //     );
+        // }
     }
 }

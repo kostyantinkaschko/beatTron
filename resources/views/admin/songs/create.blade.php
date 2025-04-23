@@ -23,7 +23,7 @@
             <label>disk_id</label>
             <select name="disk_id">
                 @foreach ($disks as $disk)
-                <option value="{{ $disk->id }}">{{ $disk->title }}</option>
+                <option value="{{ $disk->id }}">{{ $disk->name }}</option>
                 @endforeach
             </select>
             @error("disk_id")

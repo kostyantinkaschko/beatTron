@@ -10,6 +10,11 @@ use App\Http\Requests\PerformersStorePostRequest;
 
 class PerformerSiteController extends Controller
 {
+    /**
+     * Displays a page with a list of performers, including deleted ones.
+     *
+     * @return \Illuminate\View\View
+     */
     public function site()
     {
         $performers = Performer::select("id", "name", "instagram", "facebook", "x", "youtube")->withTrashed()->get();
@@ -17,6 +22,13 @@ class PerformerSiteController extends Controller
         return view("site.performers.performers", compact("performers"));
     }
 
+    /**
+     * Displays a page with detailed information about a specific performer, including their discographies, news, and songs.
+     * Also fetches and processes song file details (e.g., duration).
+     *
+     * @param  int  $id  The ID of the performer
+     * @return \Illuminate\View\View
+     */
     public function index($id)
     {
         $performer = Performer::with(["discographies", "news", "song"])->find($id);
@@ -54,13 +66,23 @@ class PerformerSiteController extends Controller
         return view("site.performers.performerPage", compact("performer"));
     }
 
+    /**
+     * Displays a page with a form to create a new performer.
+     *
+     * @return \Illuminate\View\View
+     */
     public function create()
     {
         return view("site.performers.createPerformer");
     }
 
 
-
+    /**
+     * Handles the submission of the new performer form and stores the performer in the database.
+     *
+     * @param  \App\Http\Requests\PerformersStorePostRequest  $request  The request containing validated data for the new performer
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function store(PerformersStorePostRequest $request)
     {
         $data = $request->validated();

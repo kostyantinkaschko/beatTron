@@ -58,6 +58,13 @@ class DiscographyController extends Controller
         return view("performerPanel.discography.edit", compact('disk', 'genres', 'performers'));
     }
 
+    /**
+     * Displays a paginated list of disks with filtering options.
+     * Filters disks by genre, type, performer, and search terms.
+     *
+     * @param  \Illuminate\Http\Request  $request  The request containing filtering data
+     * @return \Illuminate\View\View
+     */
     public function index(Request $request): View
     {
         $disks = Discography::withTrashed()
@@ -115,7 +122,7 @@ class DiscographyController extends Controller
      */
     public function Restore($id)
     {
-        Discography::onlyTrashed()->findOrFail($id)->restore();
+        Discography::where("performer_id", "=", Auth::user()->performer->id)->onlyTrashed()->findOrFail($id)->restore();
 
         return to_route("performerPanel/discography");
     }

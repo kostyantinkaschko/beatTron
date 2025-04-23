@@ -14,15 +14,7 @@
                 @endforeach
             </select>
 
-            <label for="performer_id" class="dark:text-white">Performer:</label>
-            <select name="performer_id" id="performer_id" class="border">
-                <option value="">Select Performer</option>
-                @foreach ($performers as $performer)
-                <option value="{{ $performer->id }}" {{ request('performer_id') == $performer->id ? 'selected' : '' }}>
-                    {{ $performer->name }}
-                </option>
-                @endforeach
-            </select>
+            <input type="hidden" name="performer_id" value="{{ Auth::user()->performer->id }}">
             <label for="type" class="dark:text-white">Type:</label>
             <select name="type">
                 <option value="album">Album</option>

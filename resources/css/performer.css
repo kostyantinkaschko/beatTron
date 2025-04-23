@@ -1,3 +1,24 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+
+h1,
+h2,
+a,
+p,
+label,
+li,
+input[type='submit']{
+    color: #fff;
+}
+
+
+.audio-player {
+    width: 100%;
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    background: #fff;
+}
+

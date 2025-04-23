@@ -17,8 +17,7 @@ return new class extends Migration
             $table->foreignId('performer_id')->constrained('performers', 'id')->cascadeOnDelete();
             $table->foreignId('disk_id')->constrained('discography', 'id')->cascadeOnDelete();
             $table->string('name');
-            $table->integer('rate');
-            $table->integer('listeningCount')->default(0);
+            $table->integer('listening_count')->default(0);
             $table->integer('year');
             $table->string('status');
             $table->timestamps();

@@ -3,12 +3,26 @@
 namespace App\Http\Controllers\Site;
 
 use App\Models\Song;
+use App\Models\Playlist;
 use App\Models\Performer;
+use App\Traits\SongTrait;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 
 class SearchController extends Controller
 {
+    use SongTrait;
+
+
+    /**
+     * Handles the search functionality for songs and performers.
+     * Searches for songs by name or performer name and returns matching results.
+     * If the user is authenticated, their playlists are also retrieved.
+     *
+     * @param  \Illuminate\Http\Request  $request  The request containing the search input
+     * @return \Illuminate\View\View
+     */
     public function index(Request $request)
     {
         $userRequest = $request->input('search');
@@ -17,52 +31,20 @@ class SearchController extends Controller
             return view("site.search", ['result' => []]);
         }
 
-        $songs = Song::with('performer')
+        $songs = $this->processSongs(Song::where("status", "=", "public")
+            ->with('performer')
             ->where('name', 'LIKE', '%' . $userRequest . '%')
             ->orWhereHas('performer', function ($query) use ($userRequest) {
                 $query->where('name', 'LIKE', '%' . $userRequest . '%');
             })
-            ->paginate(50);
+            ->paginate(50));
 
-        $getID3 = new \getID3;
-        $result = [];
 
-        foreach ($songs as $song) {
-            $extensions = ["mp3", "wav", "flac"];
-            $found = false;
-
-            $projectPath = str_replace("\public", '/', public_path());
-            $basePath = $projectPath . 'resources/songs/';
-
-            foreach ($extensions as $ext) {
-                $filePath = $basePath . $song->id . '.' . $ext;
-                if (file_exists($filePath)) {
-                    $song->filePath = $filePath;
-                    $song->extension = $ext;
-                    $found = true;
-                    break;
-                }
-            }
-
-            if (!$found) {
-                continue;
-            }
-
-            $duration = null;
-            if (file_exists($song->filePath)) {
-                $info = $getID3->analyze($song->filePath);
-                $duration = $info['playtime_string'] ?? null;
-            }
-
-            // Не створюємо асоціативний масив, а просто додаємо сам об'єкт моделі
-            $song->duration = $duration;
-            $result[] = $song;
+        if (Auth::check()) {
+            $playlists = Playlist::where("user_id", "=", Auth::user()->id)->get();
         }
 
-        if (empty($result)) {
-            $result = false;
-        }
 
-        return view("site.search", compact("result", "songs"));
+        return view("site.search", compact("songs", "playlists"));
     }
 }

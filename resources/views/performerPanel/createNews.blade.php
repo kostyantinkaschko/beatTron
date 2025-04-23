@@ -1,6 +1,6 @@
 <x-performer-layout>
     <x-slot name="main">
-        <form action="{{ route("newsStore") }}" method="post">
+        <form action="{{ route("performerPanel/newsStore") }}" method="post">
             @csrf
             @method("patch")
             <input type="text" name="title">

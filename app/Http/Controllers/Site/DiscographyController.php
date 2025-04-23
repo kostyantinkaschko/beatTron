@@ -2,12 +2,24 @@
 
 namespace App\Http\Controllers\Site;
 
-use App\Http\Controllers\Controller;
+use App\Models\Song;
+use App\Models\Playlist;
+use App\Traits\SongTrait;
 use App\Models\Discography;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 
 class DiscographyController extends Controller
 {
+    use SongTrait;
+
+    /**
+     * Displays a page with a list of discs.
+     * Uses pagination to limit the number of discs on the page.
+     *
+     * @return \Illuminate\View\View
+     */
     public function index()
     {
         $disks = Discography::withTrashed()->paginate(50);
@@ -15,35 +27,24 @@ class DiscographyController extends Controller
         return view("site.discography.discography", compact("disks"));
     }
 
+
+      /**
+     * Displays a page with details of a specific disc, including information about the performer, genre, and songs.
+     * Also shows the latest songs and user playlists if the user is authenticated.
+     *
+     * @param  int  $id  The ID of the disc
+     * @return \Illuminate\View\View
+     */
     public function disk($id)
     {
         $disk = Discography::with(["performer", "genre", "songs"])->find($id);
-        $getID3 = new \getID3;
-        $extensions = ["mp3", "wav", "flac"];
-        $projectPath = str_replace("\public", '/', public_path());
-        $basePath = $projectPath . 'resources/songs/';
+        $songs = $this->processSongs(Song::withTrashed()->take(10)->get());
 
-        foreach ($disk->songs as $song) {
-            $found = false;
 
-            foreach ($extensions as $ext) {
-                $filePath = $basePath . $song->id . '.' . $ext;
-                if (file_exists($filePath)) {
-                    $song->extension = $ext;
-                    $song->filePath = $filePath;
-                    $found = true;
-                    break;
-                }
-            }
-
-            if ($found && file_exists($song->filePath)) {
-                $info = $getID3->analyze($song->filePath);
-                $song->duration = $info['playtime_string'] ?? null;
-            } else {
-                $song->duration = null;
-            }
+        if (Auth::check()) {
+            $playlists = Playlist::where("user_id", "=", Auth::user()->id)->get();
         }
 
-        return view("site.discography.disk", compact("disk"));
+        return view("site.discography.disk", compact("disk", "songs", "playlists"));
     }
 }

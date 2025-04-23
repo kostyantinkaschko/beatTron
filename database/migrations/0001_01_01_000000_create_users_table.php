@@ -18,9 +18,9 @@ return new class extends Migration
             $table->string('email')->unique();
             $table->string('password');
             $table->string('phone')->nullable();
-            $table->string('rank')->nullable()->default(1);
-            $table->integer('level')->default(1);
-            $table->bigInteger('exp')->default(0);
+            // $table->string('rank')->nullable()->default(1);
+            // $table->integer('level')->default(1);
+            // $table->bigInteger('exp')->default(0);
             $table->string("role")->default("user");
             $table->rememberToken();    
             $table->timestamps();

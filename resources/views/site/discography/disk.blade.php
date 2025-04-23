@@ -5,22 +5,8 @@
         <h3>{{ $disk->type }}</h3>
         <p>{{ $disk->description }}</p>
         <table class="songs">
-            @foreach ($disk->songs as $song)
-                <tr>
-                    <td><button id="play-button" onclick="audio({{ $song->id }})">Відтворити</button></td>
-                    <td class="text-blue-200">{{ $song->name }}</td>
-                    <td>
-                        <audio controls class="audio-player none" id="player{{ $song->id }}">
-                            <source src="{{ mix('resources/songs/' . $song->id . '.' . $song->extension) }}" type="audio/{{ 
-                                    $song->extension == 'mp3' ? 'mpeg' : 
-                                    ($song->extension == 'wav' ? 'wav' : 
-                                    ($song->extension == 'flac' ? 'flac' : 'error')) }}" />
-                            <p>
-                                Ваш браузер не підтримує елемент <code>audio</code>.
-                            </p>
-                        </audio>
-                    </td>
-                </tr>
+            @foreach ($songs as $song)
+            @include('layouts.songPlay')
             @endforeach
         </table>
     </x-slot>

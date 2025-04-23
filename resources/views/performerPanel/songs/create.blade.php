@@ -12,18 +12,13 @@
             @error("name")
             <p>{{ $message }}</p>
             @enderror
-            <select name="performer_id">
-                @foreach ($performers as $performer)
-                <option value="{{ $performer->id }}">{{ $performer->name }}</option>
-                @endforeach
-            </select>
-            @error("performer_id")
-            <p>{{ $message }}</p>
-            @enderror
+       
+            <input type="hidden" name="performer_id" value="{{ Auth::user()->performer->id }}">
+          
             <label>disk_id</label>
             <select name="disk_id">
                 @foreach ($disks as $disk)
-                <option value="{{ $disk->id }}">{{ $disk->title }}</option>
+                <option value="{{ $disk->id }}">{{ $disk->name }}</option>
                 @endforeach
             </select>
             @error("disk_id")
@@ -46,6 +41,7 @@
             @error("song")
                 <p>{{ $message }}</p>
             @enderror
+            <input type="hidden" value="{{ Auth::user()->performer->id }}" name="performer_id">
             <input type="submit">
         </form>
     </x-slot>

@@ -35,3 +35,14 @@
 .diskBlock img {
     width: 200px;
 }
+
+
+h1,
+h2,
+a,
+p,
+label,
+li,
+input[type='submit']{
+    color: #fff;
+}

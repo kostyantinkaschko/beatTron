@@ -61,13 +61,13 @@
                                 {{ __('Create Performer') }}
                             </x-dropdown-link>
                             @endif
-
+                            @if(Auth::user()->role == "admin")
                             <x-dropdown-link :href="route('users')">
                                 {{ __('adminpanel') }}
                             </x-dropdown-link>
-
+                            @endif
                             <x-dropdown-link :href="route('performerPanel')">
-                                {{ __('performerPanel') }}
+                                {{ __('Studio') }}
                             </x-dropdown-link>
 
                             <!-- Authentication -->

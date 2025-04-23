@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Medal;
+// use App\Models\Medal;
 use Illuminate\View\View;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -15,17 +15,17 @@ class ProfileController extends Controller
     /**
      * Display the user's profile form.
      */
-    public function edit(Request $request): View
+    public function edit(Request $request)
     {
         $user = $request->user();
-        $allMedals = Medal::all(); 
-        $userMedals = $user->medalsAdd()->get();
+        // $allMedals = Medal::all(); 
+        // $userMedals = $user->medalsAdd()->get();
     
-        return view('profile.edit', [
-            'medals' => $allMedals,
-            'userMedals' => $userMedals,
-            'user' => $user,
-        ]);
+        return view('profile.edit', compact("user"));
+        //     'medals' => $allMedals,
+        //     'userMedals' => $userMedals,
+        //     'user' => $user,
+        // ]);
     }
     
     /**

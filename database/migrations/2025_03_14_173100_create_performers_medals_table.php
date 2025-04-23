@@ -11,12 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('performers_medals', function (Blueprint $table) {
-            $table->id();
-            $table->foreignId('performer_id')->constrained('performers', 'id')->cascadeOnDelete();
-            $table->foreignId('medal_id')->constrained('medals', 'id')->cascadeOnDelete();
-            $table->timestamps();
-        });
+        // Schema::create('performers_medals', function (Blueprint $table) {
+        //     $table->id();
+        //     $table->foreignId('performer_id')->constrained('performers', 'id')->cascadeOnDelete();
+        //     $table->foreignId('medal_id')->constrained('medals', 'id')->cascadeOnDelete();
+        //     $table->timestamps();
+        // });
     }
 
     /**
@@ -24,6 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('performers_medals');
+        // Schema::dropIfExists('performers_medals');
     }
 };

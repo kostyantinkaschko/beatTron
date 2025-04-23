@@ -22,6 +22,19 @@ class Genre extends Model
         'description',
         'year'
     ];
+
+    /**
+     * Represents a music genre.
+     * This model stores information about different music genres, such as their title, description, and year of origin.
+     * It also allows retrieving the associated discographies related to this genre.
+     *
+     * @property int $id The unique identifier for the genre
+     * @property string $title The title or name of the genre
+     * @property string|null $description A description of the genre
+     * @property int|null $year The year associated with the genre
+     * @property \Illuminate\Database\Eloquent\Collection|Discography[] $discographies The discographies associated with this genre
+     */
+
     public function discographies()
     {
         return $this->hasMany(Discography::class);

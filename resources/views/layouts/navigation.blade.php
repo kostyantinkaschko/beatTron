@@ -15,9 +15,7 @@
                     <x-nav-link :href="route('genres')" :active="request()->routeIs('genres')">
                         {{ __('Genres') }}
                     </x-nav-link>
-                    <x-nav-link :href="route('medals')" :active="request()->routeIs('medals')">
-                        {{ __('Medals') }}
-                    </x-nav-link>
+                  
                     <x-nav-link :href="route('performers')" :active="request()->routeIs('performers')">
                         {{ __('Performers') }}
                     </x-nav-link>

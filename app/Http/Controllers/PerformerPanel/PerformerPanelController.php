@@ -17,30 +17,49 @@ use Illuminate\Contracts\View\View;
 
 class PerformerPanelController extends Controller
 {
+    /**
+     * Displays the performer panel homepage.
+     * This is the main landing page for the performer panel.
+     *
+     * @return \Illuminate\View\View
+     */
     public function index()
     {
-        return view("performerPanel.performerPanel");
-    }
-    
 
-    public function performerEdit($id) {
-        $performer = Performer::find($id);
+        $performer = Performer::where('user_id', Auth::id())->first();
+        $news = News::where("performer_id", "=", Auth::user()->performer->id)->take(5)->get();
+    
+        return view("performerPanel.performerPanel", compact('performer', 'news'));
+    }
+
+
+    /**
+     * Displays the edit page for a specific performer.
+     * Allows the performer to update their profile details.
+     *
+     * @param  int  $id  The ID of the performer to edit
+     * @return \Illuminate\View\View
+     */
+    public function performerEdit()
+    {
+        $performer = Performer::find(Auth::user()->performer->id);
 
         return view("performerPanel.performerEdit", compact("performer"));
     }
 
-     /**
-     * Updates the data of an existing performer in the database
+    /**
+     * Updates the data of an existing performer in the database.
+     * This action is triggered when the performer submits their profile updates.
      *
-     * @param Request $request
-     * @param Performer $performer
+     * @param  \App\Http\Requests\PerformersStorePostRequest  $request  The validated request data
+     * @param  \App\Models\Performer  $performer  The performer to be updated
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function performerUpdate(PerformersStorePostRequest $request, Performer $performer)
     {
         // dd($performer);
         $performer->update($request->validated());
-        
-        return to_route("performerPage", $performer->id);  
-    }
 
+        return to_route("performerPage", $performer->id);
+    }
 }

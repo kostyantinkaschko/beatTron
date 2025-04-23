@@ -23,6 +23,20 @@ class Medal extends Model
         'difficulty',
     ];
 
+    /**
+     * Represents a medal awarded to users.
+     * This model stores information about various medals, including their name, type, description, and difficulty level.
+     * It also defines relationships to users who have earned these medals.
+     *
+     * @property int $id The unique identifier for the medal
+     * @property string $name The name of the medal
+     * @property string $type The type or category of the medal
+     * @property string|null $description A description of the medal
+     * @property string|null $difficulty The difficulty level required to earn the medal
+     * @property \Illuminate\Database\Eloquent\Collection|User[] $users The users who have earned this medal
+     */
+
+
     public function users()
     {
         return $this->belongsToMany(User::class, 'users_medals');
@@ -31,5 +45,4 @@ class Medal extends Model
     {
         return $this->belongsToMany(User::class, 'users_medals')->withPivot('id');
     }
-
 }

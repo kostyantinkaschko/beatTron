@@ -13,14 +13,7 @@
             @error("genre_id")
             <p>{{ $message }}</p>
             @enderror
-            <select name="performer_id">
-                @foreach ($performers as $performer)
-                <option value="{{ $performer->id }}" {{ $song->performer_id == $performer->id ? 'selected' : '' }}>{{ $performer->name }}</option>
-                @endforeach
-            </select>
-            @error("performer_id")
-            <p>{{ $message }}</p>
-            @enderror
+            <input type="hidden" name="performer_id" value="{{ Auth::user()->performer->id }}">
             <label>disk_id</label>
             <select name="disk_id">
                 @foreach ($disks as $disk)

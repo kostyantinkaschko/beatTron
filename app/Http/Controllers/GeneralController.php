@@ -10,13 +10,14 @@ use Illuminate\Contracts\View\View;
 use App\Http\Controllers\Controller;
 use App\Models\Performer;
 use App\Models\Playlist;
+use App\Traits\PerformerRateTrait;
 use Illuminate\Support\Facades\Auth;
 
 
 class GeneralController extends Controller
 {
     
-    use SongTrait;
+    use SongTrait, PerformerRateTrait;
 
     /**
      * Displays the main page of the site with a list of songs, news, and performers.
@@ -27,14 +28,16 @@ class GeneralController extends Controller
      *
      * @return \Illuminate\Contracts\View\View
      */
-
     public function index()
     {
-        $songs = $this->processSongs(Song::withTrashed()->take(10)->get());
-        
-        $news = News::withTrashed()->take(12)->get();
+        $songs = $this->processSongs(Song::where("status", "=", "public")->take(10)->get());
         $performers = Performer::withTrashed()->take(10)->get();
         $performersView = Performer::select('id', 'name')->withTrashed()->get();
+        $news = News::withTrashed()->take(12)->get();
+
+        foreach($performers as $performer){
+            $performer->rate = $this->getPerfromerRate($performer);
+        }
 
         if (Auth::check()) {
             $playlists = Playlist::where("user_id", "=", Auth::user()->id)->get();

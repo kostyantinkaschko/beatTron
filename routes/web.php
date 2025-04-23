@@ -9,14 +9,16 @@ use App\Models\Discography;
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Middleware\SiteMiddleware;
+use App\Http\Controllers\RateController;
 use App\Http\Middleware\AdminMiddleware;
 use App\Http\Controllers\GeneralController;
-use App\Http\Controllers\ProfileController;
 
+use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Site\NewsController;
+use App\Http\Controllers\Site\SongController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\GenreController;
-use App\Http\Controllers\Admin\MedalController;
+// use App\Http\Controllers\Admin\MedalController;
 use App\Http\Controllers\Admin\SongsController;
 use App\Http\Controllers\Site\SearchController;
 use App\Http\Controllers\Site\PlaylistController;
@@ -31,10 +33,11 @@ use App\Http\Controllers\PerformerPanel\NewsController as PerfNewsController;
 use App\Http\Controllers\PerformerPanel\SongsController as perfPanlSongController;
 use App\Http\Controllers\PerformerPanel\DiscographyController as PerformerPanDiscographyController;
 
-
 Route::get("/", [GeneralController::class, "index"]);
 Route::get("general", [GeneralController::class, "index"])->name("general");
 Route::get("admin/", [UserController::class, "index"]);
+Route::post('/songs/{id}/listen', [SongController::class, 'incrementListeningCount']);
+
 
 Route::middleware([SiteMiddleware::class])->group(function (): void {
     Route::get("playlists", [PlaylistController::class, "site"])->name("playlists");
@@ -51,12 +54,15 @@ Route::middleware([SiteMiddleware::class])->group(function (): void {
     Route::patch("createPlaylist", [PlaylistController::class, "create"])->name("createPlaylist");
     Route::get("playlist/{id}", [PlaylistController::class, "playlist"])->name("playlist");
     Route::post("addSong", [PlaylistController::class, "addSong"])->name("addSong");
+    Route::post('songRate/{id}', [RateController::class, 'index'])->name('songRate');
+    Route::get("song/{id}", [SongController::class, "song"])->name("song");
 });
 
 Route::prefix("performerPanel")->middleware([PerformerPanelMiddleware::class])->group(function () {
     Route::get("performerPanel", [PerformerPanelController::class, "index"])->name("performerPanel");
-    Route::get("performerEdit/{id}", [PerformerPanelController::class, "performerEdit"])->name("performerPanel/performerEdit");;
+    Route::get("performerEdit", [PerformerPanelController::class, "performerEdit"])->name("performerPanel/performerEdit");;
     Route::patch("performerPanel/update/{performer}", [PerformerPanelController::class, "performerUpdate"])->name("performerPanel/update");
+
 
     Route::get("news", [PerfNewsController::class, "news"])->name("performerPanel/news");
     Route::get("newsCreate", [PerfNewsController::class, "create"])->name("performerPanel/newsCreate");
@@ -77,9 +83,11 @@ Route::prefix("performerPanel")->middleware([PerformerPanelMiddleware::class])->
 
     Route::get("songs", [perfPanlSongController::class, "index"])->name("performerPanel/songs");
     Route::get("songCreate", [perfPanlSongController::class, "create"])->name("performerPanel/songCreate");
-    Route::post("songStore", [perfPanlSongController::class, "store"])->name("performerPanel/songStore");
-    Route::post("songUpdate", [perfPanlSongController::class, "update"])->name("performerPanel/songUpdate");
-    Route::get("songEdit", [perfPanlSongController::class, "edit"])->name("performerPanel/songEdit");
+    Route::post("songStore/{id}", [perfPanlSongController::class, "store"])->name("performerPanel/songStore");
+    Route::post("songUpdate/{id}", [perfPanlSongController::class, "update"])->name("performerPanel/songUpdate");
+    Route::get("songEdit/{id}", [perfPanlSongController::class, "edit"])->name("performerPanel/songEdit");
+    Route::delete("songDelete/{id}", [SongsController::class, "remove"])->name("performerPanel/songDelete");
+    Route::patch("songRestore/{id}", [SongsController::class, "restore"])->name("performerPanel/songRestore");
 });
 
 Route::middleware("auth")->group(function () {
@@ -121,13 +129,13 @@ Route::prefix("admin")->middleware(["auth", AdminMiddleware::class])->group(func
     Route::get("songEdit/{id}", [SongsController::class, "edit"])->name("songEdit");
     Route::patch("songUpdate/{song}", [SongsController::class, "update"])->name("songUpdate");
 
-    Route::get("medals", [MedalController::class, "index"])->name("medals");
-    Route::get("medalCreate", [MedalController::class, "create"])->name("medalCreate");
-    Route::post("medalStore", [MedalController::class, "store"])->name("medalStore");
-    Route::delete("medalDelete/{id}", [MedalController::class, "remove"])->name("medalDelete");
-    Route::patch("medalRestore/{id}", [MedalController::class, "restore"])->name("medalRestore");
-    Route::get("medalEdit/{id}", [MedalController::class, "edit"])->name("medalEdit");
-    Route::patch("medalUpdate/{medal}", [MedalController::class, "update"])->name("medalUpdate");
+    // Route::get("medals", [MedalController::class, "index"])->name("medals");
+    // Route::get("medalCreate", [MedalController::class, "create"])->name("medalCreate");
+    // Route::post("medalStore", [MedalController::class, "store"])->name("medalStore");
+    // Route::delete("medalDelete/{id}", [MedalController::class, "remove"])->name("medalDelete");
+    // Route::patch("medalRestore/{id}", [MedalController::class, "restore"])->name("medalRestore");
+    // Route::get("medalEdit/{id}", [MedalController::class, "edit"])->name("medalEdit");
+    // Route::patch("medalUpdate/{medal}", [MedalController::class, "update"])->name("medalUpdate");
 
     Route::get("users", [UserController::class, "index"])->name("users");
     Route::delete("userDelete/{id}", [UserController::class, "remove"])->name("userDelete");
