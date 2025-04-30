@@ -14,7 +14,7 @@ class GenreSiteController extends Controller
      *
      * @return \Illuminate\View\View
      */
-    public function site() 
+    public function site()
     {
         $genres = Genre::paginate(50);
 
@@ -28,7 +28,8 @@ class GenreSiteController extends Controller
      * @return \Illuminate\View\View
      */
 
-    public function genre($id){
+    public function genre($id)
+    {
         $genre = Genre::find($id);
 
         return view("site.genres.genre", compact("genre"));

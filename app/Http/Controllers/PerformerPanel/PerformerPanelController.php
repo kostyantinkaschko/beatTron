@@ -28,7 +28,7 @@ class PerformerPanelController extends Controller
 
         $performer = Performer::where('user_id', Auth::id())->first();
         $news = News::where("performer_id", "=", Auth::user()->performer->id)->take(5)->get();
-    
+
         return view("performerPanel.performerPanel", compact('performer', 'news'));
     }
 

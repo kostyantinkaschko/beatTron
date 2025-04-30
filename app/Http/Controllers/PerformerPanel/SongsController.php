@@ -27,12 +27,12 @@ class SongsController extends Controller
          */
         $songs = Song::withTrashed()
             ->where("performer_id", "=", Auth::user()->performer->id)
-            ->when($request->filled('genre_id'), fn($q) => $q->where('genre_id', $request->genre_id))
-            ->when($request->filled('performer_id'), fn($q) => $q->where('performer_id', $request->performer_id))
-            ->when($request->filled('name'), fn($q) => $q->where('name', 'like', '%' . $request->name . '%'))
-            ->when($request->filled('year'), fn($q) => $q->where('year', $request->year))
-            ->when($request->filled('status'), fn($q) => $q->where('status', 'like', '%' . $request->status . '%'))
-            ->when($request->filled('created_at'), fn($q) => $q->whereDate('created_at', $request->created_at))
+            ->when($request->filled('genre_id'), fn ($q) => $q->where('genre_id', $request->genre_id))
+            ->when($request->filled('performer_id'), fn ($q) => $q->where('performer_id', $request->performer_id))
+            ->when($request->filled('name'), fn ($q) => $q->where('name', 'like', '%' . $request->name . '%'))
+            ->when($request->filled('year'), fn ($q) => $q->where('year', $request->year))
+            ->when($request->filled('status'), fn ($q) => $q->where('status', 'like', '%' . $request->status . '%'))
+            ->when($request->filled('created_at'), fn ($q) => $q->whereDate('created_at', $request->created_at))
             ->when($request->filled('search'), function ($q) use ($request) {
                 $q->where(function ($query) use ($request) {
                     $search = $request->search;
@@ -59,7 +59,7 @@ class SongsController extends Controller
         $disks = Discography::where("performer_id", "=", Auth::user()->performer->id)->select("id", "name")->get();
         $genres = Genre::select("id", "title")->get();
 
-        return view("performerPanel.songs.create", compact('disks', 'genres'    ));
+        return view("performerPanel.songs.create", compact('disks', 'genres'));
     }
 
 

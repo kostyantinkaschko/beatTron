@@ -38,7 +38,7 @@ class PerformersStorePostRequest extends FormRequest
             'instagram' => "This parameter is required and has a maximum length of 255 characters.",
             'facebook' => "This parameter is required and has a maximum length of 255 characters.",
             "x" => "This parameter is required and has a maximum length of 255 characters.",
-            "youtube" => "This parameter is required and has a maximum length of 255 characters.", 
+            "youtube" => "This parameter is required and has a maximum length of 255 characters.",
         ];
     }
 }

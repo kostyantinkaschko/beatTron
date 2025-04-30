@@ -9,7 +9,8 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Performer extends Model
 {
-    use SoftDeletes, HasFactory;
+    use SoftDeletes;
+    use HasFactory;
     protected $table = 'performers';
     protected $primaryKey = 'id';
 
@@ -29,7 +30,7 @@ class Performer extends Model
 
     /**
      * Represents a performer, typically an artist or musician.
-     * This model stores the performer's details such as name and social media links, 
+     * This model stores the performer's details such as name and social media links,
      * and defines relationships to their discographies, news, and songs.
      *
      * @property int $id The unique identifier for the performer

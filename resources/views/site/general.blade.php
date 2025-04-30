@@ -11,6 +11,13 @@
         <h2>News</h2>
         <ul>
             @foreach ($news as $item)
+            @php
+            $media = $item->getFirstMedia("news");
+            @endphp
+
+            @if($media)
+            <img class="newsImage" src="{{ $media->getUrl() }}" alt="Article image">
+            @endif
             <li>{{ $item->title }}</li>
             @endforeach
         </ul>

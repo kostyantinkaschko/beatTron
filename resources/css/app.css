@@ -13,6 +13,11 @@ a,
 p,
 label,
 li,
-input[type='submit']{
+input[type='submit'],
+td{
     color: #fff;
+}
+select, 
+option{
+    color: #000;
 }

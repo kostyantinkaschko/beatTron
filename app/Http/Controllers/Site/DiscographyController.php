@@ -28,7 +28,7 @@ class DiscographyController extends Controller
     }
 
 
-      /**
+    /**
      * Displays a page with details of a specific disc, including information about the performer, genre, and songs.
      * Also shows the latest songs and user playlists if the user is authenticated.
      *

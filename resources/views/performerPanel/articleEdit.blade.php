@@ -1,6 +1,6 @@
 <x-performer-layout>
     <x-slot name="main">
-        <form action="{{ route("articleUpdate", $article->id) }}" method="post">
+        <form action="{{ route("performerPanel/articleUpdate", $article->id) }}" method="post" enctype="multipart/form-data">
             @csrf
             @method("patch")
             <input type="text" name="title" value="{{ $article->title }}">
@@ -11,6 +11,12 @@
             @error("text")
             <p>{{ $message }}</p>
             @enderror
+            <div>
+                <input type="file" name="image">
+                @error("file")
+                <p>{{ $message }}</p>
+                @enderror
+            </div>
             <input type="submit">
         </form>
     </x-slot>

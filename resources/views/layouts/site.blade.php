@@ -18,17 +18,17 @@
 </head>
 
 <body class="font-sans antialiased">
-    <div class="min-h-screen bg-gray-100 dark:bg-gray-900">
+    <div class="min-h-screen bg-gray-100 dark:bg-gray-900 text-[14rem]">
         @include('layouts.siteNavigation')
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <!-- Page Content -->
-            <main>
-                {{ $main }}
-            </main>
+        <div class="wrapper">
+                <!-- Page Content -->
+                <main>
+                    {{ $main }}
+                </main>
 
 
         </div>
-        @include('layouts.footer')
+            @include('layouts.footer')
     </div>
 
     <script src="{{ mix('resources/js/scripts.js') }}"></script>

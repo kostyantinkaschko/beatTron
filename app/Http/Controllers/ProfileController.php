@@ -18,16 +18,16 @@ class ProfileController extends Controller
     public function edit(Request $request)
     {
         $user = $request->user();
-        // $allMedals = Medal::all(); 
+        // $allMedals = Medal::all();
         // $userMedals = $user->medalsAdd()->get();
-    
+
         return view('profile.edit', compact("user"));
         //     'medals' => $allMedals,
         //     'userMedals' => $userMedals,
         //     'user' => $user,
         // ]);
     }
-    
+
     /**
      * Update the user's profile information.
      */

@@ -51,7 +51,7 @@ Route::middleware([SiteMiddleware::class])->group(function (): void {
     Route::get("article/{id}", [NewsController::class, "article"])->name("article");
     Route::get("genre/{id}", [GenreSiteController::class, "genre"])->name("genrePage");
     Route::get("search", [SearchController::class, "index"])->name("search");
-    Route::patch("createPlaylist", [PlaylistController::class, "create"])->name("createPlaylist");
+    Route::get("createPlaylist", [PlaylistController::class, "create"])->name("createPlaylist");
     Route::get("playlist/{id}", [PlaylistController::class, "playlist"])->name("playlist");
     Route::post("addSong", [PlaylistController::class, "addSong"])->name("addSong");
     Route::post('songRate/{id}', [RateController::class, 'index'])->name('songRate');
@@ -83,7 +83,7 @@ Route::prefix("performerPanel")->middleware([PerformerPanelMiddleware::class])->
 
     Route::get("songs", [perfPanlSongController::class, "index"])->name("performerPanel/songs");
     Route::get("songCreate", [perfPanlSongController::class, "create"])->name("performerPanel/songCreate");
-    Route::post("songStore/{id}", [perfPanlSongController::class, "store"])->name("performerPanel/songStore");
+    Route::post("songStore", [perfPanlSongController::class, "store"])->name("performerPanel/songStore");
     Route::post("songUpdate/{id}", [perfPanlSongController::class, "update"])->name("performerPanel/songUpdate");
     Route::get("songEdit/{id}", [perfPanlSongController::class, "edit"])->name("performerPanel/songEdit");
     Route::delete("songDelete/{id}", [SongsController::class, "remove"])->name("performerPanel/songDelete");

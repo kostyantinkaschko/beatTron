@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Site;
 
+use App\Models\Playlist;
 use App\Models\Performer;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -17,9 +18,13 @@ class PerformerSiteController extends Controller
      */
     public function site()
     {
-        $performers = Performer::select("id", "name", "instagram", "facebook", "x", "youtube")->withTrashed()->get();
+        $performers = Performer::select("id", "name", "instagram", "facebook", "x", "youtube")->withTrashed()->paginate(30);
+        $playlists = collect([]);
+        if (Auth::check()) {
+            $playlists = Playlist::where("user_id", "=", Auth::user()->id)->get();
+        }
 
-        return view("site.performers.performers", compact("performers"));
+        return view("site.performers.performers", compact("performers", "playlists"));
     }
 
     /**
@@ -37,7 +42,7 @@ class PerformerSiteController extends Controller
             abort(404);
         }
 
-        $getID3 = new \getID3;
+        $getID3 = new \getID3();
         $extensions = ["mp3", "wav", "flac"];
         $projectPath = str_replace("\public", '/', public_path());
         $basePath = $projectPath . 'resources/songs/';

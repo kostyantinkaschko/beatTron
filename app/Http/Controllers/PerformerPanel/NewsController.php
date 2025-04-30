@@ -19,7 +19,8 @@ class NewsController extends Controller
     public function news()
     {
         $performer_id = User::performerId();
-        $news = News::where("performer_id", "=", $performer_id)->paginate(10);;
+        $news = News::where("performer_id", "=", $performer_id)->paginate(10);
+        ;
 
         return view("performerPanel.news", compact("news"));
     }
@@ -35,7 +36,10 @@ class NewsController extends Controller
     {
         $data = $request->validated();
         $data["performer_id"] = User::performerId();
-        News::create($data);
+        $article = News::create($data);
+        $article->image = $request->file('image')->store('news', 'public');
+        $article->addMedia($request->file('image'))
+            ->toMediaCollection("news");
 
         return to_route("performerPanel/news");
     }
@@ -74,10 +78,22 @@ class NewsController extends Controller
 
     public function articleUpdate(NewsStoreRequest $request, News $news, $id)
     {
+        $news = News::findOrFail($id);
         $news->update($request->validated());
+
+        if ($request->hasFile('image')) {
+            $file = $news->getFirstMedia("news");
+            if ($file) {
+                $file->delete();
+            }
+
+            $news->addMedia($request->file('image'))
+                ->toMediaCollection("news");
+        }
 
         return to_route("article", $id);
     }
+
 
 
     /**

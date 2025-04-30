@@ -3,6 +3,13 @@
         <a href="newsCreate">Create a news</a>
         @foreach ($news as $article)
         <div>
+            @php
+            $media = $article->getFirstMedia("news");
+            @endphp 
+
+            @if($media)
+            <img class="newsImage" src="{{ $media->getUrl() }}" alt="Article image">
+            @endif
             <a href="{{ route("article", $article->id) }}">
                 {{ $article->title }}
             </a>

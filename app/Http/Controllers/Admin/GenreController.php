@@ -10,7 +10,6 @@ use App\Http\Requests\GenresStorePostRequest;
 
 class GenreController extends Controller
 {
-
     /**
      * Routing to the genres display page
      *
@@ -20,8 +19,8 @@ class GenreController extends Controller
     {
         $genres = Genre::withTrashed()
             ->with(["discographies"])
-            ->when($request->filled('title'), fn($q) => $q->where('title', 'like', '%' . $request->title . '%'))
-            ->when($request->filled('year'), fn($q) => $q->where('year', '=', $request->year))
+            ->when($request->filled('title'), fn ($q) => $q->where('title', 'like', '%' . $request->title . '%'))
+            ->when($request->filled('year'), fn ($q) => $q->where('year', '=', $request->year))
             ->when($request->filled('search'), function ($q) use ($request) {
                 $q->where(function ($query) use ($request) {
                     $search = $request->search;

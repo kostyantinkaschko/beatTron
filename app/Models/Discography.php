@@ -11,12 +11,11 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 
-
-
 class Discography extends Model implements HasMedia
 {
-
-    use SoftDeletes, InteractsWithMedia, HasFactory;
+    use SoftDeletes;
+    use InteractsWithMedia;
+    use HasFactory;
     protected $table = 'discography';
     protected $primaryKey = 'id';
     /**

@@ -24,13 +24,20 @@ class NewsStoreRequest extends FormRequest
         return [
             "title" => ["required", "string", "max:255"],
             "text" => ["required", "string", "max:3000"],
+            "image" => [
+                'required',
+                'file',
+                'mimes:jpg,jpeg,png,',
+                'max:4096',
+            ],
         ];
     }
     public function messages()
     {
         return [
             "title" => "This parameter is required and has a maximum length of 255 characters.",
-            "text" => "This parameter is required and has a maximum length of 255 characters.", 
+            "text" => "This parameter is required and has a maximum length of 255 characters.",
+            "image" => "The photo must be in .jpg or .png format and be up to 4 MB in size"
         ];
     }
 }

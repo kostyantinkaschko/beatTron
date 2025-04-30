@@ -6,24 +6,23 @@ use getID3;
 
 trait SongTrait
 {
-
     /**
      * Trait to handle song-related functionalities, such as processing song media.
-     * 
-     * This trait includes a method to process song media files and retrieve their 
+     *
+     * This trait includes a method to process song media files and retrieve their
      * metadata such as file extension and duration.
-     * 
+     *
      * @method mixed processSongs(\Illuminate\Database\Eloquent\Collection|\App\Models\Song $media, string $mode = 'plural') Process and retrieve metadata for the provided song(s).
-     * 
+     *
      * @param \Illuminate\Database\Eloquent\Collection|\App\Models\Song $media The song(s) to be processed. Can be a single song or a collection of songs.
      * @param string $mode The processing mode, either "plural" for a collection of songs or other values for a single song. Defaults to "plural".
-     * 
+     *
      * @return mixed The processed song(s) with added metadata like file extension and duration.
      */
 
     public function processSongs($media, $mode = "plural")
     {
-        $getID3 = new getID3;
+        $getID3 = new getID3();
         $projectPath = str_replace("\public", '/', public_path());
         $basePath = $projectPath . 'resources/songs/';
         $extensions = ["mp3", "wav", "flac"];

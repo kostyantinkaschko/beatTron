@@ -13,7 +13,6 @@ use App\Http\Requests\DiscographyStorePostRequest;
 
 class DiscographyController extends Controller
 {
-
     /**
      * Routing to the discography display page
      *
@@ -22,24 +21,25 @@ class DiscographyController extends Controller
     public function index(Request $request)
     {
         $disks = Discography::withTrashed()
-        ->with(['genre', 'performer']) 
-        ->when($request->filled('genre_id'), fn($q) => $q->where('genre_id', $request->genre_id))
-        ->when($request->filled('type'), fn($q) => $q->where('type', $request->type))
-        ->when($request->filled('performer_id'), fn($q) => $q->where('performer_id', $request->performer_id))
-        ->when($request->filled('search'), function ($q) use ($request) {
-            $q->where(function ($query) use ($request) {
-                $search = $request->search;
-                $query->where('name', 'like', "%$search%")
-                    ->orWhere('description', 'like', "%$search%"); 
-            });
-        })
-        ->paginate(50);
+            ->with(['genre', 'performer'])
+            ->when($request->filled('genre_id'), fn ($q) => $q->where('genre_id', $request->genre_id))
+            ->when($request->filled('type'), fn ($q) => $q->where('type', $request->type))
+            ->when($request->filled('performer_id'), fn ($q) => $q->where('performer_id', $request->performer_id))
+            ->when($request->filled('search'), function ($q) use ($request) {
+                $q->where(function ($query) use ($request) {
+                    $search = $request->search;
+                    $query->where('name', 'like', "%$search%")
+                        ->orWhere('description', 'like', "%$search%");
+                });
+            })
+            ->paginate(50);
 
         $genres = Genre::select('id', 'title')->get();
         $performers = Performer::select('id', 'name')->get();
 
         return view("admin.discography.discography", compact('disks', 'genres', 'performers'));
     }
+
 
     /**
      * Routing to the disk creation display page
@@ -94,11 +94,22 @@ class DiscographyController extends Controller
      */
     public function update(DiscographyStorePostRequest $request, Discography $disk)
     {
-
         $disk->update($request->validated());
+        $disk->image = $request->file('image')->store('disks', 'public');
+
+        $file = $disk->getFirstMedia("disks");
+
+        if ($file) {
+            $file->delete();
+        }
+
+
+        $disk->addMedia($request->file('image'))
+            ->toMediaCollection("disks");
 
         return to_route("discography");
     }
+
 
     /**
      * Delete a disk (mild delete)

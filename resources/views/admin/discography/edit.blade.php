@@ -1,6 +1,6 @@
 <x-app-layout>
     <x-slot name="slot">
-        <form action="{{ route("diskUpdate", $disk) }}" method="post">
+        <form action="{{ route("diskUpdate", $disk) }}" method="post" enctype="multipart/form-data">
             @csrf
             @method("patch")
             <select name="genre_id">
@@ -34,6 +34,12 @@
             @error("description")
             <p>{{ $message }}</p>
             @enderror
+            <div>
+                <input type="file" name="image">
+                @error("file")
+                <p>{{ $message }}</p>
+                @enderror
+            </div>
             <input type="submit">
         </form>
     </x-slot>

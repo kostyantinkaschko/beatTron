@@ -7,10 +7,8 @@ use Illuminate\Contracts\View\View;
 use Illuminate\Http\Request;
 use App\Models\User;
 
-
 class UserController extends Controller
 {
-
     /**
      * Routing to the users display page
      *
@@ -18,7 +16,8 @@ class UserController extends Controller
      */
     public function index()
     {
-        $users = User::withTrashed()->paginate(50);;
+        $users = User::withTrashed()->paginate(50);
+        ;
 
         return view("admin.users.users", compact("users"));
     }
@@ -64,8 +63,8 @@ class UserController extends Controller
         $user->delete();
         return to_route("users");
     }
-      /**
-     * Restores a deleted user  
+    /**
+     * Restores a deleted user
      *
      * @param int $id
      */

@@ -2,12 +2,17 @@
     <x-slot name="main">
         <h1 class="text-center text-5xl">Performers</h1>
         <div class="performers">
-            @foreach ($performers as $performer)
-            <a class="performer" href="{{ route("performerPage", $performer->id ) }}">{{ $performer->name }}</a>
-            @endforeach
-        </div>
-        <div class="mt-4">
-            {{ $performers->appends(request()->query())->links() }}
-        </div>
+            <div class="performerBlock">
+                @foreach ($performers as $i => $performer)
+                <a class="performer" href="{{ route("performerPage", $performer->id ) }}">{{ $performer->name }}</a>
+                @if($i % 10 == false && $i != 0)
+            </div>
+            <div class="performerBlock">
+                @endif
+                @endforeach
+            </div>
+            <div class="mt-4 pagination">
+                {{ $performers->appends(request()->query())->links() }}
+            </div>
     </x-slot>
 </x-site-layout>

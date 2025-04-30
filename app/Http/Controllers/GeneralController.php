@@ -13,11 +13,10 @@ use App\Models\Playlist;
 use App\Traits\PerformerRateTrait;
 use Illuminate\Support\Facades\Auth;
 
-
 class GeneralController extends Controller
 {
-    
-    use SongTrait, PerformerRateTrait;
+    use SongTrait;
+    use PerformerRateTrait;
 
     /**
      * Displays the main page of the site with a list of songs, news, and performers.
@@ -32,17 +31,16 @@ class GeneralController extends Controller
     {
         $songs = $this->processSongs(Song::where("status", "=", "public")->take(10)->get());
         $performers = Performer::withTrashed()->take(10)->get();
-        $performersView = Performer::select('id', 'name')->withTrashed()->get();
         $news = News::withTrashed()->take(12)->get();
 
-        foreach($performers as $performer){
+        foreach ($performers as $performer) {
             $performer->rate = $this->getPerfromerRate($performer);
         }
-
+        $playlists = collect([]);
         if (Auth::check()) {
             $playlists = Playlist::where("user_id", "=", Auth::user()->id)->get();
         }
 
-        return view("site.general", compact("songs", "news", "performers", "performersView") + (isset($playlists) ? ['playlists' => $playlists] : []));
+        return view("site.general", compact("songs", "news", "performers", "playlists"));
     }
 }

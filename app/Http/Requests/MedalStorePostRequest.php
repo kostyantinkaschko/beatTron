@@ -34,7 +34,7 @@ class MedalStorePostRequest extends FormRequest
         return [
             "name" => "This parameter is required and has a maximum length of 255 characters.",
             "type" => "This parameter is required and has a maximum length of 32 characters.",
-            "description" => "This parameter is required and has a maximum length of 255 characters.", 
+            "description" => "This parameter is required and has a maximum length of 255 characters.",
             'diffucult' => "This parameter is required and has a maximum length of 255 characters.",
         ];
     }

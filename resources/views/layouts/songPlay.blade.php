@@ -31,8 +31,12 @@
                     Create Playlist
                     @endif
                 </option>
-                @foreach ($playlists as $playlist)
-                <option value="{{ $playlist->id }}">{{ $playlist->id }}</option>
+                @foreach ($playlists as $pl)
+                    @if(isset($playlist) && $pl->id != $playlist->id)
+                        <option value="{{ $pl->id }}">{{ $pl->id }}</option>
+                    @else
+                        <option value="{{ $pl->id }}">{{ $pl->id }}</option>
+                    @endif
                 @endforeach
             </select>
             <input type="hidden" name="song" value="{{ $song->id }}">

@@ -9,6 +9,7 @@ a,
 p,
 label,
 li,
+td,
 input[type='submit']{
     color: #fff;
 }
@@ -22,3 +23,14 @@ input[type='submit']{
     background: #fff;
 }
 
+select,
+option{
+    color: #000;
+}
+
+
+
+
+.newsImage {
+    width: 10%;
+}

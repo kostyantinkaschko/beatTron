@@ -32,8 +32,8 @@ class GenresStorePostRequest extends FormRequest
     {
         return [
             "title" => "This parameter is required and has a maximum length of 255 characters.",
-            "description" => "This parameter is required and has a maximum length of 255 characters.", 
-            "year" => "This parameter is required and need be a number", 
+            "description" => "This parameter is required and has a maximum length of 255 characters.",
+            "year" => "This parameter is required and need be a number",
         ];
     }
 }

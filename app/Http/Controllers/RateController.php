@@ -9,7 +9,6 @@ use Illuminate\Support\Facades\Auth;
 
 class RateController extends Controller
 {
-
     /**
      * Handles the rating submission for a specific song.
      * If the user has already rated the song, it updates the rating. Otherwise, it creates a new rating.

@@ -18,8 +18,8 @@ class MedalController extends Controller
     public function index(Request $request)
     {
         $medals = Medal::withTrashed()
-        ->when($request->filled('name'), fn($q) => $q->where('name', 'like', '%' . $request->name . '%'))
-        ->when($request->filled('difficulty'), fn($q) => $q->where('difficulty', 'like', '%' . $request->difficulty . '%'))
+        ->when($request->filled('name'), fn ($q) => $q->where('name', 'like', '%' . $request->name . '%'))
+        ->when($request->filled('difficulty'), fn ($q) => $q->where('difficulty', 'like', '%' . $request->difficulty . '%'))
         ->when($request->filled('search'), function ($q) use ($request) {
             $q->where(function ($query) use ($request) {
                 $search = $request->search;
@@ -84,7 +84,7 @@ class MedalController extends Controller
         return to_route("medals");
     }
 
-      /**
+    /**
      * Delete a medal (mild delete)
      *
      * @param int $id
@@ -94,11 +94,11 @@ class MedalController extends Controller
         Medal::findOrFail($id)->delete();
         return to_route("medals");
     }
-     /**
-     * Restores a deleted medal
-     *
-     * @param int $id
-     */
+    /**
+    * Restores a deleted medal
+    *
+    * @param int $id
+    */
     public function restore($id)
     {
         Medal::onlyTrashed()->findOrFail($id)->restore();

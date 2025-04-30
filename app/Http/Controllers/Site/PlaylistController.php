@@ -3,13 +3,14 @@
 namespace App\Http\Controllers\Site;
 
 use App\Models\Playlist;
+use App\Traits\SongTrait;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 
 class PlaylistController extends Controller
 {
-
+    use SongTrait;
     /**
      * Displays a page with a list of playlists belonging to the authenticated user.
      * Redirects to the login page if the user is not authenticated.
@@ -30,14 +31,13 @@ class PlaylistController extends Controller
      * Creates a new playlist for the authenticated user.
      * Redirects to the playlists page after creation.
      *
-     * @return \Illuminate\View\View
      */
 
     public function create()
     {
         Playlist::create(['user_id' => Auth::user()->id]);
 
-        return view("site.playlists.playlists");
+        return to_route("playlists");
     }
 
 
@@ -53,37 +53,16 @@ class PlaylistController extends Controller
     {
 
         if (Auth::check()) {
-
             $playlist = Playlist::find($id);
             if ($playlist->user_id == Auth::user()->id) {
-                $songs = $playlist->songs;
+                $songs = $this->processSongs($playlist->songs);
 
-                $getID3 = new \getID3;
-                $extensions = ["mp3", "wav", "flac"];
-                $projectPath = str_replace("\public", '/', public_path());
-                $basePath = $projectPath . 'resources/songs/';
-
-                foreach ($songs as $song) {
-                    $found = false;
-
-                    foreach ($extensions as $ext) {
-                        $filePath = $basePath . $song->id . '.' . $ext;
-                        if (file_exists($filePath)) {
-                            $song->extension = $ext;
-                            $song->filePath = $filePath;
-                            $found = true;
-                            break;
-                        }
-                    }
-
-                    if ($found && file_exists($song->filePath)) {
-                        $info = $getID3->analyze($song->filePath);
-                        $song->duration = $info['playtime_string'] ?? null;
-                    } else {
-                        $song->duration = null;
-                    }
+                $playlists = collect([]);
+                if (Auth::check()) {
+                    $playlists = Playlist::where("user_id", "=", Auth::user()->id)->get();
                 }
-                return view("site.playlists.playlist", compact("playlist", "songs"));
+
+                return view("site.playlists.playlist", compact("playlist", "songs", "playlists"));
             } else {
                 return redirect("playlists");
             }
@@ -91,7 +70,7 @@ class PlaylistController extends Controller
             return redirect("login");
         }
     }
-     /**
+    /**
      * Adds a song to a playlist. If the playlist doesn't exist, it creates a new one.
      * Checks if the song is already in the playlist to prevent duplicates.
      *
