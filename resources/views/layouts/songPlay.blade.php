@@ -7,8 +7,15 @@
     @php $media = $song->getFirstMedia("songs"); @endphp
 
     @if($media)
-    <td>
-        <audio controls class="audio-player none" id="player{{ $song->id }}">
+    <td class="audio-player none">
+        <div class="audioInfo">
+            <h2>{{ $song->performer->name }}</h2>
+            <h2>{{ $song->name }}</h2>
+        </div>
+        <div class="listeningCount">
+            <h2>{{ $song->listening_count }} {{  $song->listening }}</h2>
+        </div>
+        <audio controls id="player{{ $song->id }}">
             <source src="{{ $media->getUrl() }}" type="audio/{{
                 $song->extension == 'mp3' ? 'mpeg' :
                 ($song->extension == 'wav' ? 'wav' :
@@ -17,7 +24,7 @@
         </audio>
     </td>
     @endif
-    <td>{{ $song->listening_count }} прослуховуваннь</td>
+    <td>{{ $song->listening_count }}{{ $song->listening }}</td>
 
     @if(isset($playlists) && Auth::check())
     <td>

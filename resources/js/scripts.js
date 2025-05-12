@@ -3,14 +3,16 @@ let currentSong = null,
 
 function audio(id) {
     let audioPlayer = document.querySelector("#player" + id),
-        audioPlayers = document.querySelectorAll(".audio-player")
+        audioContainers = document.querySelectorAll(".audio-player"),
+        audioTags = document.querySelectorAll(".audio-player audio")
 
     if (id !== currentSong) {
-        audioPlayers.forEach(player => {
-            player.classList.add("none")
-            player.pause()
-            player.currentTime = 0
+        audioContainers.forEach(container => container.classList.add("none"))
+        audioTags.forEach(audio => {
+            audio.pause()
+            audio.currentTime = 0
         })
+
         currentSong = id
         progressTracked[id] = false
     } else {
@@ -21,16 +23,14 @@ function audio(id) {
         }
     }
 
-    audioPlayer.classList.remove("none")
+    audioPlayer.closest(".audio-player").classList.remove("none")
     audioPlayer.play()
 
     if (!audioPlayer._trackingAttached) {
         audioPlayer.addEventListener("timeupdate", function () {
             let percentage = (audioPlayer.currentTime / audioPlayer.duration) * 100
-
             if (percentage >= 70 && !progressTracked[id]) {
                 progressTracked[id] = true
-
                 fetch(`songs/${id}/listen`, {
                     method: 'POST',
                     headers: {
@@ -42,7 +42,7 @@ function audio(id) {
         })
 
         audioPlayer.addEventListener("ended", function () {
-            let allPlayers = Array.from(document.querySelectorAll(".audio-player")),
+            let allPlayers = Array.from(document.querySelectorAll(".audio-player audio")),
                 currentIndex = allPlayers.findIndex(p => p.id === "player" + id),
                 nextPlayer = allPlayers[currentIndex + 1]
 
@@ -54,6 +54,4 @@ function audio(id) {
 
         audioPlayer._trackingAttached = true
     }
-
-    return audioPlayer
 }

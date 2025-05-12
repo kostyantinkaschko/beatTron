@@ -13,7 +13,41 @@ body {
     position: fixed;
     left: 0;
     bottom: 0;
+}
+
+.audio-player audio {
     background: #fff;
+    border-top: 3px solid grey;
+}
+
+.audio-player audio {
+    width: 100%;
+}
+
+.audioInfo,
+.listeningCount {
+    position: absolute;
+
+    padding: 10rem;
+    width: 20%;
+    text-align: center;
+    border-bottom: 6.5px solid grey;
+    background: #fff;
+}
+
+.audioInfo {
+    top: -75.7rem;
+    right: 11rem;
+}
+
+.listeningCount {
+    top: -228%;
+    left: 79.2%;
+}
+
+.audioInfo h2,
+.listeningCount h2 {
+    color: #000;
 }
 
 .none {
@@ -99,6 +133,67 @@ h1,
     width: 10%;
 }
 
+.navLinks {
+    display: flex;
+    column-gap: 20rem;
+}
+
+.searchForm {
+    display: flex;
+    align-items: center;
+    column-gap: 10rem;
+}
+
+.searchForm input {
+    /* position: relative; */
+    font-size: 16rem;
+    padding: 10rem;
+}
+
+.searchSubmit {
+    position: relative;
+    cursor: pointer;
+}
+
+.searchSubmit {
+    width: 50rem;
+}
+
+
+
+.searchSubmit:after {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 50%;
+    width: 28rem;
+    height: 27rem;
+    background-image: url(http://[::1]:5173/resources/img/searchIcon.svg);
+    background-size: 28rem;
+    background-position: 0 28px;
+    transform: translate(50%, -50%);
+}
+
+.dropdownMenu button,
+.dropdownMenu a {
+    font-size: 14rem;
+}
+
+.dropdownMenuBlock {
+    background: rgb(55 65 81 / var(--tw-bg-opacity, 1));
+}
+
+.dropdownMenu a {
+    padding: 20rem;
+    width: 160rem;
+}
+
+.svgArrow svg {
+    width: 15rem;
+    height: 30rem;
+}
+
+
 .wrapper {
     max-width: 960rem;
     margin: 0 auto;
@@ -107,9 +202,9 @@ h1,
 
 
 .navLinks a {
-    font-size: 16rem;
+    font-size: 14rem;
 }
 
-.topline{
+.topline {
     padding: 15rem;
 }

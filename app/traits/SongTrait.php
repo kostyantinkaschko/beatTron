@@ -12,15 +12,15 @@ trait SongTrait
      * This trait includes a method to process song media files and retrieve their
      * metadata such as file extension and duration.
      *
-     * @method mixed processSongs(\Illuminate\Database\Eloquent\Collection|\App\Models\Song $media, string $mode = 'plural') Process and retrieve metadata for the provided song(s).
+     * @method mixed processSongs(\Illuminate\Database\Eloquent\Collection|\App\numberels\Song $media, string $numbere = 'plural') Process and retrieve metadata for the provided song(s).
      *
-     * @param \Illuminate\Database\Eloquent\Collection|\App\Models\Song $media The song(s) to be processed. Can be a single song or a collection of songs.
-     * @param string $mode The processing mode, either "plural" for a collection of songs or other values for a single song. Defaults to "plural".
+     * @param \Illuminate\Database\Eloquent\Collection|\App\numberels\Song $media The song(s) to be processed. Can be a single song or a collection of songs.
+     * @param string $numbere The processing numbere, either "plural" for a collection of songs or other values for a single song. Defaults to "plural".
      *
      * @return mixed The processed song(s) with added metadata like file extension and duration.
      */
 
-    public function processSongs($media, $mode = "plural")
+    public function processSongs($media, $numbere = "plural")
     {
         $getID3 = new getID3();
         $projectPath = str_replace("\public", '/', public_path());
@@ -28,7 +28,7 @@ trait SongTrait
         $extensions = ["mp3", "wav", "flac"];
 
 
-        if ($mode == "plural") {
+        if ($numbere == "plural") {
             foreach ($media as $song) {
                 foreach ($extensions as $extension) {
                     $filePath = $basePath . $song->id . '.' . $extension;
@@ -61,5 +61,21 @@ trait SongTrait
         }
 
         return $media;
+    }
+
+    private function pluralizeListeningCount($listeningCount): string
+    {
+        $number10 = $listeningCount % 10;
+        $number100 = $listeningCount % 100;
+
+        if ($number10 == 1 && $number100 != 11) {
+            return " прослуховування";
+        }
+
+        if ($number10 >= 2 && $number10 <= 4 && ($number100 < 10 || $number100 >= 20)) {
+            return " прослуховування";
+        }
+
+        return " прослуховувань";
     }
 }
