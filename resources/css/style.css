@@ -15,6 +15,10 @@ body {
     bottom: 0;
 }
 
+header {
+    margin-bottom: 20rem;
+}
+
 .audio-player audio {
     background: #fff;
     border-top: 3px solid grey;
@@ -66,12 +70,6 @@ body {
     justify-content: center;
 }
 
-.diskBlock {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-
 .diskBlock img {
     width: 200rem;
 }
@@ -93,22 +91,31 @@ option {
     color: #000;
 }
 
-h1,
-.performers,
-.genres {
-    padding-top: 30rem;
+.lackOfPlaylists {
+    font-size: 8rem;
+    display: flex;
+    align-items: center;
+}
+
+.addSongToPlaylist {
+    display: flex;
+    align-items: center;
+    column-gap: 8rem;
 }
 
 .performers,
-.genres {
+.genres,
+.disks {
     display: flex;
     flex-direction: column;
     align-items: center;
     row-gap: 20rem;
+    padding-top: 30rem;
 }
 
 .performerBlock,
-.genreBlock {
+.genreBlock,
+.diskBlock {
     display: flex;
     justify-content: center;
     column-gap: 10rem;
@@ -116,7 +123,8 @@ h1,
 }
 
 .performer,
-.genre {
+.genre,
+.disk {
     display: block;
     padding: 20rem;
     color: #e5e7eb;
@@ -128,6 +136,35 @@ h1,
 .pagination {
     width: 100%;
 }
+
+.pagination p,
+.pagination a,
+.pagination span {
+    font-size: 13rem;
+}
+
+.pagination svg {
+    width: 20rem;
+    height: 20rem;
+}
+
+.pagination a {
+    padding: 10rem;
+    margin-right: 10rem;
+    height: 30rem;
+}
+
+
+.pagination span.relative {
+    padding: 10rem;
+    margin-right: 10rem;
+    height: 30rem;
+}
+
+main h1 {
+    font-size: 17rem;
+}
+
 
 .newsImage {
     width: 10%;
@@ -207,4 +244,71 @@ h1,
 
 .topline {
     padding: 15rem;
+}
+
+.song {
+    background: grey;
+    border: 3rem solid darkblue;
+    border-radius: 4rem;
+    display: flex;
+    margin-bottom: 5rem;
+    align-items: center;
+}
+
+.song td:not(:first-child) {
+    margin-right: 10rem;
+}
+
+.play-cell {
+    margin-right: 25rem;
+}
+
+#play-button {
+    position: relative;
+    width: 24px;
+    height: 24px;
+    background: none;
+    border: none;
+    cursor: pointer;
+}
+
+#play-button::before {
+    content: "";
+    position: absolute;
+    left: 8px;
+    top: 6px;
+    width: 0;
+    height: 0;
+    border-top: 6px solid transparent;
+    border-bottom: 6px solid transparent;
+    border-left: 10px solid blue;
+}
+
+#play-button.playing::before {
+    content: "";
+    position: absolute;
+    left: 6px;
+    top: 4px;
+    width: 4px;
+    height: 16px;
+    background: blue;
+    box-shadow: 8px 0 0 blue;
+    border: none;
+}
+
+select {
+    all: unset;
+    font-size: 16rem;
+    height: 23rem;
+    width: 140rem;
+    border: 3px solid black;
+    border-radius: 10rem;
+    padding: 4rem;
+    text-align: center;
+    cursor: pointer;
+}
+
+select:hover,
+select:focus {
+    filter: drop-shadow(2px 4px 6px black);
 }

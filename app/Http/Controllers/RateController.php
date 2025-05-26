@@ -6,6 +6,7 @@ use App\Models\User;
 use App\Models\Rating;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use App\Http\Requests\RatePostRequest;
 
 class RateController extends Controller
 {
@@ -17,7 +18,7 @@ class RateController extends Controller
      * @param  int  $id  The ID of the song being rated
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function index(Request $request, $id)
+    public function index(RatePostRequest $request, $id)
     {
         $ratingValue = $request->post("rate");
 
@@ -36,6 +37,8 @@ class RateController extends Controller
                 'rate' => $ratingValue,
             ]);
         }
+
+        $averageRate = Rating::where('song_id', $id)->avg('rate');
 
         return redirect()->back();
     }

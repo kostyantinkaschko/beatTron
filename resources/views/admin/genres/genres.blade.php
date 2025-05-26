@@ -61,7 +61,7 @@
             </tr>
             @endforeach
         </table>
-        <div class="mt-4">
+        <div class="mt-4 pagination">
             {{ $genres->appends(request()->query())->links() }}
         </div>
     </x-slot>

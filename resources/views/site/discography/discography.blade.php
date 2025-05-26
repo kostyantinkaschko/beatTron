@@ -1,21 +1,26 @@
 <x-site-layout>
     <x-slot name="main">
+        <h1 class="text-center">Disks</h1>
         <div class="disks">
-            @foreach ($disks as $disk)
             <div class="diskBlock">
+                @foreach ($disks as $i => $disk)
                 @php
                 $media = $disk->getFirstMedia("disks");
                 @endphp
-
-                @if($media)
-                <img src="{{ $media->getUrl() }}" alt="Disk image">
-                @endif
-                <a class="disks" href="{{ route("disk", $disk->id ) }}">{{ $disk->name }}</a>
+                <a class="disk" href="{{ route("disk", $disk->id ) }}">
+                    @if($media)
+                    <img src="{{ $media->getUrl() }}" alt="Disk image">
+                    @endif
+                    {{ $disk->name }}
+                </a>
+                @if($i % 10 == false && $i != 0)
             </div>
-            @endforeach
-        </div>
-        <div class="mt-4">
-            {{ $disks->appends(request()->query())->links() }}
-        </div>
+            <div class="diskBlock">
+                @endif
+                @endforeach
+            </div>
+            <div class="mt-4 pagination">
+                {{ $disks->appends(request()->query())->links() }}
+            </div>
     </x-slot>
 </x-site-layout>

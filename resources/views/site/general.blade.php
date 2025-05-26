@@ -1,24 +1,26 @@
 <x-site-layout>
     <x-slot name="main">
-        <h2>Songs</h2>
-        <table>
+        <table class="songs">
             <tbody>
                 @foreach ($songs as $song)
                 @include('layouts.songPlay')
                 @endforeach
             </tbody>
         </table>
-        <h2>News</h2>
         <ul>
             @foreach ($news as $item)
-            @php
-            $media = $item->getFirstMedia("news");
-            @endphp
+            <li>
+                @php
+                $media = $item->getFirstMedia("news");
+                @endphp
 
-            @if($media)
-            <img class="newsImage" src="{{ $media->getUrl() }}" alt="Article image">
-            @endif
-            <li>{{ $item->title }}</li>
+                <a href="{{ route("article", $item->id) }}">
+                    @if($media)
+                    <img class="newsImage" src="{{ $media->getUrl() }}" alt="Article image">
+                    @endif
+                    {{ $item->title }}
+                </a>
+            </li>
             @endforeach
         </ul>
 

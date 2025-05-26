@@ -3,6 +3,8 @@
 namespace App\Traits;
 
 use getID3;
+use App\Models\Rating;
+use Illuminate\Support\Facades\Auth;
 
 trait SongTrait
 {
@@ -15,7 +17,7 @@ trait SongTrait
      * @method mixed processSongs(\Illuminate\Database\Eloquent\Collection|\App\numberels\Song $media, string $numbere = 'plural') Process and retrieve metadata for the provided song(s).
      *
      * @param \Illuminate\Database\Eloquent\Collection|\App\numberels\Song $media The song(s) to be processed. Can be a single song or a collection of songs.
-     * @param string $numbere The processing numbere, either "plural" for a collection of songs or other values for a single song. Defaults to "plural".
+     * @param string $numbere  The processing numbere, either "plural" for a collection of songs or other values for a single song. Defaults to "plural".
      *
      * @return mixed The processed song(s) with added metadata like file extension and duration.
      */
@@ -28,7 +30,7 @@ trait SongTrait
         $extensions = ["mp3", "wav", "flac"];
 
 
-        if ($numbere == "plural") {
+        if ($numbere === "plural") {
             foreach ($media as $song) {
                 foreach ($extensions as $extension) {
                     $filePath = $basePath . $song->id . '.' . $extension;
@@ -39,12 +41,15 @@ trait SongTrait
                     }
                 }
 
-                if (!isset($song->filePath) || !file_exists($song->filePath)) {
-                    continue;
-                }
-
-                $info = $getID3->analyze($song->filePath);
+                $info = $getID3->analyze($song->filePath ?? '');
                 $song->duration = $info['playtime_string'] ?? null;
+                $song->average_rate = $song->ratings()->avg('rate');
+
+                if (Auth::check()) {
+                    $song->user_rate = optional(
+                        $song->ratings()->where('user_id', Auth::id())->first()
+                    )->rate;
+                }
             }
         } else {
             foreach ($extensions as $extension) {
@@ -56,9 +61,20 @@ trait SongTrait
                 }
             }
 
-            $info = $getID3->analyze($media->filePath);
-            $media->duration = $info['playtime_string'] ?? null;
+            if (isset($media->filePath)) {
+                $info = $getID3->analyze($media->filePath);
+                $media->duration = $info['playtime_string'] ?? null;
+            }
+
+            $media->average_rate = $media->ratings()->avg('rate');
+
+            if (Auth::check()) {
+                $media->user_rate = optional(
+                    $media->ratings()->where('user_id', Auth::id())->first()
+                )->rate;
+            }
         }
+
 
         return $media;
     }

@@ -1,7 +1,8 @@
 @if ($song)
-<tr>
-    <td><button id="play-button" onclick="audio({{ $song->id }})">Відтворити</button></td>
-    <td class="text-red-50">{{ $song->performer->name }}:</td>
+<tr class="song">
+    <td class="play-cell"><button id="play-button" onclick="audio({{ $song->id }})"></button></td>
+    <td class="text-red-50 performer_name">{{ $song->performer->name }}</td>
+    <td class="text-red-50">-</td>
     <td class="text-blue-200">{{ $song->name }}</td>
 
     @php $media = $song->getFirstMedia("songs"); @endphp
@@ -13,7 +14,7 @@
             <h2>{{ $song->name }}</h2>
         </div>
         <div class="listeningCount">
-            <h2>{{ $song->listening_count }} {{  $song->listening }}</h2>
+            <h2>{{ $song->listening_count }} {{ $song->listening }}</h2>
         </div>
         <audio controls id="player{{ $song->id }}">
             <source src="{{ $media->getUrl() }}" type="audio/{{
@@ -24,45 +25,52 @@
         </audio>
     </td>
     @endif
+    @endif
     <td>{{ $song->listening_count }}{{ $song->listening }}</td>
 
     @if(isset($playlists) && Auth::check())
     <td>
-        <form action="{{ route('addSong') }}" method="post">
+        @php
+        $availablePlaylists = $playlists->filter(fn($pl) => !$song->playlists->contains('id', $pl->id));
+        @endphp
+
+        <form action="{{ route('addSong') }}" method="post" class="addSongToPlaylist">
             @csrf
-            <select name="playlist">
+
+            @if($availablePlaylists->isNotEmpty())
+            <select name="playlist" class="playlist_select" {{ $availablePlaylists->isEmpty() ? 'disabled' : '' }}>
                 <option value="create">
-                    @if(!empty($playlists))
                     Select Playlist
-                    @else
-                    Create Playlist
-                    @endif
                 </option>
-                @foreach ($playlists as $pl)
-                    @if(isset($playlist) && $pl->id != $playlist->id)
-                        <option value="{{ $pl->id }}">{{ $pl->id }}</option>
-                    @else
-                        <option value="{{ $pl->id }}">{{ $pl->id }}</option>
+                @else
+                <select class="playlist_select lackOfPlaylists" {{ $availablePlaylists->isEmpty() ? 'disabled' : '' }}>
+                    <option value="create">
+                        Song already in all your playlists
+                    </option>
                     @endif
-                @endforeach
-            </select>
-            <input type="hidden" name="song" value="{{ $song->id }}">
-            <input type="submit">
+
+                    @foreach ($availablePlaylists as $pl)
+                    <option value="{{ $pl->id }}">{{ $pl->id }}</option>
+                    @endforeach
+                </select>
+
+                <input type="hidden" name="song" value="{{ $song->id }}">
+                <input type="submit" value="Send" {{ $availablePlaylists->isEmpty() ? 'disabled' : '' }}>
         </form>
+
     </td>
     <td>
-        <form action="{{ route('songRate', $song->id) }}" method="post">
+        <form action="{{ route("songRate", $song->id) }}" method="post">
             @csrf
-            <select name="rate">
-                <option value="1">1</option>
-                <option value="2">2</option>
-                <option value="3">3</option>
-                <option value="4">4</option>
-                <option value="5">5</option>
+            <select name="rate" data-song-id="{{ $song->id }}" class="rate-select">
+                <option value="empty">Rate the Song</option>
+                @for ($i = 1; $i <= 5; $i++)
+                    <option value="{{ $i }}" {{ $song->user_rate == $i ? "selected" : "" }}>{{ $i }}</option>
+                    @endfor
             </select>
-            <input type="submit">
+            <input type="submit" value="Send">
         </form>
     </td>
-    @endif
+    <td>Rating: {{ $song->average_rate ?? "none"}}</td>
 </tr>
 @endif

@@ -1,6 +1,6 @@
  <x-site-layout>
      <x-slot name="main">
-         <h1 class="text-center text-5xl">Genres</h1>
+         <h1 class="text-center">Genres</h1>
          <div class="genres">
              <div class="genreBlock">
                  @foreach ($genres as $i => $genre)

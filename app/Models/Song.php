@@ -62,4 +62,9 @@ class Song extends Model implements HasMedia
     {
         return $this->belongsToMany(Playlist::class, 'playlists_songs')->withPivot('id');
     }
+
+    public function ratings()
+    {
+        return $this->hasMany(Rating::class);
+    }
 }

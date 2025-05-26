@@ -91,7 +91,7 @@
             </tr>
             @endforeach
         </table>
-        <div class="mt-4">
+        <div class="mt-4 pagination">
             {{ $disks->appends(request()->query())->links() }}
         </div>
     </x-slot>

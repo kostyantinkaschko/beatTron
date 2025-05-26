@@ -1,10 +1,17 @@
 let currentSong = null,
-    progressTracked = {}
+    progressTracked = {},
+    currentAudio = null,
+    currentButton = null,
+    csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+
 
 function audio(id) {
     let audioPlayer = document.querySelector("#player" + id),
         audioContainers = document.querySelectorAll(".audio-player"),
-        audioTags = document.querySelectorAll(".audio-player audio")
+        audioTags = document.querySelectorAll(".audio-player audio"),
+        buttonElement = document.querySelector(`#play-button`)
+
+    if (!audioPlayer) return
 
     if (id !== currentSong) {
         audioContainers.forEach(container => container.classList.add("none"))
@@ -13,18 +20,27 @@ function audio(id) {
             audio.currentTime = 0
         })
 
+        if (currentButton) {
+            currentButton.classList.remove("playing")
+        }
+
         currentSong = id
         progressTracked[id] = false
+        currentAudio = audioPlayer
+        currentButton = buttonElement
+
+        audioPlayer.closest(".audio-player").classList.remove("none")
+        audioPlayer.play()
+        buttonElement.classList.add("playing")
     } else {
         if (audioPlayer.paused) {
-            return audioPlayer.play()
+            audioPlayer.play()
+            buttonElement.classList.add("playing")
         } else {
-            return audioPlayer.pause()
+            audioPlayer.pause()
+            buttonElement.classList.remove("playing")
         }
     }
-
-    audioPlayer.closest(".audio-player").classList.remove("none")
-    audioPlayer.play()
 
     if (!audioPlayer._trackingAttached) {
         audioPlayer.addEventListener("timeupdate", function () {
@@ -42,6 +58,8 @@ function audio(id) {
         })
 
         audioPlayer.addEventListener("ended", function () {
+            buttonElement.classList.remove("playing")
+
             let allPlayers = Array.from(document.querySelectorAll(".audio-player audio")),
                 currentIndex = allPlayers.findIndex(p => p.id === "player" + id),
                 nextPlayer = allPlayers[currentIndex + 1]

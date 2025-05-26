@@ -35,7 +35,7 @@ class DatabaseSeeder extends Seeder
         Genre::factory(200)->create();
 
         Performer::factory(90)->create();
-        News::factory(20)->create();
+        // News::factory(20)->create();
 
         Discography::factory(100)->create();
 

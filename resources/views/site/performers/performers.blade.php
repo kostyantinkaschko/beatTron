@@ -1,6 +1,6 @@
 <x-site-layout>
     <x-slot name="main">
-        <h1 class="text-center text-5xl">Performers</h1>
+        <h1 class="text-center">Performers</h1>
         <div class="performers">
             <div class="performerBlock">
                 @foreach ($performers as $i => $performer)

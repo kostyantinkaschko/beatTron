@@ -29,8 +29,8 @@ class GeneralController extends Controller
      */
     public function index()
     {
-        $songs = $this->processSongs(Song::where("status", "=", "public")->take(10)->get());
-        foreach($songs as $song){
+        $songs = $this->processSongs(Song::with('playlists')->where("status", "=", "public")->take(10)->get());
+        foreach ($songs as $song) {
             $song->listening = $this->pluralizeListeningCount($song->listening_count);
         }
         $performers = Performer::withTrashed()->take(10)->get();
