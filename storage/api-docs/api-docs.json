@@ -13,9 +13,246 @@
         {
             "url": "http://localhost:8000",
             "description": "Local development server"
+        },
+        {
+            "url": "http://localhost:8000",
+            "description": "Local development server"
         }
     ],
     "paths": {
+        "/api/v1/performer": {
+            "get": {
+                "tags": [
+                    "Performers"
+                ],
+                "summary": "Get performers",
+                "operationId": "f810a88fcff78f0aa3d4f8056701667d",
+                "responses": {
+                    "200": {
+                        "description": "Performer list",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/PerformerResource"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/performers/{id}": {
+            "get": {
+                "tags": [
+                    "Performers"
+                ],
+                "summary": "Get one performer",
+                "operationId": "de8c5081340107165ede1f97645535a8",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Performer id",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "One performer",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/PerformerResource"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Not found"
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "Performers"
+                ],
+                "summary": "Update performer",
+                "operationId": "4b7f2128949491cc97ffbecf0c33d389",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Performer id for update",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "name",
+                                    "instagram",
+                                    "facebook",
+                                    "x",
+                                    "youtube"
+                                ],
+                                "properties": {
+                                    "name": {
+                                        "type": "string",
+                                        "example": "Omega Petya"
+                                    },
+                                    "instagram": {
+                                        "type": "string",
+                                        "example": "https://www.instagram.com/"
+                                    },
+                                    "facebook": {
+                                        "type": "string",
+                                        "example": "https://www.facebook.com/"
+                                    },
+                                    "x": {
+                                        "type": "string",
+                                        "example": "https://x.com/"
+                                    },
+                                    "youtube": {
+                                        "type": "string",
+                                        "example": "https://www.youtube.com/"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/PerformerResource"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Performer is not found"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "Performers"
+                ],
+                "summary": "Destroy performer",
+                "operationId": "dba64e7d5d400c4f8bf3a4f624af3ee8",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Performer id for destroying",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Performer has been destroy",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Performer deleted successfully"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Performer is not found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Performer not found"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/performers": {
+            "post": {
+                "tags": [
+                    "Performers"
+                ],
+                "operationId": "bd9efe34979c2937557f2cf5a8087d44",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/PerformersStorePostRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Performer successfully created",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/PerformerResource"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
         "/api/v1/songs": {
             "get": {
                 "tags": [
@@ -256,45 +493,43 @@
                     }
                 ]
             }
-        },
-        "/api/v1/song/{id}": {
-            "get": {
-                "tags": [
-                    "Songs"
-                ],
-                "summary": "Get one song",
-                "operationId": "c470238195ba496882a9071226dcd856",
-                "parameters": [
-                    {
-                        "name": "id",
-                        "in": "path",
-                        "description": "Song id",
-                        "required": true,
-                        "schema": {
-                            "type": "integer"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "One song",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/SongResource"
-                                }
-                            }
-                        }
-                    },
-                    "404": {
-                        "description": "Not found"
-                    }
-                }
-            }
         }
     },
     "components": {
         "schemas": {
+            "PerformersStorePostRequest": {
+                "required": [
+                    "name",
+                    "instagram",
+                    "facebook",
+                    "x",
+                    "youtube"
+                ],
+                "properties": {
+                    "name": {
+                        "description": "* @OA\\Schema(\n*     schema=\"PerformersStorePostRequest\",\n*     required={\"name\", \"instagram\", \"facebook\", \"x\", \"youtube\"},\n*     @OA\\Property(property=\"name\", type=\"string\", example=\"Omega Petya\"),\n*     @OA\\Property(property=\"instagram\", type=\"string\", example=\"https://www.instagram.com/\"),\n*     @OA\\Property(property=\"facebook\", type=\"string\", example=\"https://www.facebook.com/\"),\n*     @OA\\Property(property=\"x\", type=\"string\", example=\"https://x.com/\"),\n*     @OA\\Property(property=\"youtube\", type=\"string\", example=\"https://www.youtube.com/\")\n* )",
+                        "type": "string",
+                        "example": "Omega Petya"
+                    },
+                    "instagram": {
+                        "type": "string",
+                        "example": "https://www.instagram.com/"
+                    },
+                    "facebook": {
+                        "type": "string",
+                        "example": "https://www.facebook.com/"
+                    },
+                    "x": {
+                        "type": "string",
+                        "example": "https://x.com/"
+                    },
+                    "youtube": {
+                        "type": "string",
+                        "example": "https://www.youtube.com/"
+                    }
+                },
+                "type": "object"
+            },
             "SongStorePostRequest": {
                 "required": [
                     "genre_id",
@@ -333,6 +568,40 @@
                     "status": {
                         "type": "string",
                         "example": "public"
+                    }
+                },
+                "type": "object"
+            },
+            "PerformerResource": {
+                "title": "Performer Resource",
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "name": {
+                        "type": "string",
+                        "example": "Omega Petya"
+                    },
+                    "instagram": {
+                        "type": "string",
+                        "example": "https://www.instagram.com/"
+                    },
+                    "facebook": {
+                        "type": "string",
+                        "example": "https://www.facebook.com/"
+                    },
+                    "x": {
+                        "type": "string",
+                        "example": "https://x.com/"
+                    },
+                    "youtube": {
+                        "type": "string",
+                        "example": "https://www.youtube.com/"
+                    },
+                    "songs_count": {
+                        "type": "integer",
+                        "example": 5
                     }
                 },
                 "type": "object"
@@ -394,6 +663,10 @@
         }
     },
     "tags": [
+        {
+            "name": "Performers",
+            "description": "Operations with performers"
+        },
         {
             "name": "Songs",
             "description": "Operations with songs"

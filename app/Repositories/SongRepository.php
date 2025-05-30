@@ -16,28 +16,6 @@ class SongRepository
         return $this->songFormatting($songs, "plural");
     }
 
-     /**
-     * @OA\Get(
-     *     path="/api/v1/song/{id}",
-     *     tags={"Songs"},
-     *     summary="Get one song",
-     *     @OA\Parameter(
-     *         name="id",
-     *         in="path",
-     *         required=true,
-     *         description="Song id",
-     *         @OA\Schema(type="integer")
-     *     ),
-     *     @OA\Response(
-     *         response=200,
-     *         description="One song",
-     *         @OA\JsonContent(ref="#/components/schemas/SongResource")
-     *     ),
-     *     @OA\Response(response=404, description="Not found")
-     * 
-     * )
-     */
-
     public function find($id)
     {
         $songs = $this->processSongs(Song::where("status", "=", "public")->find($id), "alone");
@@ -49,13 +27,13 @@ class SongRepository
         return Song::create($data);
     }
 
-    public function update($data, $id) // SongStorePostApiRequest $request
+    public function update($data, $id)
     {
-        $Song = Song::find($id);
-        if ($Song) {
-            $Song->update($data);
+        $song = Song::find($id);
+        if ($song) {
+            $song->update($data);
         }
-        return $Song;
+        return $song;
     }
 
     public function delete($id)

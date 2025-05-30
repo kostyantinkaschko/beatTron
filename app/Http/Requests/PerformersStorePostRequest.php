@@ -4,6 +4,19 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Auth;
+use OpenApi\Annotations as OA;
+
+/**
+* @OA\Schema(
+*     schema="PerformersStorePostRequest",
+*     required={"name", "instagram", "facebook", "x", "youtube"},
+*     @OA\Property(property="name", type="string", example="Omega Petya"),
+*     @OA\Property(property="instagram", type="string", example="https://www.instagram.com/"),
+*     @OA\Property(property="facebook", type="string", example="https://www.facebook.com/"),
+*     @OA\Property(property="x", type="string", example="https://x.com/"),
+*     @OA\Property(property="youtube", type="string", example="https://www.youtube.com/")
+* )
+*/
 
 class PerformersStorePostRequest extends FormRequest
 {
@@ -24,10 +37,10 @@ class PerformersStorePostRequest extends FormRequest
     {
         return [
             "name" => ["required", "string", "max:255"],
-            "instagram" => ["required", "string", "max:255"],
-            "facebook" => ["required", "string", "max:255"],
-            "x" => ["required", "string", "max:255"],
-            "youtube" => ["required", "string", "max:255"],
+            "instagram" => ["required", "url"],
+            "facebook" => ["required", "url"],
+            "x" => ["required", "url", "max:255"],
+            "youtube" => ["required", "url"],
         ];
     }
 

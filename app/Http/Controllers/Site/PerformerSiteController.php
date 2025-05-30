@@ -107,14 +107,15 @@ class PerformerSiteController extends Controller
 
         return to_route('performerPage', ['id' => $performer->id]);
     }
-
     public function show($id)
     {
         $performer = Performer::findOrFail($id);
-        $this->performerFormatting($performer, 'alone');
+        $performer->songCount = $performer->song()->count();
 
         $performerGTM = $this->service->viewPerformerPage($performer);
-        // dd($songGTM);
+
+        $performer = $this->performerFormatting($performer, 'alone');
+
         return view('site.performers.show', compact('performer', 'performerGTM'));
     }
 }

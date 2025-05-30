@@ -75,7 +75,7 @@ class SongController extends Controller
 
     public function show($id){
         $song = Song::findOrFail($id);
-        $this->songFormatting($song, 'alone');
+        $song = $this->songFormatting($song, 'alone');
 
         $songGTM = $this->service->viewSongPage($song);
         // dd($songGTM);

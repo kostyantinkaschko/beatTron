@@ -5,6 +5,7 @@ namespace App\Traits;
 use App\Models\Song;
 use App\Models\User;
 use App\Models\Rating;
+use App\Models\Performer;
 
 trait PerformerTrait
 {
@@ -58,4 +59,5 @@ trait PerformerTrait
             return $result;
         }
     }
+
 }
