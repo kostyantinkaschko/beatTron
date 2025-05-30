@@ -2,8 +2,12 @@
 
 namespace App\Traits;
 
+use App\Http\Requests\SongStorePostRequest;
 use getID3;
+use App\Models\Genre;
 use App\Models\Rating;
+use App\Models\Performer;
+use App\Models\Discography;
 use Illuminate\Support\Facades\Auth;
 
 trait SongTrait
@@ -50,6 +54,7 @@ trait SongTrait
                         $song->ratings()->where('user_id', Auth::id())->first()
                     )->rate;
                 }
+                $song->performer_name = Performer::find($song->performer_id)->name;
             }
         } else {
             foreach ($extensions as $extension) {
@@ -73,9 +78,8 @@ trait SongTrait
                     $media->ratings()->where('user_id', Auth::id())->first()
                 )->rate;
             }
+            $media->performer_name = Performer::find($media->performer_id)->name;
         }
-
-
         return $media;
     }
 
@@ -93,5 +97,40 @@ trait SongTrait
         }
 
         return " прослуховувань";
+    }
+
+    public function songFormatting($data, $mode = "plural")
+    {
+        function writeData($item, $itemMedia)
+        {
+            return  [
+                'id' => $item->id,
+                'genre' => Genre::find($item->genre_id)->title,
+                'performer' => Performer::find($item->performer_id)->name,
+                'disk' => Discography::find($item->disk_id)->name,
+                "name" => $item->name,
+                "year" => $item->year,
+                "status" => $item->status,
+                "song" => [
+                    "url" => $itemMedia->getUrl(),
+                    "name" => $itemMedia->name,
+                    "mime" => $itemMedia->mime_type,
+                    "size" => $itemMedia->size
+                ]
+            ];
+        }
+
+        if ($mode == "alone") {
+            $itemMedia = $data->getFirstMedia("songs");
+            return writeData($data, $itemMedia);
+        } else if ($mode == "plural") {
+            $result = [];
+            foreach ($data as $item) {
+                $itemMedia = $item->getFirstMedia("songs");
+                $result[] = writeData($item, $itemMedia);
+            }
+
+            return $result;
+        }
     }
 }

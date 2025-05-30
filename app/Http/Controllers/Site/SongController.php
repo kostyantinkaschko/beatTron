@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Site;
 
+use App\Http\Services\GoogleTagManagerService;
 use App\Models\Song;
 use App\Models\Playlist;
 use App\Traits\SongTrait;
@@ -13,6 +14,12 @@ class SongController extends Controller
 {
     use SongTrait;
 
+    protected GoogleTagManagerService $service;
+
+    public function __construct(GoogleTagManagerService $service)
+    {
+        $this->service = $service;
+    }
     /**
      * Increments the listening count of a specific song.
      * Returns an error if the song is not found.
@@ -57,5 +64,21 @@ class SongController extends Controller
         }
 
         return view("site.song", compact("song", "playlists"));
+    }
+
+    public function viewSongPage()
+    {
+        return [
+            'event' => 'view_item'
+        ];
+    }
+
+    public function show($id){
+        $song = Song::findOrFail($id);
+        $this->songFormatting($song, 'alone');
+
+        $songGTM = $this->service->viewSongPage($song);
+        // dd($songGTM);
+        return view('site.song.show', compact('song', 'songGTM'));
     }
 }

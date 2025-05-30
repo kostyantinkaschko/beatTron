@@ -1,7 +1,7 @@
 @if ($song)
 <tr class="song">
     <td class="play-cell"><button id="play-button" onclick="audio({{ $song->id }})"></button></td>
-    <td class="text-red-50 performer_name">{{ $song->performer->name }}</td>
+    <td class="text-red-50 performer_name">{{ $song->performer_name }}</td>
     <td class="text-red-50">-</td>
     <td class="text-blue-200">{{ $song->name }}</td>
 
@@ -10,7 +10,7 @@
     @if($media)
     <td class="audio-player none">
         <div class="audioInfo">
-            <h2>{{ $song->performer->name }}</h2>
+            <h2>{{ $song->performer_name }}</h2>
             <h2>{{ $song->name }}</h2>
         </div>
         <div class="listeningCount">

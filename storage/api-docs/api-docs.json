@@ -1,0 +1,402 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "BeatTronAPI",
+        "description": "Operations with songs",
+        "version": "1.0.0"
+    },
+    "servers": [
+        {
+            "url": "http://localhost:8000",
+            "description": "Server"
+        },
+        {
+            "url": "http://localhost:8000",
+            "description": "Local development server"
+        }
+    ],
+    "paths": {
+        "/api/v1/songs": {
+            "get": {
+                "tags": [
+                    "Songs"
+                ],
+                "summary": "Get songs",
+                "operationId": "f6f7ea6450a2c837348ec1d945d9fe11",
+                "responses": {
+                    "200": {
+                        "description": "Song list",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/SongResource"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "Songs"
+                ],
+                "operationId": "a495278b1491ef72729814001a378e0a",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/SongStorePostRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Song successfully created",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/SongResource"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/songs/{id}": {
+            "get": {
+                "tags": [
+                    "Songs"
+                ],
+                "summary": "Get one song",
+                "operationId": "184797b4d744e229ff6bf3b45c805b1c",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Song id",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "One song",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/SongResource"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Not found"
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "Songs"
+                ],
+                "summary": "Update song",
+                "operationId": "e7d10c47566a0b52d1c8eb10815d1e8b",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Song id for update",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "genre_id",
+                                    "performer_id",
+                                    "disk_id",
+                                    "name",
+                                    "listening_count",
+                                    "year",
+                                    "status"
+                                ],
+                                "properties": {
+                                    "genre_id": {
+                                        "type": "integer",
+                                        "example": "1"
+                                    },
+                                    "performer_id": {
+                                        "type": "integer",
+                                        "example": "1"
+                                    },
+                                    "disk_id": {
+                                        "type": "integer",
+                                        "example": "1"
+                                    },
+                                    "name": {
+                                        "type": "string",
+                                        "example": "Omega Petya"
+                                    },
+                                    "listening_count": {
+                                        "type": "integer",
+                                        "example": "1"
+                                    },
+                                    "year": {
+                                        "type": "integer",
+                                        "example": "2023"
+                                    },
+                                    "status": {
+                                        "type": "string",
+                                        "example": "public"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/SongResource"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Song is not found"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "Songs"
+                ],
+                "summary": "Destroy song",
+                "operationId": "04b33be6278d3608791f29a342feb50b",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Song id for destroying",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Song has been destroy",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Song deleted successfully"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Song is not found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Song not found"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/song/{id}": {
+            "get": {
+                "tags": [
+                    "Songs"
+                ],
+                "summary": "Get one song",
+                "operationId": "c470238195ba496882a9071226dcd856",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Song id",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "One song",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/SongResource"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Not found"
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "SongStorePostRequest": {
+                "required": [
+                    "genre_id",
+                    "performer_id",
+                    "disk_id",
+                    "name",
+                    "listening_count",
+                    "year",
+                    "status"
+                ],
+                "properties": {
+                    "genre_id": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "performer_id": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "disk_id": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "name": {
+                        "type": "string",
+                        "example": "Omega Petya"
+                    },
+                    "listening_count": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "year": {
+                        "type": "integer",
+                        "example": 2024
+                    },
+                    "status": {
+                        "type": "string",
+                        "example": "public"
+                    }
+                },
+                "type": "object"
+            },
+            "SongResource": {
+                "title": "Song Resource",
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "genre": {
+                        "type": "string",
+                        "example": "Rock"
+                    },
+                    "performer": {
+                        "type": "string",
+                        "example": "Artist Name"
+                    },
+                    "disk": {
+                        "type": "string",
+                        "example": "Disk Title"
+                    },
+                    "name": {
+                        "type": "string",
+                        "example": "Song Name"
+                    },
+                    "listening_count": {
+                        "type": "integer",
+                        "example": 123
+                    },
+                    "year": {
+                        "type": "integer",
+                        "example": 2024
+                    },
+                    "status": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "duration": {
+                        "type": "integer",
+                        "example": 210
+                    },
+                    "average_rate": {
+                        "type": "number",
+                        "format": "float",
+                        "example": 4.5
+                    }
+                },
+                "type": "object"
+            }
+        },
+        "securitySchemes": {
+            "bearerAuth": {
+                "type": "http",
+                "bearerFormat": "",
+                "scheme": "bearer"
+            }
+        }
+    },
+    "tags": [
+        {
+            "name": "Songs",
+            "description": "Operations with songs"
+        }
+    ]
+}

@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use Illuminate\Contracts\View\View;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
+use App\Http\Requests\DiscographyFilterRequest;
 use App\Http\Requests\DiscographyStorePostRequest;
 
 class DiscographyController extends Controller
@@ -64,14 +65,14 @@ class DiscographyController extends Controller
      * @param  \Illuminate\Http\Request  $request  The request containing filtering data
      * @return \Illuminate\View\View
      */
-    public function index(Request $request): View
+    public function index(DiscographyFilterRequest $request): View
     {
         $disks = Discography::withTrashed()
             ->where("performer_id", "=", Auth::user()->performer->id)
             ->with(['genre', 'performer'])
-            ->when($request->filled('genre_id'), fn ($q) => $q->where('genre_id', $request->genre_id))
-            ->when($request->filled('type'), fn ($q) => $q->where('type', $request->type))
-            ->when($request->filled('performer_id'), fn ($q) => $q->where('performer_id', $request->performer_id))
+            ->when($request->filled('genre_id'), fn($q) => $q->where('genre_id', $request->genre_id))
+            ->when($request->filled('type'), fn($q) => $q->where('type', $request->type))
+            ->when($request->filled('performer_id'), fn($q) => $q->where('performer_id', $request->performer_id))
             ->when($request->filled('search'), function ($q) use ($request) {
                 $q->where(function ($query) use ($request) {
                     $search = $request->search;

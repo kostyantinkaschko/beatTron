@@ -3,7 +3,22 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use OpenApi\Annotations as OA;
 
+
+/**
+ * @OA\Schema(
+ *     schema="SongStorePostRequest",
+ *     required={"genre_id", "performer_id", "disk_id", "name", "listening_count", "year", "status"},
+ *     @OA\Property(property="genre_id", type="integer", example=1),
+ *     @OA\Property(property="performer_id", type="integer", example=1),
+ *     @OA\Property(property="disk_id", type="integer", example=1),
+ *     @OA\Property(property="name", type="string", example="Omega Petya"),
+ *     @OA\Property(property="listening_count", type="integer", example=1),
+ *     @OA\Property(property="year", type="integer", example=2024),
+ *     @OA\Property(property="status", type="string", example="public")
+ * )
+ */
 class SongStorePostRequest extends FormRequest
 {
     /**

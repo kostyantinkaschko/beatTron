@@ -48,6 +48,7 @@ Route::middleware([SiteMiddleware::class])->group(function (): void {
     Route::get("disk/{id}", [DiskSiteController::class, "disk"])->name("disk");
     Route::get("createPerformer", [PerformerSiteController::class, "create"])->name("createPerformer");
     Route::patch("userPerformerStore", [PerformerSiteController::class, "store"])->name("userPerformerStore");
+    Route::get("performerShow/{id}", [PerformerSiteController::class, "show"])->name("performerShow");
     Route::get("article/{id}", [NewsController::class, "article"])->name("article");
     Route::get("genre/{id}", [GenreSiteController::class, "genre"])->name("genrePage");
     Route::get("search", [SearchController::class, "index"])->name("search");
@@ -56,6 +57,8 @@ Route::middleware([SiteMiddleware::class])->group(function (): void {
     Route::post("addSong", [PlaylistController::class, "addSong"])->name("addSong");
     Route::post('songRate/{id}', [RateController::class, 'index'])->name('songRate');
     Route::get("song/{id}", [SongController::class, "song"])->name("song");
+    Route::get("songShow/{id}", [SongController::class, "show"])->name("songShow");
+    
 });
 
 Route::prefix("performerPanel")->middleware([PerformerPanelMiddleware::class])->group(function () {

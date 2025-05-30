@@ -3,9 +3,10 @@
 namespace App\Traits;
 
 use App\Models\Song;
+use App\Models\User;
 use App\Models\Rating;
 
-trait PerformerRateTrait
+trait PerformerTrait
 {
     /**
      * Trait to calculate the rating of a performer based on the ratings of their songs.
@@ -28,5 +29,33 @@ trait PerformerRateTrait
         return $songRating->reduce(function ($carry, $item) {
             return $carry * $item;
         }, 1);
+    }
+
+     public function performerFormatting($data, $mode = "plural")
+    {
+        function writeData($item)
+        {
+            return  [
+                'id' => $item->id,
+                'user' => User::find($item->user_id)->name,
+                "name" => $item->name,
+                "instagram" => $item->year,
+                "facebook" => $item->status,
+                "x" => $item->year,
+                "youtube" => $item->status,
+                
+            ];
+        }
+
+        if ($mode == "alone") {
+            return writeData($data);
+        } else if ($mode == "plural") {
+            $result = [];
+            foreach ($data as $item) {
+                $result[] = writeData($item);
+            }
+
+            return $result;
+        }
     }
 }

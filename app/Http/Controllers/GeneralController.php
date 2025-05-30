@@ -10,13 +10,13 @@ use Illuminate\Contracts\View\View;
 use App\Http\Controllers\Controller;
 use App\Models\Performer;
 use App\Models\Playlist;
-use App\Traits\PerformerRateTrait;
+use App\Traits\PerformerTrait;
 use Illuminate\Support\Facades\Auth;
 
 class GeneralController extends Controller
 {
     use SongTrait;
-    use PerformerRateTrait;
+    use PerformerTrait;
 
     /**
      * Displays the main page of the site with a list of songs, news, and performers.

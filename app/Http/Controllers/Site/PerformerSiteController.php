@@ -4,13 +4,23 @@ namespace App\Http\Controllers\Site;
 
 use App\Models\Playlist;
 use App\Models\Performer;
+use App\Traits\PerformerTrait;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
+use App\Http\Services\GoogleTagManagerService;
 use App\Http\Requests\PerformersStorePostRequest;
 
 class PerformerSiteController extends Controller
 {
+    use PerformerTrait;
+
+    protected GoogleTagManagerService $service;
+
+    public function __construct(GoogleTagManagerService $service)
+    {
+        $this->service = $service;
+    }
     /**
      * Displays a page with a list of performers, including deleted ones.
      *
@@ -96,5 +106,15 @@ class PerformerSiteController extends Controller
         $performer = Performer::create($data);
 
         return to_route('performerPage', ['id' => $performer->id]);
+    }
+
+    public function show($id)
+    {
+        $performer = Performer::findOrFail($id);
+        $this->performerFormatting($performer, 'alone');
+
+        $performerGTM = $this->service->viewPerformerPage($performer);
+        // dd($songGTM);
+        return view('site.performers.show', compact('performer', 'performerGTM'));
     }
 }
