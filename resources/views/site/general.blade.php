@@ -7,6 +7,14 @@
                 @endforeach
             </tbody>
         </table>
+        <div class="performersGeneral">
+            <h2>Performers</h2>
+            <ul class="performerBlock">
+                @foreach ($performers as $performer)
+                <li><a class="performer" href="{{ route("performerPage", $performer->id) }}">{{ $performer->name }} ({{ $performer->rate }})</a></li>
+                @endforeach
+            </ul>
+        </div>
         <ul>
             @foreach ($news as $item)
             <li>
@@ -23,13 +31,5 @@
             </li>
             @endforeach
         </ul>
-
-        <h2>Performers</h2>
-        <ul>
-            @foreach ($performers as $performer)
-            <li>{{ $performer->name }} ({{ $performer->rate }})</li>
-            @endforeach
-        </ul>
-
     </x-slot>
 </x-site-layout>

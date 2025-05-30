@@ -74,6 +74,19 @@ header {
     width: 200rem;
 }
 
+.performersGeneral {
+    margin-top: 20rem;
+}
+
+.performersGeneral h2 {
+    font-size: 20rem;
+}
+
+.performersGeneral .performerBlock {
+    flex-wrap: wrap;
+    row-gap: 20rem;
+}
+
 
 h1,
 h2,

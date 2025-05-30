@@ -27,12 +27,12 @@ trait PerformerTrait
         $songs = Song::where("performer_id", $performer->id)->pluck('id');
         $songRating = Rating::whereIn('song_id', $songs)->pluck('rate');
 
-        return $songRating->reduce(function ($carry, $item) {
+        return round($songRating->reduce(function ($carry, $item) {
             return $carry * $item;
-        }, 1);
+        }, 1), 2);
     }
 
-     public function performerFormatting($data, $mode = "plural")
+    public function performerFormatting($data, $mode = "plural")
     {
         function writeData($item)
         {
@@ -44,7 +44,7 @@ trait PerformerTrait
                 "facebook" => $item->status,
                 "x" => $item->year,
                 "youtube" => $item->status,
-                
+
             ];
         }
 
@@ -59,5 +59,4 @@ trait PerformerTrait
             return $result;
         }
     }
-
 }

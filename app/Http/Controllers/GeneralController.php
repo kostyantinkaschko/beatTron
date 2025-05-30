@@ -33,7 +33,7 @@ class GeneralController extends Controller
         foreach ($songs as $song) {
             $song->listening = $this->pluralizeListeningCount($song->listening_count);
         }
-        $performers = Performer::withTrashed()->take(10)->get();
+        $performers = Performer::withTrashed()->take(37)->get();
         $news = News::withTrashed()->take(12)->get();
 
         foreach ($performers as $performer) {

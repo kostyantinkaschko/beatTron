@@ -71,6 +71,8 @@
             <input type="submit" value="Send">
         </form>
     </td>
-    <td>Rating: {{ $song->average_rate ?? "none"}}</td>
+    @if(!empty($song->average_rate) && $song->average_rate > 0 && $song->average_rate < 6)
+        <td>Rating: {{ number_format($song->average_rate, 0, '.', '') }}</td>
+        @endif
 </tr>
 @endif
