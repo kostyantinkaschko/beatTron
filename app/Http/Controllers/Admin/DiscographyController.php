@@ -15,17 +15,18 @@ use App\Http\Requests\Filters\Admin\DiscographyFilterRequest;
 class DiscographyController extends Controller
 {
     /**
-     * Routing to the discography display page
+     * Displays the discography listing page with optional filters.
      *
-     * @return View
+     * @param DiscographyFilterRequest $request The request containing filter parameters.
+     * @return View The view of the discography listing.
      */
     public function index(DiscographyFilterRequest $request)
     {
         $disks = Discography::withTrashed()
             ->with(['genre', 'performer'])
-            ->when($request->filled('genre_id'), fn ($q) => $q->where('genre_id', $request->genre_id))
-            ->when($request->filled('type'), fn ($q) => $q->where('type', $request->type))
-            ->when($request->filled('performer_id'), fn ($q) => $q->where('performer_id', $request->performer_id))
+            ->when($request->filled('genre_id'), fn($q) => $q->where('genre_id', $request->genre_id))
+            ->when($request->filled('type'), fn($q) => $q->where('type', $request->type))
+            ->when($request->filled('performer_id'), fn($q) => $q->where('performer_id', $request->performer_id))
             ->when($request->filled('search'), function ($q) use ($request) {
                 $q->where(function ($query) use ($request) {
                     $search = $request->search;
@@ -43,9 +44,9 @@ class DiscographyController extends Controller
 
 
     /**
-     * Routing to the disk creation display page
+     * Displays the page for creating a new disc entry.
      *
-     * @return View
+     * @return View The view of the disc creation form.
      */
     public function create()
     {
@@ -56,9 +57,10 @@ class DiscographyController extends Controller
     }
 
     /**
-     * Stores a new disk in the da  tabase
+     * Stores a newly created disc in the database.
      *
-     * @param Request $request
+     * @param DiscographyStorePostRequest $request The validated request containing disc data.
+     * @return RedirectResponse Redirects to the discography listing page.
      */
     public function store(DiscographyStorePostRequest $request)
     {
@@ -72,10 +74,10 @@ class DiscographyController extends Controller
     }
 
     /**
-     * Routing to the disk edit display page
+     * Displays the edit form for a specific disc.
      *
-     * @param int $id
-     * @return View
+     * @param int $id The ID of the disc to edit.
+     * @return View The view of the disc edit form.
      */
     public function edit($id)
     {
@@ -88,10 +90,11 @@ class DiscographyController extends Controller
 
 
     /**
-     * Updates the data of an existing disk in the database
+     * Updates an existing disc with the provided data.
      *
-     * @param Request $request
-     * @param Discography $disk
+     * @param DiscographyStorePostRequest $request The validated request containing updated disc data.
+     * @param Discography $disk The disc model to update.
+     * @return RedirectResponse Redirects to the discography listing page.
      */
     public function update(DiscographyStorePostRequest $request, Discography $disk)
     {
@@ -113,9 +116,10 @@ class DiscographyController extends Controller
 
 
     /**
-     * Delete a disk (mild delete)
+     * Soft deletes a disc by its ID.
      *
-     * @param int $id
+     * @param int $id The ID of the disc to delete.
+     * @return RedirectResponse Redirects to the discography listing page.
      */
     public function remove($id)
     {
@@ -125,9 +129,10 @@ class DiscographyController extends Controller
     }
 
     /**
-     * Restores a deleted disk
+     * Restores a previously soft-deleted disc by its ID.
      *
-     * @param int $id
+     * @param int $id The ID of the disc to restore.
+     * @return RedirectResponse Redirects to the discography listing page.
      */
     public function restore($id)
     {

@@ -8,10 +8,10 @@
                     <x-nav-link :href="route('general')" :active="request()->routeIs('general')">
                         {{ __('General') }}
                     </x-nav-link>
-                    <x-nav-link :href="route('genresSite')" :active="request()->routeIs('genres')">
+                    <x-nav-link :href="route('genresSite')" :active="request()->routeIs('genresSite')">
                         {{ __('Genres') }}
                     </x-nav-link>
-                    <x-nav-link :href="route('performersSite')" :active="request()->routeIs('performers')">
+                    <x-nav-link :href="route('performersSite')" :active="request()->routeIs('performersSite')">
                         {{ __('Performers') }}
                     </x-nav-link>
                     <x-nav-link :href="route('playlists')" :active="request()->routeIs('playlists')">

@@ -7,14 +7,19 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Song extends Model implements HasMedia
 {
     use SoftDeletes;
     use HasFactory;
     use InteractsWithMedia;
+
     protected $table = 'songs';
     protected $primaryKey = 'id';
+
     /**
      * The attributes that are mass assignable.
      *
@@ -32,38 +37,67 @@ class Song extends Model implements HasMedia
 
     /**
      * Represents a song in the system.
-     * This model contains information about a song's genre, performer, album (disk), and additional metadata such as listening count, year, and status.
-     * It also defines relationships to the performer, playlists, and media library.
+     * This model contains information about a song's genre, performer, album (disk), and additional metadata.
      *
-     * @property int $id The unique identifier for the song
-     * @property int $genre_id The genre identifier of the song
-     * @property int $performer_id The performer identifier of the song
-     * @property int $disk_id The disk (album) identifier the song belongs to
-     * @property string $name The name of the song
-     * @property int $listening_count The number of times the song has been listened to
-     * @property int $year The year the song was released
-     * @property string $status The status of the song (e.g., 'public', 'private')
-     * @property \Illuminate\Database\Eloquent\Relations\BelongsTo $performer The performer who created the song
-     * @property \Illuminate\Database\Eloquent\Relations\BelongsToMany $playlists The playlists that the song is part of
+     * @property int $id
+     * @property int $genre_id
+     * @property int $performer_id
+     * @property int $disk_id
+     * @property string $name
+     * @property int $listening_count
+     * @property int $year
+     * @property string $status
+     * @property \App\Models\Performer $performer
+     * @property \App\Models\Genre $genre
+     * @property \App\Models\Discography $disk
+     * @property \Illuminate\Database\Eloquent\Collection|\App\Models\Playlist[] $playlists
+     * @property \Illuminate\Database\Eloquent\Collection|\App\Models\Rating[] $ratings
      */
 
-
-    public function performer()
+    /**
+     * Performer who created the song.
+     */
+    public function performer(): BelongsTo
     {
         return $this->belongsTo(Performer::class);
     }
 
-    public function playlists()
+    /**
+     * Genre of the song.
+     */
+    public function genre(): BelongsTo
+    {
+        return $this->belongsTo(Genre::class);
+    }
+
+    /**
+     * Album (Discography) the song belongs to.
+     */
+    public function disk(): BelongsTo
+    {
+        return $this->belongsTo(Discography::class, 'disk_id');
+    }
+
+    /**
+     * Playlists that include this song.
+     */
+    public function playlists(): BelongsToMany
     {
         return $this->belongsToMany(Playlist::class, 'playlists_songs');
     }
 
-    public function playlistsAdd()
+    /**
+     * Playlists with pivot data.
+     */
+    public function playlistsAdd(): BelongsToMany
     {
         return $this->belongsToMany(Playlist::class, 'playlists_songs')->withPivot('id');
     }
 
-    public function ratings()
+    /**
+     * Ratings given to this song.
+     */
+    public function ratings(): HasMany
     {
         return $this->hasMany(Rating::class);
     }

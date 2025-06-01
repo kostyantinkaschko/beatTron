@@ -20,15 +20,17 @@ class SongController extends Controller
     {
         $this->service = $service;
     }
+
     /**
-     * Increments the listening count of a specific song.
-     * Returns an error if the song is not found.
+     * Increment the listening count for a specific song.
      *
-     * @param  \Illuminate\Http\Request  $request  The request object
-     * @param  int  $id  The ID of the song
+     * Finds the song by ID and increments its listening count by one.
+     * Returns a JSON response indicating success or failure.
+     *
+     * @param  Request  $request  The HTTP request instance.
+     * @param  int  $id  The ID of the song to increment.
      * @return \Illuminate\Http\JsonResponse
      */
-
     public function incrementListeningCount(Request $request, $id)
     {
         $song = Song::find($id);
@@ -44,11 +46,15 @@ class SongController extends Controller
 
 
     /**
-     * Displays a page with details of a specific song.
-     * If the song is private, access is restricted to the song's performer or an authenticated user with appropriate permissions.
+     * Display the page with detailed information about a specific song.
      *
-     * @param  int  $id  The ID of the song
-     * @return \Illuminate\View\View|\Illuminate\Http\Response
+     * Applies access control: if the song is marked as "private",
+     * only the associated performer (or authorized user) may view it.
+     * Processes the song with additional data formatting.
+     * Loads user playlists if authenticated.
+     *
+     * @param  int  $id  The ID of the song.
+     * @return \Illuminate\View\View|\Symfony\Component\HttpFoundation\Response
      */
     public function song($id)
     {
@@ -60,20 +66,37 @@ class SongController extends Controller
 
         $playlists = false;
         if (Auth::check()) {
-            $playlists = Playlist::where("user_id", "=", Auth::user()->id)->get();
+            $playlists = Playlist::where("user_id", "=",  Auth::id())->get();
         }
 
         return view("site.song", compact("song", "playlists"));
     }
 
+    /**
+     * Return a dataLayer-compatible array for Google Tag Manager's view_item event.
+     *
+     * Typically used in frontend scripts to signal GTM events.
+     *
+     * @return array<string, string>
+     */
     public function viewSongPage()
     {
         return [
             'event' => 'view_item'
         ];
     }
+    /**
+     * Display the song page using advanced formatting and GTM data.
+     *
+     * Finds the song by ID (fails if not found), applies formatting,
+     * and prepares Google Tag Manager (GTM) data for the frontend.
+     *
+     * @param  int  $id  The ID of the song.
+     * @return \Illuminate\View\View
+     */
 
-    public function show($id){
+    public function show($id)
+    {
         $song = Song::findOrFail($id);
         $song = $this->songFormatting($song, 'alone');
 

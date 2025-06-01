@@ -19,13 +19,14 @@ class GeneralController extends Controller
     use PerformerTrait;
 
     /**
-     * Displays the main page of the site with a list of songs, news, and performers.
+     * Display the homepage of the site.
      *
-     * Retrieves all songs, news, and performers, including soft-deleted ones.
-     * For each song, checks for the existence of an audio file with supported extensions (mp3, wav, flac),
-     * and uses getID3 to analyze the file and extract its duration if the file exists.
+     * Loads the latest public songs, recent news, and performers (including soft-deleted).
+     * Processes songs to include duration and human-readable listening count.
+     * Calculates performer ratings using a custom trait.
+     * If the user is authenticated, their playlists are also retrieved.
      *
-     * @return \Illuminate\Contracts\View\View
+     * @return View
      */
     public function index()
     {
@@ -37,11 +38,11 @@ class GeneralController extends Controller
         $news = News::withTrashed()->take(12)->get();
 
         foreach ($performers as $performer) {
-            $performer->rate = $this->getPerfromerRate($performer);
+            $performer->rate = $this->getPerformerRate($performer);
         }
         $playlists = collect([]);
         if (Auth::check()) {
-            $playlists = Playlist::where("user_id", "=", Auth::user()->id)->get();
+            $playlists = Playlist::where("user_id", "=",  Auth::id())->get();
         }
 
         return view("site.general", compact("songs", "news", "performers", "playlists"));

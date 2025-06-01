@@ -30,32 +30,50 @@ class Performer extends Model
 
     /**
      * Represents a performer, typically an artist or musician.
+     *
      * This model stores the performer's details such as name and social media links,
      * and defines relationships to their discographies, news, and songs.
      *
-     * @property int $id The unique identifier for the performer
-     * @property int $user_id The identifier of the associated user
-     * @property string $name The name of the performer
-     * @property string|null $instagram The Instagram username of the performer
-     * @property string|null $facebook The Facebook username of the performer
-     * @property string|null $x The X (formerly Twitter) username of the performer
-     * @property string|null $youtube The YouTube username of the performer
-     * @property \Illuminate\Database\Eloquent\Collection|Discography[] $discographies The discographies associated with the performer
-     * @property \Illuminate\Database\Eloquent\Collection|News[] $news The news articles created by the performer
-     * @property \Illuminate\Database\Eloquent\Collection|Song[] $song The songs associated with the performer
+     * @property int $id Unique identifier for the performer
+     * @property int $user_id ID of the user associated with the performer
+     * @property string $name Name of the performer
+     * @property string|null $instagram Instagram username
+     * @property string|null $facebook Facebook username
+     * @property string|null $x X (formerly Twitter) username
+     * @property string|null $youtube YouTube channel name or link
+     *
+     * @property \Illuminate\Database\Eloquent\Collection|\App\Models\Discography[] $discographies Albums, EPs, etc.
+     * @property \Illuminate\Database\Eloquent\Collection|\App\Models\News[] $news News articles created by the performer
+     * @property \Illuminate\Database\Eloquent\Collection|\App\Models\Song[] $songs Songs by the performer
      */
 
 
+    /**
+     * Get the discographies (albums, EPs, etc.) associated with the performer.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
     public function discographies()
     {
         return $this->hasMany(Discography::class);
     }
 
+    /**
+     * Get the news articles written by the performer.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
     public function news()
     {
         return $this->hasMany(News::class);
     }
 
+
+    /**
+     * Get the songs associated with the performer.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
     public function song()
     {
         return $this->hasMany(Song::class);

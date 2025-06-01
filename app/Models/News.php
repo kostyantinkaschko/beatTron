@@ -28,17 +28,24 @@ class News extends Model implements HasMedia
 
     /**
      * Represents a news article associated with a performer.
-     * This model stores information about news articles, including the performer who posted it, the title, and the content of the article.
-     * It also defines the relationship to the performer who created the article.
      *
-     * @property int $id The unique identifier for the news article
-     * @property int $performer_id The identifier of the performer who posted the news
-     * @property string $title The title of the news article
-     * @property string $text The content of the news article
-     * @property \Illuminate\Database\Eloquent\Collection|Performer[] $performer The performer who created the article
+     * This model stores information about news articles, including the performer who posted it,
+     * the title, and the content of the article. It supports soft deletes and media file handling.
+     *
+     * @property int $id                              Unique identifier for the news article
+     * @property int $performer_id                    ID of the performer who created the article
+     * @property string $title                        Title of the news article
+     * @property string $text                         Full text of the news article
+     * @property \Illuminate\Support\Carbon|null $deleted_at Soft delete timestamp
+     * @property \App\Models\Performer $performer     The performer who created the news article
      */
 
 
+    /**
+     * Get the performer who created this news article.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
     public function performer()
     {
         return $this->hasMany(Performer::class);

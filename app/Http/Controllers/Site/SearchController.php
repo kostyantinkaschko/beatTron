@@ -41,7 +41,7 @@ class SearchController extends Controller
 
 
         if (Auth::check()) {
-            $playlists = Playlist::where("user_id", "=", Auth::user()->id)->get();
+            $playlists = Playlist::where("user_id", "=",  Auth::id())->get();
         }
 
 

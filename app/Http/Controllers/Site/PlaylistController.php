@@ -20,7 +20,7 @@ class PlaylistController extends Controller
     public function site()
     {
         if (Auth::check()) {
-            $playlists = Playlist::where("user_id", "=", Auth::user()->id)->paginate(20);
+            $playlists = Playlist::where("user_id", "=",  Auth::id())->paginate(20);
             return view("site.playlists.playlists", compact("playlists"));
         } else {
             return redirect("login");
@@ -35,7 +35,7 @@ class PlaylistController extends Controller
 
     public function create()
     {
-        Playlist::create(['user_id' => Auth::user()->id]);
+        Playlist::create(['user_id' =>  Auth::id()]);
 
         return to_route("playlists");
     }
@@ -54,12 +54,12 @@ class PlaylistController extends Controller
 
         if (Auth::check()) {
             $playlist = Playlist::find($id);
-            if ($playlist->user_id == Auth::user()->id) {
+            if ($playlist->user_id ==  Auth::id()) {
                 $songs = $this->processSongs($playlist->songs);
 
                 $playlists = collect([]);
                 if (Auth::check()) {
-                    $playlists = Playlist::where("user_id", "=", Auth::user()->id)->get();
+                    $playlists = Playlist::where("user_id", "=",  Auth::id())->get();
                 }
 
                 return view("site.playlists.playlist", compact("playlist", "songs", "playlists"));
@@ -80,7 +80,7 @@ class PlaylistController extends Controller
     public function addSong(Request $request)
     {
         if ($request->post("playlist") == "create") {
-            $playlist = Playlist::create(['user_id' => Auth::user()->id]);
+            $playlist = Playlist::create(['user_id' =>  Auth::id()]);
             $playlist = Playlist::find($playlist->id);
         } else {
             $playlist = Playlist::find($request->post("playlist"));

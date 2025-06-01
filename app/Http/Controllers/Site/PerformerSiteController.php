@@ -31,7 +31,7 @@ class PerformerSiteController extends Controller
         $performers = Performer::select("id", "name", "instagram", "facebook", "x", "youtube")->withTrashed()->paginate(30);
         $playlists = collect([]);
         if (Auth::check()) {
-            $playlists = Playlist::where("user_id", "=", Auth::user()->id)->get();
+            $playlists = Playlist::where("user_id", "=",  Auth::id())->get();
         }
 
         return view("site.performers.performers", compact("performers", "playlists"));
@@ -106,16 +106,5 @@ class PerformerSiteController extends Controller
         $performer = Performer::create($data);
 
         return to_route('performerPage', ['id' => $performer->id]);
-    }
-    public function show($id)
-    {
-        $performer = Performer::findOrFail($id);
-        $performer->songCount = $performer->song()->count();
-
-        $performerGTM = $this->service->viewPerformerPage($performer);
-
-        $performer = $this->performerFormatting($performer, 'alone');
-
-        return view('site.performers.show', compact('performer', 'performerGTM'));
     }
 }

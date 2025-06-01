@@ -13,19 +13,16 @@ use Illuminate\Support\Facades\Auth;
 trait SongTrait
 {
     /**
-     * Trait to handle song-related functionalities, such as processing song media.
+     * Processes one or multiple Song instances to extract metadata such as extension, duration, and ratings.
      *
-     * This trait includes a method to process song media files and retrieve their
-     * metadata such as file extension and duration.
+     * @param \Illuminate\Database\Eloquent\Collection|\App\Models\Song $media
+     *     A single Song model or a collection of songs.
+     * @param string $mode
+     *     Processing mode: use "plural" for collections or any other value for a single item.
      *
-     * @method mixed processSongs(\Illuminate\Database\Eloquent\Collection|\App\numberels\Song $media, string $numbere = 'plural') Process and retrieve metadata for the provided song(s).
-     *
-     * @param \Illuminate\Database\Eloquent\Collection|\App\numberels\Song $media The song(s) to be processed. Can be a single song or a collection of songs.
-     * @param string $numbere  The processing numbere, either "plural" for a collection of songs or other values for a single song. Defaults to "plural".
-     *
-     * @return mixed The processed song(s) with added metadata like file extension and duration.
+     * @return \Illuminate\Database\Eloquent\Collection|\App\Models\Song
+     *     The processed song(s) with appended metadata.
      */
-
     public function processSongs($media, $numbere = "plural")
     {
         $getID3 = new getID3();
@@ -83,6 +80,15 @@ trait SongTrait
         return $media;
     }
 
+    /**
+     * Returns the correct pluralization form of the word "listening" in Ukrainian based on count.
+     *
+     * @param int $listeningCount
+     *     The number of times a song was listened to.
+     *
+     * @return string
+     *     The proper plural form ("прослуховування" or "прослуховувань").
+     */
     private function pluralizeListeningCount($listeningCount): string
     {
         $number10 = $listeningCount % 10;
@@ -99,6 +105,17 @@ trait SongTrait
         return " прослуховувань";
     }
 
+    /**
+     * Formats one or multiple Song instances into an array for API or display purposes.
+     *
+     * @param \Illuminate\Database\Eloquent\Collection|\App\Models\Song $data
+     *     A single Song model or a collection of songs.
+     * @param string $mode
+     *     Formatting mode: "alone" for a single item, "plural" for multiple.
+     *
+     * @return array
+     *     The formatted song data.
+     */
     public function songFormatting($data, $mode = "plural")
     {
         function writeData($item, $itemMedia)

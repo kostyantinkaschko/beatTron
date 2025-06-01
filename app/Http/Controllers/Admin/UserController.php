@@ -10,24 +10,23 @@ use App\Models\User;
 class UserController extends Controller
 {
     /**
-     * Routing to the users display page
+     * Displays a paginated list of users (including soft-deleted ones).
      *
-     * @return View
+     * @return View The view displaying the users list.
      */
     public function index()
     {
-        $users = User::withTrashed()->paginate(50);
-        ;
+        $users = User::withTrashed()->paginate(50);;
 
         return view("admin.users.users", compact("users"));
     }
 
 
     /**
-     * Routing to the user edit display page
+     * Shows the form for editing a specific user.
      *
-     * @param int $id
-     * @return View
+     * @param int $id The ID of the user to edit.
+     * @return View The view displaying the user edit form.
      */
     public function edit($id)
     {
@@ -37,10 +36,11 @@ class UserController extends Controller
     }
 
     /**
-     * Updates the data of an existing user in the database
+     * Updates the specified user's data in the database.
      *
-     * @param Request $request
-     * @param User $user
+     * @param Request $request The request containing updated user data.
+     * @param User $user The user model to update.
+     * @return \Illuminate\Http\RedirectResponse Redirects to the users listing page.
      */
     public function update(Request $request, User $user)
     {
@@ -53,9 +53,10 @@ class UserController extends Controller
         return to_route("users");
     }
     /**
-     * Delete a user (mild delete)
+     * Soft deletes the specified user.
      *
-     * @param int $id
+     * @param int $id The ID of the user to delete.
+     * @return \Illuminate\Http\RedirectResponse Redirects to the users listing page.
      */
     public function remove($id)
     {
@@ -64,9 +65,10 @@ class UserController extends Controller
         return to_route("users");
     }
     /**
-     * Restores a deleted user
+     * Restores a previously soft-deleted user.
      *
-     * @param int $id
+     * @param int $id The ID of the user to restore.
+     * @return \Illuminate\Http\RedirectResponse Redirects to the users listing page.
      */
     public function restore($id)
     {

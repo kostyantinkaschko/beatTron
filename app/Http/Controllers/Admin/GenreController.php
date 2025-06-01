@@ -12,16 +12,17 @@ use App\Http\Requests\Filters\Admin\GenreFilterRequest;
 class GenreController extends Controller
 {
     /**
-     * Routing to the genres display page
+     * Displays the genres listing page with optional filters.
      *
-     * @return View
+     * @param GenreFilterRequest $request The request containing filter parameters.
+     * @return View The view displaying the list of genres.
      */
     public function index(GenreFilterRequest $request)
     {
         $genres = Genre::withTrashed()
             ->with(["discographies"])
-            ->when($request->filled('title'), fn ($q) => $q->where('title', 'like', '%' . $request->title . '%'))
-            ->when($request->filled('year'), fn ($q) => $q->where('year', '=', $request->year))
+            ->when($request->filled('title'), fn($q) => $q->where('title', 'like', '%' . $request->title . '%'))
+            ->when($request->filled('year'), fn($q) => $q->where('year', '=', $request->year))
             ->when($request->filled('search'), function ($q) use ($request) {
                 $q->where(function ($query) use ($request) {
                     $search = $request->search;
@@ -39,22 +40,22 @@ class GenreController extends Controller
 
         return view("admin.genres.genres", compact("genres", "years"));
     }
-
     /**
-     * Routing to the genre creation display page
+     * Displays the page for creating a new genre.
      *
-     * @return View
+     * @return View The view displaying the genre creation form.
      */
-
     public function create(): View
     {
         return view('admin.genres.create');
     }
 
+
     /**
-     * Stores a new genre in the database
+     * Stores a newly created genre in the database.
      *
-     * @param Request $request
+     * @param GenresStorePostRequest $request The validated request containing genre data.
+     * @return \Illuminate\Http\RedirectResponse Redirects to the genres listing page.
      */
     public function store(GenresStorePostRequest $request)
     {
@@ -66,10 +67,10 @@ class GenreController extends Controller
 
 
     /**
-     * Routing to the genre edit display page
+     * Displays the edit form for a specific genre.
      *
-     * @param int $id
-     * @return View
+     * @param int $id The ID of the genre to edit.
+     * @return View The view displaying the genre edit form.
      */
     public function edit($id)
     {
@@ -79,12 +80,12 @@ class GenreController extends Controller
     }
 
     /**
-     * Updates the data of an existing disk in the database
+     * Updates the data of an existing genre in the database.
      *
-     * @param Request $request
-     * @param Genre $genre
+     * @param GenresStorePostRequest $request The validated request with updated genre data.
+     * @param Genre $genre The genre model to update.
+     * @return \Illuminate\Http\RedirectResponse Redirects to the genres listing page.
      */
-
     public function update(GenresStorePostRequest $request, Genre $genre)
     {
 
@@ -95,9 +96,10 @@ class GenreController extends Controller
 
 
     /**
-     * Delete a disk (soft delete)
+     * Soft deletes the specified genre.
      *
-     * @param int $id
+     * @param int $id The ID of the genre to delete.
+     * @return \Illuminate\Http\RedirectResponse Redirects to the genres listing page.
      */
     public function remove($id)
     {
@@ -107,9 +109,10 @@ class GenreController extends Controller
     }
 
     /**
-     * Restores a deleted disk
+     * Restores a previously soft-deleted genre.
      *
-     * @param int $id
+     * @param int $id The ID of the genre to restore.
+     * @return \Illuminate\Http\RedirectResponse Redirects to the genres listing page.
      */
     public function restore($id)
     {

@@ -25,16 +25,23 @@ class Genre extends Model
 
     /**
      * Represents a music genre.
-     * This model stores information about different music genres, such as their title, description, and year of origin.
-     * It also allows retrieving the associated discographies related to this genre.
      *
-     * @property int $id The unique identifier for the genre
-     * @property string $title The title or name of the genre
-     * @property string|null $description A description of the genre
-     * @property int|null $year The year associated with the genre
-     * @property \Illuminate\Database\Eloquent\Collection|Discography[] $discographies The discographies associated with this genre
+     * This model stores information about different music genres, such as their title, description, and year of origin.
+     * It also defines a relationship to discographies that belong to this genre.
+     *
+     * @property int $id                                  Unique identifier for the genre.
+     * @property string $title                            Name of the genre.
+     * @property string|null $description                 Optional description of the genre.
+     * @property int|null $year                           Optional year the genre originated.
+     * @property \Illuminate\Support\Carbon|null $deleted_at Date/time when the genre was soft-deleted (if applicable).
+     * @property \Illuminate\Database\Eloquent\Collection|\App\Models\Discography[] $discographies List of associated discographies.
      */
 
+    /**
+     * Get all discographies associated with this genre.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
     public function discographies()
     {
         return $this->hasMany(Discography::class);

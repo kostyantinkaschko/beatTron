@@ -13,9 +13,10 @@ use App\Http\Requests\PerformersStorePostRequest;
 class PerformersController extends Controller
 {
     /**
-     * Routing to the performers display page
+     * Displays the performers listing page with optional search filter.
      *
-     * @return View
+     * @param PerformerFilterRequest $request The request containing search filter.
+     * @return View The view displaying the list of performers.
      */
     public function index(PerformerFilterRequest $request)
     {
@@ -33,9 +34,9 @@ class PerformersController extends Controller
     }
 
     /**
-     * Routing to the performer creation display page
+     * Displays the page for creating a new performer.
      *
-     * @return View
+     * @return View The view displaying the performer creation form.
      */
     public function create()
     {
@@ -44,14 +45,15 @@ class PerformersController extends Controller
 
 
     /**
-     * Stores a new performer in the database
+     * Stores a newly created performer in the database.
      *
-     * @param Request $request
+     * @param PerformersStorePostRequest $request The validated request containing performer data.
+     * @return \Illuminate\Http\RedirectResponse Redirects to the performers listing page.
      */
     public function store(PerformersStorePostRequest $request)
     {
         $performer = $request->validated();
-        $performer['user_id'] = Auth::user()->id;
+        $performer['user_id'] =  Auth::id();
 
         Performer::create($performer);
 
@@ -59,10 +61,10 @@ class PerformersController extends Controller
     }
 
     /**
-     * Routing to the performer edit display page
+     * Displays the edit form for a specific performer.
      *
-     * @param int $id
-     * @return View
+     * @param int $id The ID of the performer to edit.
+     * @return View The view displaying the performer edit form.
      */
     public function edit($id)
     {
@@ -72,10 +74,11 @@ class PerformersController extends Controller
     }
 
     /**
-     * Updates the data of an existing performer in the database
+     * Updates the data of an existing performer in the database.
      *
-     * @param Request $request
-     * @param Performer $performer
+     * @param PerformersStorePostRequest $request The validated request with updated performer data.
+     * @param Performer $performer The performer model to update.
+     * @return \Illuminate\Http\RedirectResponse Redirects to the performers listing page.
      */
     public function update(PerformersStorePostRequest $request, Performer $performer)
     {
@@ -83,21 +86,24 @@ class PerformersController extends Controller
 
         return to_route("performers");
     }
-    /**
-     * Delete a performer (soft delete)
-     *
-     * @param int $id
-     */
 
+    /**
+     * Soft deletes the specified performer.
+     *
+     * @param int $id The ID of the performer to delete.
+     * @return \Illuminate\Http\RedirectResponse Redirects to the performers listing page.
+     */
     public function remove($id)
     {
         Performer::findOrFail($id)->delete();
         return to_route("performers");
     }
+
     /**
-     * Restores a deleted performer
+     * Restores a previously soft-deleted performer.
      *
-     * @param int $id
+     * @param int $id The ID of the performer to restore.
+     * @return \Illuminate\Http\RedirectResponse Redirects to the performers listing page.
      */
     public function restore($id)
     {

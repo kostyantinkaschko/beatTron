@@ -12,40 +12,19 @@ class NewsController extends Controller
 {
     /**
      * Displays a paginated list of news articles for the current performer.
-     * Retrieves news articles associated with the logged-in performer.
      *
      * @return \Illuminate\View\View
      */
     public function news()
     {
         $performer_id = User::performerId();
-        $news = News::where("performer_id", "=", $performer_id)->paginate(10);
-        ;
+        $news = News::where("performer_id", $performer_id)->paginate(10);
 
         return view("performerPanel.news", compact("news"));
     }
 
     /**
-     * Stores a new news article in the database.
-     * Associates the news article with the current performer.
-     *
-     * @param  \App\Http\Requests\NewsStoreRequest  $request  The validated request data
-     * @return \Illuminate\Http\RedirectResponse
-     */
-    public function store(NewsStoreRequest $request)
-    {
-        $data = $request->validated();
-        $data["performer_id"] = User::performerId();
-        $article = News::create($data);
-        $article->image = $request->file('image')->store('news', 'public');
-        $article->addMedia($request->file('image'))
-            ->toMediaCollection("news");
-
-        return to_route("performerPanel/news");
-    }
-
-    /**
-     * Displays the news creation page for the performer.
+     * Shows the form to create a new news article.
      *
      * @return \Illuminate\View\View
      */
@@ -55,28 +34,44 @@ class NewsController extends Controller
     }
 
     /**
-     * Displays the edit page for a specific news article.
+     * Stores a new news article in the database and associates it with the current performer.
      *
-     * @param  int  $id  The ID of the news article to edit
+     * @param  NewsStoreRequest  $request  The validated request with article data.
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function store(NewsStoreRequest $request)
+    {
+        $data = $request->validated();
+        $data["performer_id"] = User::performerId();
+
+        $article = News::create($data);
+
+        $article->addMedia($request->file('image'))
+            ->toMediaCollection("news");
+
+        return to_route("performerPanel/news");
+    }
+
+    /**
+     * Shows the form to edit an existing news article.
+     *
+     * @param  int  $id  The ID of the news article.
      * @return \Illuminate\View\View
      */
-    public function articleEdit($id)
+    public function articleEdit(int $id)
     {
-        $article = News::find($id);
+        $article = News::findOrFail($id);
         return view("performerPanel.articleEdit", compact("article"));
     }
 
-
     /**
-     * Updates the data of an existing news article in the database.
+     * Updates the specified news article in the database.
      *
-     * @param  \App\Http\Requests\NewsStoreRequest  $request  The validated request data
-     * @param  \App\Models\News  $news  The news article to be updated
-     * @param  int  $id  The ID of the news article to update
+     * @param  NewsStoreRequest  $request  The validated request data.
+     * @param  int  $id  The ID of the news article.
      * @return \Illuminate\Http\RedirectResponse
      */
-
-    public function articleUpdate(NewsStoreRequest $request, News $news, $id)
+    public function articleUpdate(NewsStoreRequest $request, int $id)
     {
         $news = News::findOrFail($id);
         $news->update($request->validated());
@@ -94,14 +89,13 @@ class NewsController extends Controller
         return to_route("article", $id);
     }
 
-
-
     /**
-     * Delete a disk (mild delete)
+     * Soft deletes the specified news article.
      *
-     * @param int $id
+     * @param  int  $id  The ID of the news article to delete.
+     * @return \Illuminate\Http\RedirectResponse
      */
-    public function remove($id)
+    public function remove(int $id)
     {
         News::findOrFail($id)->delete();
 
@@ -109,11 +103,12 @@ class NewsController extends Controller
     }
 
     /**
-     * Restores a deleted disk
+     * Restores a previously deleted news article.
      *
-     * @param int $id
+     * @param  int  $id  The ID of the news article to restore.
+     * @return \Illuminate\Http\RedirectResponse
      */
-    public function Restore($id)
+    public function restore(int $id)
     {
         News::onlyTrashed()->findOrFail($id)->restore();
 

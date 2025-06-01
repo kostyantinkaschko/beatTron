@@ -9,40 +9,42 @@ use App\Models\Discography;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\View\View;
 
 class DiscographyController extends Controller
 {
     use SongTrait;
 
     /**
-     * Displays a page with a list of discs.
-     * Uses pagination to limit the number of discs on the page.
+     * Display a paginated list of all discs (including soft-deleted).
      *
-     * @return \Illuminate\View\View
+     * @return View
      */
-    public function index()
+    public function index(): View
     {
         $disks = Discography::withTrashed()->paginate(50);
 
         return view("site.discography.discography", compact("disks"));
     }
 
-
     /**
-     * Displays a page with details of a specific disc, including information about the performer, genre, and songs.
-     * Also shows the latest songs and user playlists if the user is authenticated.
+     * Display a single disc page, including performer, genre, and songs.
+     * Shows latest songs and playlists if user is authenticated.
      *
-     * @param  int  $id  The ID of the disc
-     * @return \Illuminate\View\View
+     * @param  int  $id  The ID of the disc to display
+     * @return View
      */
-    public function disk($id)
+    public function disk(int $id): View
     {
         $disk = Discography::with(["performer", "genre", "songs"])->find($id);
-        $songs = $this->processSongs(Song::withTrashed()->take(10)->get());
 
+        $songs = $this->processSongs(
+            Song::withTrashed()->take(10)->get()
+        );
 
+        $playlists = [];
         if (Auth::check()) {
-            $playlists = Playlist::where("user_id", "=", Auth::user()->id)->get();
+            $playlists = Playlist::where("user_id", Auth::id())->get();
         }
 
         return view("site.discography.disk", compact("disk", "songs", "playlists"));

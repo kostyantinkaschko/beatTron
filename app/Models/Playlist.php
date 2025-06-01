@@ -23,21 +23,32 @@ class Playlist extends Model
 
     /**
      * Represents a playlist that a user can create and populate with songs.
-     * This model stores the playlist details and defines relationships to the songs
-     * added to the playlist.
      *
-     * @property int $id The unique identifier for the playlist
-     * @property int $user_id The identifier of the user who owns the playlist
-     * @property \Illuminate\Database\Eloquent\Collection|Song[] $songs The songs in the playlist
-     * @property \Illuminate\Database\Eloquent\Collection|Song[] $songsAdd The songs in the playlist with pivot data (e.g., additional information)
+     * This model stores the playlist details and defines a many-to-many relationship to the songs
+     * added to the playlist via the `playlists_songs` pivot table.
+     *
+     * @property int $id Unique identifier for the playlist
+     * @property int $user_id ID of the user who owns the playlist
+     *
+     * @property \Illuminate\Database\Eloquent\Collection|\App\Models\Song[] $songs Songs in the playlist
      */
 
-
+    /**
+     * Get the songs in the playlist (basic relation).
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
     public function songs()
     {
         return $this->belongsToMany(Song::class, 'playlists_songs');
     }
 
+
+    /**
+     * Get the songs in the playlist including pivot data.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
     public function songsAdd()
     {
         return $this->belongsToMany(Song::class, 'playlists_songs')->withPivot('id');

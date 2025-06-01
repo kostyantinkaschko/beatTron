@@ -2,19 +2,16 @@
 
 namespace App\Models;
 
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
-use App\Models\Performer;
-use Illuminate\Support\Facades\Auth;
+use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class User extends Authenticatable
 {
-    use HasFactory;
-    use Notifiable;
-    use SoftDeletes;
+    use HasFactory, Notifiable, SoftDeletes;
 
     /**
      * The attributes that are mass assignable.
@@ -43,37 +40,45 @@ class User extends Authenticatable
     ];
 
     /**
-     * Represents a user in the system, extending the Authenticatable model for user authentication.
-     * This model includes the user's basic information, authentication details, and relationships with medals and performers.
+     * Represents a user in the system.
      *
-     * @property int $id The unique identifier for the user
-     * @property string $name The first name of the user
-     * @property string $surname The surname of the user
-     * @property string $email The email address of the user
-     * @property string $password The hashed password of the user
-     * @property string $phone The phone number of the user
-     * @property \Illuminate\Database\Eloquent\Relations\HasOne $performer The performer associated with the user (if any)
+     * @property int $id
+     * @property string $name
+     * @property string $surname
+     * @property string $email
+     * @property string $phone
+     * @property string $password
+     * @property \App\Models\Performer|null $performer
      */
 
-
-    public function performer()
+    /**
+     * One-to-one relationship with Performer.
+     */
+    public function performer(): HasOne
     {
         return $this->hasOne(Performer::class);
     }
 
-    public static function performerId()
+    /**
+     * Get the ID of the performer linked to the authenticated user.
+     *
+     * @return int|null
+     */
+    public static function performerId(): ?int
     {
-        return Performer::select("id")->where('user_id', '=', Auth::id())->value('id');
+        return Performer::where('user_id', Auth::id())->value('id');
     }
 
-    // public function medals()
-    // {
-    //     return $this->belongsToMany(Medal::class, 'users_medals');
-    // }
 
+    /*
+    public function medals(): BelongsToMany
+    {
+        return $this->belongsToMany(Medal::class, 'users_medals');
+    }
 
-    // public function medalsAdd()
-    // {
-    //     return $this->belongsToMany(Medal::class, 'users_medals')->withPivot('id');
-    // }
+    public function medalsAdd(): BelongsToMany
+    {
+        return $this->belongsToMany(Medal::class, 'users_medals')->withPivot('id');
+    }
+    */
 }

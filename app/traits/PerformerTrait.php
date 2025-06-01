@@ -10,19 +10,13 @@ use App\Models\Performer;
 trait PerformerTrait
 {
     /**
-     * Trait to calculate the rating of a performer based on the ratings of their songs.
+     * Calculate and return the compounded rating for the given performer.
+     * Multiplicative method is sensitive to zeroes.
      *
-     * This trait includes a method to retrieve all ratings for a performer's songs
-     * and calculate a compounded rating using a multiplicative approach.
-     *
-     * @method float getPerfromerRate($performer) Calculate and return the compounded rating for the given performer.
-     *
-     * @param \App\Models\Performer $performer The performer whose ratings will be calculated.
-     *
-     * @return float The compounded rating of the performer's songs.
+     * @param \App\Models\Performer $performer
+     * @return float
      */
-
-    public function getPerfromerRate($performer)
+    public function getPerformerRate($performer)
     {
         $songs = Song::where("performer_id", $performer->id)->pluck('id');
         $songRating = Rating::whereIn('song_id', $songs)->pluck('rate');
@@ -32,6 +26,14 @@ trait PerformerTrait
         }, 1), 2);
     }
 
+
+    /**
+     * Format performer(s) data for API or view usage.
+     *
+     * @param mixed $data One or more Performer models
+     * @param string $mode Either 'alone' for single or 'plural' for collection
+     * @return array
+     */
     public function performerFormatting($data, $mode = "plural")
     {
         function writeData($item)

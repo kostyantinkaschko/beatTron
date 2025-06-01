@@ -15,9 +15,9 @@ use App\Http\Requests\Filters\PerformerPanel\DiscographyFilterRequest;
 class DiscographyController extends Controller
 {
     /**
-     * Routing to the disk creation display page
+     * Shows the form for creating a new disk.
      *
-     * @return View
+     * @return View The view to create a new disk.
      */
     public function create(): View
     {
@@ -28,9 +28,10 @@ class DiscographyController extends Controller
     }
 
     /**
-     * Stores a new disk in the da  tabase
+     * Stores a newly created disk in the database.
      *
-     * @param Request $request
+     * @param DiscographyStorePostRequest $request Validated request with disk data.
+     * @return \Illuminate\Http\RedirectResponse Redirects to the disk list page.
      */
     public function store(DiscographyStorePostRequest $request)
     {
@@ -43,11 +44,10 @@ class DiscographyController extends Controller
         return to_route("performerPanel/discography");
     }
     /**
-
-     * Routing to the disk edit display page
+     * Shows the form for editing an existing disk.
      *
-     * @param int $id
-     * @return View
+     * @param int $id The ID of the disk to edit.
+     * @return View The view to edit the disk.
      */
     public function edit($id): View
     {
@@ -59,11 +59,10 @@ class DiscographyController extends Controller
     }
 
     /**
-     * Displays a paginated list of disks with filtering options.
-     * Filters disks by genre, type, performer, and search terms.
+     * Displays a paginated list of disks with optional filters (genre, type, performer, search).
      *
-     * @param  \Illuminate\Http\Request  $request  The request containing filtering data
-     * @return \Illuminate\View\View
+     * @param DiscographyFilterRequest $request The request containing filter parameters.
+     * @return View The view displaying filtered list of disks.
      */
     public function index(DiscographyFilterRequest $request): View
     {
@@ -90,10 +89,11 @@ class DiscographyController extends Controller
 
 
     /**
-     * Updates the data of an existing disk in the database
+     * Updates the data of an existing disk.
      *
-     * @param Request $request
-     * @param Discography $disk
+     * @param DiscographyStorePostRequest $request Validated request with updated disk data.
+     * @param Discography $disk The disk model to update.
+     * @return \Illuminate\Http\RedirectResponse Redirects to the disk list page.
      */
     public function diskUpdate(DiscographyStorePostRequest $request, Discography $disk)
     {
@@ -104,9 +104,10 @@ class DiscographyController extends Controller
     }
 
     /**
-     * Delete a disk (mild delete)
+     * Soft deletes the specified disk.
      *
-     * @param int $id
+     * @param int $id The ID of the disk to delete.
+     * @return \Illuminate\Http\RedirectResponse Redirects to the disk list page.
      */
     public function remove($id)
     {
@@ -115,10 +116,12 @@ class DiscographyController extends Controller
         return to_route("performerPanel/discography");
     }
 
+
     /**
-     * Restores a deleted disk
+     * Restores a previously soft-deleted disk for the authenticated performer.
      *
-     * @param int $id
+     * @param int $id The ID of the disk to restore.
+     * @return \Illuminate\Http\RedirectResponse Redirects to the disk list page.
      */
     public function Restore($id)
     {
