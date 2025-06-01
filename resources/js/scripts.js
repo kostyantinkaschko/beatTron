@@ -1,8 +1,7 @@
 let currentSong = null,
     progressTracked = {},
     currentAudio = null,
-    currentButton = null,
-    csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+    currentButton = null
 
 
 function audio(id) {

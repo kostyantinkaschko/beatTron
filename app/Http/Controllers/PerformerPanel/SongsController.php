@@ -9,13 +9,14 @@ use Illuminate\View\View;
 use App\Models\Discography;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Filters\PerformerPanel\SongsFilterRequest;
 use Illuminate\Http\RedirectResponse;
 use App\Http\Requests\SongStorePostRequest;
 use Illuminate\Support\Facades\Auth;
 
 class SongsController extends Controller
 {
-    public function index(Request $request)
+    public function index(SongsFilterRequest $request)
     {
         /**
          * Displays a paginated list of songs filtered by various criteria.
@@ -32,7 +33,6 @@ class SongsController extends Controller
             ->when($request->filled('name'), fn ($q) => $q->where('name', 'like', '%' . $request->name . '%'))
             ->when($request->filled('year'), fn ($q) => $q->where('year', $request->year))
             ->when($request->filled('status'), fn ($q) => $q->where('status', 'like', '%' . $request->status . '%'))
-            ->when($request->filled('created_at'), fn ($q) => $q->whereDate('created_at', $request->created_at))
             ->when($request->filled('search'), function ($q) use ($request) {
                 $q->where(function ($query) use ($request) {
                     $search = $request->search;

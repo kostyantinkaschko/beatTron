@@ -27,13 +27,12 @@ class SongsController extends Controller
             ->when($request->filled('name'), fn ($q) => $q->where('name', 'like', '%' . $request->name . '%'))
             ->when($request->filled('year'), fn ($q) => $q->where('year', $request->year))
             ->when($request->filled('status'), fn ($q) => $q->where('status', 'like', '%' . $request->status . '%'))
-            ->when($request->filled('created_at'), fn ($q) => $q->whereDate('created_at', $request->created_at))
             ->when($request->filled('search'), function ($q) use ($request) {
                 $q->where(function ($query) use ($request) {
                     $search = $request->search;
-                    $query->where('name', 'like', "%$search%")
-                        ->orWhere('status', 'like', "%$search%")
-                        ->orWhere('year', 'like', "%$search%");
+                    $query->where('name', 'like', '%$search%')
+                        ->orWhere('status', 'like', '%$search%')
+                        ->orWhere('year', 'like', '%$search%');
                 });
             })
             ->paginate(50);
@@ -41,7 +40,7 @@ class SongsController extends Controller
         $genres = Genre::select('id', 'title')->get();
         $performers = Performer::select('id', 'name')->get();
 
-        return view("admin.songs.songs", compact("songs", "genres", "performers"));
+        return view('admin.songs.songs', compact('songs', 'genres', 'performers'));
     }
 
     /**
@@ -51,11 +50,11 @@ class SongsController extends Controller
      */
     public function create(): View
     {
-        $disks = Discography::select("id", "name")->get();
-        $genres = Genre::select("id", "title")->get();
-        $performers = Performer::select("id", 'name')->get();
+        $disks = Discography::select('id', 'name')->get();
+        $genres = Genre::select('id', 'title')->get();
+        $performers = Performer::select('id', 'name')->get();
 
-        return view("admin.songs.create", compact('disks', 'genres', 'performers'));
+        return view('admin.songs.create', compact('disks', 'genres', 'performers'));
     }
 
 
@@ -69,9 +68,9 @@ class SongsController extends Controller
         $song = Song::create($request->validated());
         $song->song = $request->file('song')->store('songs', 'public');
         $song->addMedia($request->file('song'))
-            ->toMediaCollection("songs");
+            ->toMediaCollection('songs');
 
-        return to_route("songs");
+        return to_route('songs');
     }
 
     /**
@@ -83,11 +82,11 @@ class SongsController extends Controller
     public function edit($id): View|RedirectResponse
     {
         $song = Song::findOrFail($id);
-        $genres = Genre::select("id", 'title')->get();
-        $performers = Performer::select("id", 'name')->get();
-        $disks = Discography::select("id", 'name')->get();
+        $genres = Genre::select('id', 'title')->get();
+        $performers = Performer::select('id', 'name')->get();
+        $disks = Discography::select('id', 'name')->get();
 
-        return view("admin.songs.edit", compact('song', 'genres', 'performers', 'disks'));
+        return view('admin.songs.edit', compact('song', 'genres', 'performers', 'disks'));
     }
 
 
@@ -100,7 +99,7 @@ class SongsController extends Controller
     public function update(SongStorePostRequest $request, Song $song)
     {
         $song->update($request->validated());
-        return to_route("songs");
+        return to_route('songs');
     }
     /**
      * Delete a song (softDelete)
@@ -110,7 +109,7 @@ class SongsController extends Controller
     public function remove($id)
     {
         Song::findOrFail($id)->delete();
-        return to_route("songs");
+        return to_route('songs');
     }
 
     /**
@@ -121,6 +120,6 @@ class SongsController extends Controller
     public function restore($id)
     {
         Song::onlyTrashed()->findOrFail($id)->restore();
-        return to_route("songs");
+        return to_route('songs');
     }
 }

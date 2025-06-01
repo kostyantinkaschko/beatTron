@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Requests;
+namespace App\Http\Requests\Filters\PerformerPanel;
 
 use Illuminate\Foundation\Http\FormRequest;
 
@@ -22,9 +22,10 @@ class DiscographyFilterRequest extends FormRequest
     public function rules(): array
     {
         return [
-            "performer_id" => ["required", "integer"],
-            "genre_id" => ["required", "integer"],
-            "type" => ["required", "integer"],
+            'genre_id' => ['nullable', 'integer', 'max:255', 'exists:genres,id'],
+            'type' => ['nullable', 'string', 'max:255', 'in:album,single'],
+            'performer_id' => ['nullable', 'integer', 'max:255', 'exists:performers,id'],
+            'search' => ['nullable', 'string']
         ];
     }
 }

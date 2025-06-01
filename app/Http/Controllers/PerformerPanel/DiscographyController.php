@@ -9,8 +9,8 @@ use Illuminate\Http\Request;
 use Illuminate\Contracts\View\View;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
-use App\Http\Requests\DiscographyFilterRequest;
 use App\Http\Requests\DiscographyStorePostRequest;
+use App\Http\Requests\Filters\PerformerPanel\DiscographyFilterRequest;
 
 class DiscographyController extends Controller
 {

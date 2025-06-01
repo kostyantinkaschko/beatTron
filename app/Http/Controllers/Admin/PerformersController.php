@@ -6,6 +6,7 @@ use App\Models\Performer;
 use Illuminate\Http\Request;
 use Illuminate\Contracts\View\View;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Filters\Admin\PerformerFilterRequest;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\PerformersStorePostRequest;
 
@@ -16,7 +17,7 @@ class PerformersController extends Controller
      *
      * @return View
      */
-    public function index(Request $request)
+    public function index(PerformerFilterRequest $request)
     {
         $performers = Performer::withTrashed()
             ->with(["discographies"])

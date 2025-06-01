@@ -15,6 +15,15 @@
                 @endforeach
             </select>
 
+            <label for="status" class="dark:text-white">Status:</label>
+            <select name="status">
+                <option value="public">Public</option>
+                <option value="protected">Protected</option>
+                <option value="private">Private</option>
+            </select>
+
+              <!-- 'status' => ['nullable', 'string', 'max:255', 'in:album,single'], -->
+
             <label for="performer_id" class="dark:text-white">Performer:</label>
             <select name="performer_id" id="performer_id" class="border">
                 <option value="">Select Performer</option>

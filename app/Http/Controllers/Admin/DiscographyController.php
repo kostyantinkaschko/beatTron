@@ -10,6 +10,7 @@ use Illuminate\Contracts\View\View;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\RedirectResponse;
 use App\Http\Requests\DiscographyStorePostRequest;
+use App\Http\Requests\Filters\Admin\DiscographyFilterRequest;
 
 class DiscographyController extends Controller
 {
@@ -18,7 +19,7 @@ class DiscographyController extends Controller
      *
      * @return View
      */
-    public function index(Request $request)
+    public function index(DiscographyFilterRequest $request)
     {
         $disks = Discography::withTrashed()
             ->with(['genre', 'performer'])

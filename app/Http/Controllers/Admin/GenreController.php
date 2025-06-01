@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Contracts\View\View;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\GenresStorePostRequest;
+use App\Http\Requests\Filters\Admin\GenreFilterRequest;
 
 class GenreController extends Controller
 {
@@ -15,7 +16,7 @@ class GenreController extends Controller
      *
      * @return View
      */
-    public function index(Request $request)
+    public function index(GenreFilterRequest $request)
     {
         $genres = Genre::withTrashed()
             ->with(["discographies"])

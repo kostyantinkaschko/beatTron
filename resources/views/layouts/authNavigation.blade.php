@@ -1,4 +1,4 @@
-<header class="text-[11rem]">
+<header class="text-base">
     <nav x-data="{ open: false }" class="bg-white dark:bg-gray-800 border-b border-gray-100 dark:border-gray-700">
         <div class="flex justify-between topline wrapper">
             <!-- Logo or brand name can be added here if necessary -->
@@ -20,15 +20,12 @@
                     <x-nav-link :href="route('discographySite')" :active="request()->routeIs('discographySite')">
                         {{ __('Discography') }}
                     </x-nav-link>
+
+                     <x-nav-link :href="route('profile.edit')" :active="request()->routeIs('profile.edit')">
+                        {{ __('Profile') }}
+                    </x-nav-link>
                 </div>
             </div>
-
-            <form clasS="searchForm" class="flex" method="get" action="{{ route("search") }}">
-                <input type="text" name="search" placeholder="Search">
-                <label class="searchSubmit">
-                    <input type="submit" value="">
-                </label>
-            </form>
 
             <!-- User Profile or Authentication Dropdown -->
             <div class="hidden sm:flex sm:items-center sm:ms-6 dropdownMenu">

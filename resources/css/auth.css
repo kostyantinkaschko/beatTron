@@ -1,0 +1,30 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+
+.wrapper {
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 0 10px;
+}
+
+.topline {
+    padding: 15px;
+}
+
+
+.dropdownMenu button,
+.dropdownMenu a {
+    font-size: 14px;
+}
+
+.dropdownMenuBlock {
+    background: rgb(55 65 81 / var(--tw-bg-opacity, 1));
+}
+
+.dropdownMenu a {
+    padding: 20px;
+    width: 160px;
+}
