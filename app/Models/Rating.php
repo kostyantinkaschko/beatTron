@@ -44,7 +44,7 @@ class Rating extends Model
     /**
      * Get the song that was rated.
      */
-    public function song(): BelongsTo
+    public function songs(): BelongsTo
     {
         return $this->belongsTo(Song::class);
     }

@@ -20,13 +20,13 @@
         }
     ],
     "paths": {
-        "/api/v1/performer": {
+        "/api/v1/performers": {
             "get": {
                 "tags": [
                     "Performers"
                 ],
                 "summary": "Get performers",
-                "operationId": "f810a88fcff78f0aa3d4f8056701667d",
+                "operationId": "ac7d8778d53c2ce66c93d3976044fdbb",
                 "responses": {
                     "200": {
                         "description": "Performer list",
@@ -37,6 +37,39 @@
                                     "items": {
                                         "$ref": "#/components/schemas/PerformerResource"
                                     }
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "Performers"
+                ],
+                "operationId": "bd9efe34979c2937557f2cf5a8087d44",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/PerformersStorePostRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Performer successfully created",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/PerformerResource"
                                 }
                             }
                         }
@@ -206,41 +239,6 @@
                                         }
                                     },
                                     "type": "object"
-                                }
-                            }
-                        }
-                    }
-                },
-                "security": [
-                    {
-                        "bearerAuth": []
-                    }
-                ]
-            }
-        },
-        "/api/v1/performers": {
-            "post": {
-                "tags": [
-                    "Performers"
-                ],
-                "operationId": "bd9efe34979c2937557f2cf5a8087d44",
-                "requestBody": {
-                    "required": true,
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "$ref": "#/components/schemas/PerformersStorePostRequest"
-                            }
-                        }
-                    }
-                },
-                "responses": {
-                    "201": {
-                        "description": "Performer successfully created",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/PerformerResource"
                                 }
                             }
                         }

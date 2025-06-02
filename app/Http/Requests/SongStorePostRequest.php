@@ -37,31 +37,34 @@ class SongStorePostRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'genre_id' => ["required", "integer"],
-            'performer_id' => ["required", "integer"],
-            'disk_id' => ["required", "integer"],
-            "name" => ["required", "string", "max:255"],
-            'year' => ["required", "integer"],
-            'status' => ["required", "string", "max:32"],
+            'genre_id' => ['required', 'integer', 'exists:genres,id'],
+            'performer_id' => ['required', 'integer', 'exists:performers,id'],
+            'disk_id' => ['required', 'integer', 'exists:discography,id'],
+            'name' => ['required', 'string'],
+            'year' => ['required', 'integer'],
+            'status' => ['required', 'string', 'in:public,private'],
             'song' => [
-                'required',
+                $this->isMethod('post') ? 'required' : 'nullable',
                 'file',
-                'mimetypes:audio/mpeg,audio/wav,audio/flac'
-            ]
-
+                'mimetypes:audio/mpeg,audio/wav,audio/flac',
+            ],
         ];
     }
 
     public function messages()
     {
         return [
-            'genre_id' => "This genre cannot be selected",
-            'performer_id' => "This performer cannot be selected",
-            'disk_id' => "This disk cannot be selected",
-            "name" => "This parameter is required and has a maximum length of 255 characters.",
-            'year' => "This parameter is required and its value must be a number.",
-            "status" => "This parameter is required and has a maximum length of 32 characters.",
-            "song" => "Something went wrong with the song file."
+            'genre_id.required' => "This genre cannot be selected",
+            'genre_id.exists' => "This genre cannot be selected",
+            'performer_id.required' => "This performer cannot be selected",
+            'performer_id.exists' => "This performer cannot be selected",
+            'disk_id.required' => "This disk cannot be selected",
+            'disk_id.exists' => "This disk cannot be selected",
+            'name.required' => "This parameter is required and has a maximum length of 255 characters.",
+            'year.required' => "This parameter is required and its value must be a number.",
+            'status.required' => "This parameter is required and has a maximum length of 32 characters.",
+            'song.file' => "Something went wrong with the song file.",
+            'song.mimetypes' => "Unsupported audio format.",
         ];
     }
 }

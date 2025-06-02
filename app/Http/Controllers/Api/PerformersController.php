@@ -2,12 +2,13 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Models\Performer;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 use App\Http\Resources\PerformerResource;
 use App\Repositories\PerformerRepository;
 use App\Http\Requests\PerformersStorePostRequest;
-use App\Models\Performer;
 
 /**
  * @OA\Tag(
@@ -28,7 +29,7 @@ class PerformersController extends Controller
 
     /**
      * @OA\Get(
-     *     path="/api/v1/performer",
+     *     path="/api/v1/performers",
      *     tags={"Performers"},
      *     summary="Get performers",
      *     security={{"bearerAuth": {}}},
@@ -69,7 +70,12 @@ class PerformersController extends Controller
     public function show($id)
     {
         $performer = $this->repository->find($id);
-        
+
+
+        if (!$performer) {
+            return response()->json(['message' => 'Performer not found'], 404);
+        }
+
         return new PerformerResource($performer);
     }
 
@@ -92,7 +98,8 @@ class PerformersController extends Controller
      */
     public function store(PerformersStorePostRequest $request)
     {
-        $performer = $this->repository->create($request->validated());
+        $data = $request->validated();
+        $performer = $this->repository->create($data);
         return new PerformerResource($performer);
     }
 
@@ -134,7 +141,7 @@ class PerformersController extends Controller
      */
     public function update(PerformersStorePostRequest $request, $id)
     {
-        $performer = $this->repository->update($id, $request->validated());
+        $performer = $this->repository->update( $request->validated(), $id);
         return $performer
             ? new PerformerResource($performer)
             : response()->json(['message' => 'performer not found'], 404);

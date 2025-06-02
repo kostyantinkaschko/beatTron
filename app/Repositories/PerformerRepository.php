@@ -11,23 +11,20 @@ class PerformerRepository
     public function all()
     {
         $performers = Performer::withCount('songs')->get();
-        foreach ($performers as $performer) {
-            $performer->songCount = $performer->songs_count;
-        }
 
-        return $this->performerFormatting($performers, "plural");
+        return $performers;
     }
+
 
 
     public function find($id)
     {
-        $performer = Performer::find($id);
-        $performer->songCount = $performer->songs_count;
-        return $this->performerFormatting($performer, "alone");
+        return Performer::withCount('songs')->findOrFail($id);
     }
 
     public function create(array $data)
     {
+        $data['user_id'] = 1;
         return Performer::create($data);
     }
 

@@ -26,6 +26,7 @@ class Performer extends Model
         'facebook',
         'x',
         'youtube',
+        'user_id'
     ];
 
     /**
@@ -74,7 +75,7 @@ class Performer extends Model
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function song()
+    public function songs()
     {
         return $this->hasMany(Song::class);
     }

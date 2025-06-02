@@ -4,10 +4,12 @@ namespace App\Http\Controllers\Api;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Repositories\SongRepository;
 use App\Http\Resources\SongResource;
+use App\Repositories\SongRepository;
+use App\Http\Requests\SongCreateRequest;
 use App\Http\Requests\SongStorePostRequest;
 use App\Http\Requests\SongStorePostApiRequest;
+use App\Http\Requests\SongUpdateRequest;
 
 /**
  * @OA\Tag(
@@ -79,7 +81,24 @@ class SongsController extends Controller
      *     security={{"bearerAuth": {}}},
      *     @OA\RequestBody(
      *         required=true,
-     *         @OA\JsonContent(ref="#/components/schemas/SongStorePostRequest")
+     *         @OA\MediaType(
+     *             mediaType="multipart/form-data",
+     *             @OA\Schema(
+     *                 required={"genre_id", "performer_id", "disk_id", "name", "year", "status", "song"},
+     *                 @OA\Property(property="genre_id", type="integer", example=1),
+     *                 @OA\Property(property="performer_id", type="integer", example=1),
+     *                 @OA\Property(property="disk_id", type="integer", example=1),
+     *                 @OA\Property(property="name", type="string", example="My Song"),
+     *                 @OA\Property(property="year", type="integer", example=2024),
+     *                 @OA\Property(property="status", type="string", example="public"),
+     *                 @OA\Property(
+     *                     property="song",
+     *                     type="string",
+     *                     format="binary",
+     *                     description="Audio file"
+     *                 )
+     *             )
+     *         )
      *     ),
      *     @OA\Response(
      *         response=201,
@@ -87,13 +106,19 @@ class SongsController extends Controller
      *         @OA\JsonContent(ref="#/components/schemas/SongResource")
      *     )
      * )
-     * 
      */
-    public function store(SongStorePostRequest $request)
+
+    public function store(SongCreateRequest $request)
     {
-        $song = $this->repository->create($request->validated());
+        $data = $request->validated();
+        $data['song'] = $request->file('song')->store('songs', 'public');
+        $data['file'] = $request->file('song');
+
+        $song = $this->repository->create($data);
+
         return new SongResource($song);
     }
+
 
     /**
      * @OA\Put(
@@ -105,41 +130,39 @@ class SongsController extends Controller
      *         name="id",
      *         in="path",
      *         required=true,
-     *         description="Song id for update",
+     *         description="Song ID",
      *         @OA\Schema(type="integer")
      *     ),
      *     @OA\RequestBody(
      *         required=true,
      *         @OA\JsonContent(
-     *             type="object",
-     *             required={"genre_id", "performer_id", "disk_id", "name", "listening_count", "year", "status"},
-     *             @OA\Property(property="genre_id", type="integer", example="1"),
-     *             @OA\Property(property="performer_id", type="integer", example="1"),
-     *             @OA\Property(property="disk_id", type="integer", example="1"),
-     *             @OA\Property(property="name", type="string", example="Omega Petya"),
-     *             @OA\Property(property="listening_count", type="integer", example="1"),
-     *             @OA\Property(property="year", type="integer", example="2023"),
+     *             required={"genre_id", "performer_id", "disk_id", "name", "year", "status"},
+     *             @OA\Property(property="genre_id", type="integer", example=1),
+     *             @OA\Property(property="performer_id", type="integer", example=1),
+     *             @OA\Property(property="disk_id", type="integer", example=1),
+     *             @OA\Property(property="name", type="string", example="My Song"),
+     *             @OA\Property(property="year", type="integer", example=2024),
      *             @OA\Property(property="status", type="string", example="public")
      *         )
      *     ),
      *     @OA\Response(
      *         response=200,
-     *         description="OK",
+     *         description="Updating successful",
      *         @OA\JsonContent(ref="#/components/schemas/SongResource")
      *     ),
      *     @OA\Response(
      *         response=404,
-     *         description="Song is not found"
+     *         description="Song not found"
      *     )
      * )
      */
-    public function update(SongStorePostRequest $request, $id)
+    public function update(SongUpdateRequest $request, $id)
     {
-        $song = $this->repository->update($id, $request->validated());
-        return $song
-            ? new SongResource($song)
-            : response()->json(['message' => 'Song not found'], 404);
+        $song = $this->repository->update($request->validated(), $id);
+
+        return new SongResource($song);
     }
+
 
     /**
      * @OA\Delete(

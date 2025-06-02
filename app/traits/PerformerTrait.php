@@ -25,40 +25,4 @@ trait PerformerTrait
             return $carry * $item;
         }, 1), 2);
     }
-
-
-    /**
-     * Format performer(s) data for API or view usage.
-     *
-     * @param mixed $data One or more Performer models
-     * @param string $mode Either 'alone' for single or 'plural' for collection
-     * @return array
-     */
-    public function performerFormatting($data, $mode = "plural")
-    {
-        function writeData($item)
-        {
-            return  [
-                'id' => $item->id,
-                'user' => User::find($item->user_id)->name,
-                "name" => $item->name,
-                "instagram" => $item->year,
-                "facebook" => $item->status,
-                "x" => $item->year,
-                "youtube" => $item->status,
-
-            ];
-        }
-
-        if ($mode == "alone") {
-            return writeData($data);
-        } else if ($mode == "plural") {
-            $result = [];
-            foreach ($data as $item) {
-                $result[] = writeData($item);
-            }
-
-            return $result;
-        }
-    }
 }
