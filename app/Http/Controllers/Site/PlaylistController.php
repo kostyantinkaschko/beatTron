@@ -35,7 +35,12 @@ class PlaylistController extends Controller
 
     public function create()
     {
-        Playlist::create(['user_id' =>  Auth::id()]);
+        Playlist::create(
+            [
+                'user_id' =>  Auth::id(),
+                'name' => "New playlist"
+            ]
+        );
 
         return to_route("playlists");
     }
@@ -70,6 +75,20 @@ class PlaylistController extends Controller
             return redirect("login");
         }
     }
+
+
+    /**
+     * Soft deletes the specified playlist.
+     *
+     * @param int $id The ID of the genre to delete.
+     * @return \Illuminate\Http\RedirectResponse Redirects to the playlist listing page.
+     */
+    public function remove($id)
+    {
+        Playlist::findOrFail($id)->delete();
+
+        return to_route("playlists");
+    }
     /**
      * Adds a song to a playlist. If the playlist doesn't exist, it creates a new one.
      * Checks if the song is already in the playlist to prevent duplicates.
@@ -93,5 +112,26 @@ class PlaylistController extends Controller
 
         $playlist->songsAdd()->attach($songId);
         return redirect()->back();
+    }
+
+    public function edit($id)
+    {
+        $playlist = Playlist::find($id);
+
+        return response()->json($playlist);
+    }
+
+    public function update(Request $request, $id)
+    {
+        $playlist = Playlist::find($id);
+
+        $request->validate([
+            'name' => 'required|string|max:255'
+        ]);
+
+        $playlist->name = $request->name;
+        $playlist->save();
+
+        return response()->json($playlist);
     }
 }

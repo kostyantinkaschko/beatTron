@@ -21,7 +21,7 @@ header {
 
 .audio-player audio {
     background: #fff;
-    border-top: 3px solid grey;
+    border-top: 3px solid rgb(31 41 55 / var(--tw-bg-opacity, 1));
 }
 
 .audio-player audio {
@@ -35,7 +35,7 @@ header {
     padding: 10rem;
     width: 20%;
     text-align: center;
-    border-bottom: 6.5px solid grey;
+    border-bottom: 6.5px solid rgb(31 41 55 / var(--tw-bg-opacity, 1));
     background: #fff;
 }
 
@@ -141,7 +141,8 @@ option {
 
 .performer,
 .genre,
-.disk {
+.disk,
+.playlist {
     display: inline-block;
     padding: 20rem;
     color: #e5e7eb;
@@ -149,6 +150,32 @@ option {
     border: 1rem solid rgb(75 85 99 / var(--tw-border-opacity, 1));
 }
 
+.playlists,
+.playlists tr {
+    width: 100%;
+}
+
+.playlists tr {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.playlist_id {
+    font-size: 12rem;
+    color: #000;
+}
+
+.playlist_created_at {
+    font-size: 12rem;
+    color: #000;
+}
+
+.playlist-name-input {
+    width: 80rem;
+    font-size: 16rem;
+    color: black;
+}
 
 .pagination {
     width: 100%;
@@ -264,8 +291,8 @@ main h1 {
 }
 
 .song {
-    background: grey;
-    border: 3rem solid darkblue;
+    background: rgb(31 41 55 / var(--tw-bg-opacity, 1));
+    border: 3rem solid rgb(75 85 99 / var(--tw-border-opacity, 1));
     border-radius: 4rem;
     display: flex;
     justify-content: space-between;
@@ -293,23 +320,30 @@ main h1 {
 .play-button::before {
     content: "";
     position: absolute;
-    left: 8px;
-    top: 6px;
+    left: 9px;
+    top: 9px;
     width: 0;
     height: 0;
     border-top: 6px solid transparent;
     border-bottom: 6px solid transparent;
-    border-left: 10px solid blue;
+    border-left: 10px solid rgb(75 85 99 / var(--tw-border-opacity, 1));
 }
 
 .play-button.playing::before {
     border: none;
-    left: 6px;
-    top: 4px;
+    left: 9px;
+    top: 6px;
     width: 4px;
     height: 16px;
-    background: blue;
-    box-shadow: 8px 0 0 blue;
+    background: rgb(75 85 99 / var(--tw-border-opacity, 1));
+    box-shadow: 8px 0 0 rgb(75 85 99 / var(--tw-border-opacity, 1));
+}
+
+.currentSongWithSearch {
+    height: 0;
+    width: 0;
+    position: absolute;
+    right: 20000010%;
 }
 
 select {
@@ -327,4 +361,9 @@ select {
 select:hover,
 select:focus {
     filter: drop-shadow(2px 4px 6px black);
+}
+
+
+.playlists {
+    margin: 20rem 0;
 }

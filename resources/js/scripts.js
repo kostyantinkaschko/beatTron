@@ -69,6 +69,4 @@ function audio(id) {
 
         audioPlayer._trackingAttached = true
     }
-
-
 }

@@ -7,6 +7,7 @@
                 @endforeach
             </tbody>
         </table>
+        @if($performers->isNotEmpty())
         <div class="performersGeneral">
             <h2>Performers</h2>
             <ul class="performerBlock">
@@ -15,6 +16,7 @@
                 @endforeach
             </ul>
         </div>
+        @endif
         <ul>
             @foreach ($news as $item)
             <li>

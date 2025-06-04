@@ -18,7 +18,8 @@ class PlaylistFactory extends Factory
     public function definition(): array
     {
         return [
-            'user_id' => $this->faker->randomElement(User::pluck("id"))
+            'user_id' => $this->faker->randomElement(User::pluck("id")),
+            'name' => "Playlist"
         ];
     }
 }

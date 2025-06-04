@@ -41,6 +41,10 @@ Route::post('/songs/{id}/listen', [SongController::class, 'incrementListeningCou
 
 Route::middleware([SiteMiddleware::class])->group(function (): void {
     Route::get("playlists", [PlaylistController::class, "site"])->name("playlists");
+    Route::get('/playlists/{id}/edit', [PlaylistController::class, 'edit']);
+    Route::post('/playlists/{id}/update-name', [PlaylistController::class, 'update'])->name('playlist.updateName');
+    Route::get('/playlistError', [PlaylistController::class, 'force404'])->name('playlistError');
+    Route::delete("playlistDelete/{id}", [PlaylistController::class, "remove"])->name("playlistDelete");
     Route::get("genresSite", [GenreSiteController::class, "site"])->name("genresSite");
     Route::get("performersSite", [PerformerSiteController::class, "site"])->name("performersSite");
     Route::get("performerPage/{id}", [PerformerSiteController::class, "index"])->name("performerPage");
@@ -58,7 +62,6 @@ Route::middleware([SiteMiddleware::class])->group(function (): void {
     Route::post('songRate/{id}', [RateController::class, 'index'])->name('songRate');
     Route::get("song/{id}", [SongController::class, "song"])->name("song");
     Route::get("songShow/{id}", [SongController::class, "show"])->name("songShow");
-    
 });
 
 Route::prefix("performerPanel")->middleware([PerformerPanelMiddleware::class])->group(function () {

@@ -34,33 +34,37 @@
     <td>{{ $song->listening_count }}{{ $song->listening }}</td>
 
     @if(isset($playlists) && Auth::check())
+    @php
+    $userHasPlaylists = isset($playlists) && $playlists->isNotEmpty();
+    $availablePlaylists = $userHasPlaylists ? $playlists->filter(fn($pl) => !$song->playlists->contains('id', $pl->id)) : collect();
+    @endphp
     <td>
-        @php
-        $availablePlaylists = $playlists->filter(fn($pl) => !$song->playlists->contains('id', $pl->id));
-        @endphp
+
 
         <form action="{{ route('addSong') }}" method="post" class="addSongToPlaylist">
             @csrf
 
-            @if($availablePlaylists->isNotEmpty())
-            <select name="playlist" class="playlist_select" {{ $availablePlaylists->isEmpty() ? 'disabled' : '' }}>
-                <option value="create">
-                    Select Playlist
-                </option>
-                @else
-                <select class="playlist_select lackOfPlaylists" {{ $availablePlaylists->isEmpty() ? 'disabled' : '' }}>
-                    <option value="create">
-                        Song already in all your playlists
-                    </option>
-                    @endif
+            @if($userHasPlaylists && $availablePlaylists->isNotEmpty())
+            <select name="playlist" class="playlist_select">
+                <option value="create">Select Playlist</option>
+                @foreach ($availablePlaylists as $pl)
+                <option value="{{ $pl->id }}">{{ $pl->name }}</option>
+                @endforeach
+            </select>
+            <input type="hidden" name="song" value="{{ $song->id }}">
+            <input type="submit" value="Send">
+            @elseif(!$userHasPlaylists)
+            <select class="playlist_select lackOfPlaylists" disabled>
+                <option>You don't have any playlists</option>
+            </select>
+            @else
+            <select class="playlist_select lackOfPlaylists" disabled>
+                <option>Song already in all your playlists</option>
+            </select>
+            @endif
 
-                    @foreach ($availablePlaylists as $pl)
-                    <option value="{{ $pl->id }}">{{ $pl->id }}</option>
-                    @endforeach
-                </select>
-
-                <input type="hidden" name="song" value="{{ $song->id }}">
-                <input type="submit" value="Send" {{ $availablePlaylists->isEmpty() ? 'disabled' : '' }}>
+            <input type="hidden" name="song" value="{{ $song->id }}">
+            <input type="submit" value="Send" {{ $availablePlaylists->isEmpty() ? 'disabled' : '' }}>
         </form>
 
     </td>
