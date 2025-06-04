@@ -1,50 +1,47 @@
-let currentSong = null,
-    progressTracked = {},
-    currentAudio = null,
-    currentButton = null
-
+let currentAudio = null,
+    currentButton = null,
+    currentSongId = null,
+    progressTracked = {}
 
 function audio(id) {
-    let audioPlayer = document.querySelector("#player" + id),
-        audioContainers = document.querySelectorAll(".audio-player"),
-        audioTags = document.querySelectorAll(".audio-player audio"),
-        buttonElement = document.querySelector(`#play-button`)
+    let audioPlayer = document.querySelector(`#player${id}`),
+        buttonElement = document.querySelector(`.play-button[data-id="${id}"]`),
+        audioContainer = buttonElement.closest("tr").querySelector(".audio-player")
 
-    if (!audioPlayer) return
+    if (!audioPlayer || !buttonElement || !audioContainer) return
 
-    if (id !== currentSong) {
-        audioContainers.forEach(container => container.classList.add("none"))
-        audioTags.forEach(audio => {
-            audio.pause()
-            audio.currentTime = 0
-        })
+    document.querySelectorAll(".audio-player").forEach(container => container.classList.add("none"))
+    document.querySelectorAll(".play-button").forEach(btn => btn.classList.remove("playing"))
 
-        if (currentButton) {
-            currentButton.classList.remove("playing")
-        }
-
-        currentSong = id
-        progressTracked[id] = false
-        currentAudio = audioPlayer
-        currentButton = buttonElement
-
-        audioPlayer.closest(".audio-player").classList.remove("none")
-        audioPlayer.play()
-        buttonElement.classList.add("playing")
-    } else {
-        if (audioPlayer.paused) {
-            audioPlayer.play()
-            buttonElement.classList.add("playing")
-        } else {
-            audioPlayer.pause()
-            buttonElement.classList.remove("playing")
-        }
+    if (currentAudio && currentAudio !== audioPlayer) {
+        currentAudio.pause()
+        currentAudio.currentTime = 0
     }
 
+    if (audioPlayer.paused || currentSongId !== id) {
+        audioContainer.classList.remove("none")
+        audioPlayer.play()
+        buttonElement.classList.add("playing")
+        currentSongId = id
+    } else {
+        audioPlayer.pause()
+        audioContainer.classList.add("none")
+        buttonElement.classList.remove("playing")
+        return
+    }
+
+    audioPlayer.addEventListener("pause", () => {
+        buttonElement.classList.remove("playing")
+    })
+
+
+    currentAudio = audioPlayer
+    currentButton = buttonElement
+
     if (!audioPlayer._trackingAttached) {
-        audioPlayer.addEventListener("timeupdate", function () {
-            let percentage = (audioPlayer.currentTime / audioPlayer.duration) * 100
-            if (percentage >= 70 && !progressTracked[id]) {
+        audioPlayer.addEventListener("timeupdate", () => {
+            const percent = (audioPlayer.currentTime / audioPlayer.duration) * 100
+            if (percent >= 70 && !progressTracked[id]) {
                 progressTracked[id] = true
                 fetch(`songs/${id}/listen`, {
                     method: 'POST',
@@ -56,12 +53,13 @@ function audio(id) {
             }
         })
 
-        audioPlayer.addEventListener("ended", function () {
+        audioPlayer.addEventListener("ended", () => {
             buttonElement.classList.remove("playing")
+            audioContainer.classList.add("none")
 
-            let allPlayers = Array.from(document.querySelectorAll(".audio-player audio")),
-                currentIndex = allPlayers.findIndex(p => p.id === "player" + id),
-                nextPlayer = allPlayers[currentIndex + 1]
+            let allPlayers = Array.from(document.querySelectorAll("audio")),
+                currentIndex = allPlayers.findIndex(p => p.id === `player${id}`)
+            nextPlayer = allPlayers[currentIndex + 1]
 
             if (nextPlayer) {
                 let nextId = nextPlayer.id.replace("player", "")
@@ -71,4 +69,6 @@ function audio(id) {
 
         audioPlayer._trackingAttached = true
     }
+
+
 }

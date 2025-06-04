@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers\Site;
 
+use App\Models\Song;
 use App\Models\Playlist;
 use App\Models\Performer;
-use App\Traits\PerformerTrait;
 use Illuminate\Http\Request;
+use App\Traits\PerformerTrait;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Services\GoogleTagManagerService;
@@ -46,40 +47,43 @@ class PerformerSiteController extends Controller
      */
     public function index($id)
     {
-        $performer = Performer::with(["discographies", "news", "song"])->find($id);
-
-        if (!$performer) {
-            abort(404);
-        }
+        $performer = Performer::with(["discographies", "news", "songs"])->find($id);
 
         $getID3 = new \getID3();
         $extensions = ["mp3", "wav", "flac"];
         $projectPath = str_replace("\public", '/', public_path());
         $basePath = $projectPath . 'resources/songs/';
 
-        foreach ($performer->song as $song) {
-            $found = false;
+        $songs = Song::where("performer_id", $performer->id)->inRandomOrder()->take(15)->get();
+        $performerPage = true;
 
+        $validateSong = function ($song) use ($extensions, $basePath, $getID3) {
             foreach ($extensions as $ext) {
                 $filePath = $basePath . $song->id . '.' . $ext;
                 if (file_exists($filePath)) {
                     $song->extension = $ext;
                     $song->filePath = $filePath;
-                    $found = true;
-                    break;
+                    $info = $getID3->analyze($filePath);
+                    $song->duration = $info['playtime_string'] ?? null;
+                    return $song;
                 }
             }
+            $song->duration = null;
+            return $song;
+        };
 
-            if ($found && file_exists($song->filePath)) {
-                $info = $getID3->analyze($song->filePath);
-                $song->duration = $info['playtime_string'] ?? null;
-            } else {
-                $song->duration = null;
-            }
+        foreach ($songs as $song) {
+            $validateSong($song);
         }
 
-        return view("site.performers.performerPage", compact("performer"));
+        $playlists = collect([]);
+        if (Auth::check()) {
+            $playlists = Playlist::where("user_id", Auth::id())->get();
+        }
+
+        return view("site.performers.performerPage", compact("performer", "performerPage", "playlists", "songs"));
     }
+
 
     /**
      * Displays a page with a form to create a new performer.

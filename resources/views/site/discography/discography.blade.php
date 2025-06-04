@@ -1,7 +1,7 @@
 <x-site-layout>
     <x-slot name="main">
         <h1 class="text-center">Disks</h1>
-        <div class="disks">
+        <div class="disksGen">
             <div class="diskBlock">
                 @foreach ($disks as $i => $disk)
                 @php

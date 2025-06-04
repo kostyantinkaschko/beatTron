@@ -18,8 +18,13 @@ class SongRepository
 
     public function find($id)
     {
-        $songs = $this->processSongs(Song::where("status", "=", "public")->find($id), "alone");
-        return $this->songFormatting($songs, "alone");
+
+        $song = Song::where("status", "=", "public")->find($id);
+
+        $this->processSongs($song, "alone");
+        $this->songFormatting($song, "alone");
+
+        return $song;
     }
 
     public function create($data)

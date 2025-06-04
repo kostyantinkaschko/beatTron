@@ -71,7 +71,8 @@ class SongsController extends Controller
     public function show($id)
     {
         $songs = $this->repository->find($id);
-        return response()->json($songs);
+        return new SongResource((object)$songs);
+
     }
 
     /**

@@ -1,8 +1,13 @@
 @if ($song)
 <tr class="song">
-    <td class="play-cell"><button id="play-button" onclick="audio({{ $song->id }})"></button></td>
+    <td class="play-cell">
+        <button class="play-button" data-id="{{ $song->id }}" onclick="audio({{ $song->id }})"></button>
+    </td>
+
+    @if(!isset($performerPage))
     <td class="text-red-50 performer_name">{{ $song->performer_name }}</td>
     <td class="text-red-50">-</td>
+    @endif
     <td class="text-blue-200">{{ $song->name }}</td>
 
     @php $media = $song->getFirstMedia("songs"); @endphp
@@ -59,6 +64,7 @@
         </form>
 
     </td>
+    @endif
     <td>
         <form action="{{ route("songRate", $song->id) }}" method="post">
             @csrf
@@ -73,6 +79,5 @@
     </td>
     @if(!empty($song->average_rate) && $song->average_rate > 0 && $song->average_rate < 6)
         <td>Rating: {{ number_format($song->average_rate, 0, '.', '') }}</td>
-        @endif
 </tr>
 @endif
