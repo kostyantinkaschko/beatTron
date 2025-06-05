@@ -31,8 +31,7 @@
                 <tr>
                     <th class="border border-gray-400 dark:text-white">id:</th>
                     <th class="border border-gray-400 dark:text-white">Photo:</th>
-                    <th class="border border-gray-400 dark:text-white">genre_id:</th>
-                    <th class="border border-gray-400 dark:text-white">performer_id:</th>
+                    <th class="border border-gray-400 dark:text-white">genre:</th>
                     <th class="border border-gray-400 dark:text-white">Name:</th>
                     <th class="border border-gray-400 dark:text-white">Type:</th>
                     <th class="border border-gray-400 dark:text-white">Description:</th>
@@ -54,8 +53,7 @@
                     <img src="{{ $media->getUrl() }}" alt="Disk image">
                     @endif
                 </td>
-                <td class="border border-gray-400 dark:text-white">{{ $disk->genre_id }}</td>
-                <td class="border border-gray-400 dark:text-white">{{ $disk->performer_id }}</td>
+                <td class="border border-gray-400 dark:text-white">{{ $disk->genre}}</td>
                 <td class="border border-gray-400 dark:text-white">{{ $disk->type }}</td>
                 <td class="border border-gray-400 dark:text-white">{{ $disk->name }}</td>
                 <td class="border border-gray-400 dark:text-white">{{ $disk->description }}</td>

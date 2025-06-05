@@ -29,6 +29,7 @@ class Discography extends Model implements HasMedia
         'name',
         'type',
         'description',
+        'status'
     ];
 
     /**

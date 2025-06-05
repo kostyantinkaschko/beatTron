@@ -22,7 +22,7 @@ class DiscographyController extends Controller
      */
     public function index(): View
     {
-        $disks = Discography::withTrashed()->paginate(50);
+        $disks = Discography::where('status', '=', 'public')->withTrashed()->paginate(50);
 
         return view("site.discography.discography", compact("disks"));
     }
@@ -46,7 +46,7 @@ class DiscographyController extends Controller
         if (Auth::check()) {
             $playlists = Playlist::where("user_id", Auth::id())->get();
         }
-
+        dd($disk);
         return view("site.discography.disk", compact("disk", "songs", "playlists"));
     }
 }

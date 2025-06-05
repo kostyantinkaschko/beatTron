@@ -24,9 +24,10 @@ class DiscographyStorePostRequest extends FormRequest
         return [
             'genre_id' => ["required", "integer"],
             'performer_id' => ["required", "integer"],
-            "name" => ["required", "string", "max:255"],
-            "type" => ["required", "string", "max:32"],
+            "name" => ["required", "string", "max:30"],
+            "type" => ["required", "string", "max:30"],
             "description" => ["required", "string", "max:3000"],
+            "status" => ["required", "string", "in:public,protected,private"],
             'image' => [
                 'file',
                 'mimes:jpg,jpeg,png,',

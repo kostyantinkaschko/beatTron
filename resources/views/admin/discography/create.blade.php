@@ -5,28 +5,28 @@
             <div>
                 <select name="genre_id">
                     @foreach ($genres as $genre)
-                        <option value="{{ $genre->id }}">{{ $genre->title }}</option>
+                    <option value="{{ $genre->id }}">{{ $genre->title }}</option>
                     @endforeach
                 </select>
                 @error("genre_id")
-                    <p>{{ $message }}</p>
+                <p>{{ $message }}</p>
                 @enderror
             </div>
             <div>
                 <select name="performer_id">
                     @foreach ($performers as $performer)
-                        <option value="{{ $performer->id }}">{{ $performer->name }}</option>
+                    <option value="{{ $performer->id }}">{{ $performer->name }}</option>
                     @endforeach
                 </select>
                 @error("performer_id")
-                    <p>{{ $message }}</p>
+                <p>{{ $message }}</p>
                 @enderror
             </div>
             <div>
                 <label>name</label>
                 <input type="text" name="name">
                 @error("name")
-                    <p>{{ $message }}</p>
+                <p>{{ $message }}</p>
                 @enderror
             </div>
             <div>
@@ -35,20 +35,28 @@
                     <option value="Album">Album</option>
                 </select>
                 @error("type")
-                    <p>{{ $message }}</p>
+                <p>{{ $message }}</p>
                 @enderror
             </div>
             <div>
                 <label for="description"></label>
                 <input type="text" name="description">
                 @error("description")
-                    <p>{{ $message }}</p>
+                <p>{{ $message }}</p>
                 @enderror
             </div>
+            <select name="status">
+                <option value="public">Public</option>
+                <option value="protected">Protected</option>
+                <option value="private">Private</option>
+            </select>
+            @error("status")
+            <p>{{ $message }}</p>
+            @enderror
             <div>
                 <input type="file" name="image">
                 @error("file")
-                    <p>{{ $message }}</p>
+                <p>{{ $message }}</p>
                 @enderror
             </div>
             <input type="submit">

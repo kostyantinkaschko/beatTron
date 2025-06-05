@@ -16,10 +16,10 @@ return new class extends Migration
             $table->foreignId('genre_id')->constrained('genres', 'id')->cascadeOnDelete();
             $table->foreignId('performer_id')->constrained('performers', 'id')->cascadeOnDelete();
             $table->foreignId('disk_id')->constrained('discography', 'id')->cascadeOnDelete();
-            $table->string('name');
+            $table->string('name', 45);
             $table->integer('listening_count')->default(0);
             $table->integer('year');
-            $table->string('status');
+            $table->string('status', 30);
             $table->timestamps();
             $table->softDeletes();
         });

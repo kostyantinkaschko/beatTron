@@ -34,6 +34,14 @@
             @error("description")
             <p>{{ $message }}</p>
             @enderror
+            <select name="status">
+                <option value="public" {{ $disk->status == "public" ? "selected" : "" }}>Public</option>
+                <option value="protected" {{ $disk->status == "protected" ? "selected" : "" }}>Protected</option>
+                <option value="private" {{ $disk->status == "private" ? "selected" : "" }}>Private</option>
+            </select>
+            @error("status")
+            <p>{{ $message }}</p>
+            @enderror
             <div>
                 <input type="file" name="image">
                 @error("file")

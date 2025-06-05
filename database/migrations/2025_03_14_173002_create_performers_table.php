@@ -14,11 +14,11 @@ return new class extends Migration
         Schema::create('performers', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained('users', 'id')->onDelete('cascade');
-            $table->string('name');
-            $table->string('instagram')->nullable();
-            $table->string('facebook')->nullable();
-            $table->string('x')->nullable();
-            $table->string('youtube')->nullable();
+            $table->string('name', 30);
+            $table->string('instagram', 300)->nullable();
+            $table->string('facebook', 300)->nullable();
+            $table->string('x', 300)->nullable();
+            $table->string('youtube', 300)->nullable();
             $table->timestamps();
             $table->softDeletes();
         });

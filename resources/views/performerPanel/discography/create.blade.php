@@ -1,6 +1,6 @@
 <x-performer-layout>
     <x-slot name="main">
-        <form action="{{"performerPanel/diskStore"}}" method="post" enctype="multipart/form-data">
+        <form action="{{"diskStore"}}" method="post" enctype="multipart/form-data">
             @csrf
             <div>
                 <select name="genre_id">
@@ -36,6 +36,14 @@
                 <p>{{ $message }}</p>
                 @enderror
             </div>
+             <select name="status">
+                <option value="public">Public</option>
+                <option value="protected">Protected</option>
+                <option value="private">Private</option>
+            </select>
+            @error("status")
+            <p>{{ $message }}</p>
+            @enderror
             <div>
                 <input type="file" name="image">
                 @error("file")

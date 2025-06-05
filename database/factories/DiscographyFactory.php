@@ -24,6 +24,7 @@ class DiscographyFactory extends Factory
             'name' => $this->faker->word(),
             'type' => "Album",
             'description' => $this->faker->text(),
+            'status' => "public"
         ];
     }
 }

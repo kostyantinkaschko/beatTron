@@ -15,8 +15,9 @@ return new class extends Migration
             $table->id();
             $table->foreignid("genre_id")->constrained("genres", "id")->cascadeOnDelete();
             $table->foreignid("performer_id")->constrained("performers", "id")->cascadeOnDelete();
-            $table->string("name");
-            $table->string("type");
+            $table->string("name", 30);
+            $table->string("type", 30);
+            $table->string("status", 30);
             $table->string("description", 3000);
             $table->timestamps();
             $table->softDeletes();

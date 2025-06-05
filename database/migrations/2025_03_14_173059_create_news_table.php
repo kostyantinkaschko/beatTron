@@ -14,8 +14,8 @@ return new class extends Migration
         Schema::create('news', function (Blueprint $table) {
             $table->id();
             $table->foreignId('performer_id')->constrained('performers', 'id')->cascadeOnDelete();
-            $table->string('title');
-            $table->text('text');
+            $table->string('title', 45);
+            $table->text('text', 3000);
             $table->timestamps();
             $table->softDeletes();
         });
