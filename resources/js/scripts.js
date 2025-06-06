@@ -45,7 +45,6 @@ function audio(id) {
             const percent = (audioPlayer.currentTime / audioPlayer.duration) * 100
             if (percent >= 70 && !progressTracked[id]) {
                 progressTracked[id] = true
-                console.log(`70% досягнуто для пісні з ID: ${id}`)
 
                 fetch(url, {
                     method: 'POST',
@@ -53,15 +52,14 @@ function audio(id) {
                         'Content-Type': 'application/json',
                         'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
                     }
+                }).then(response => {
+                    console.log("Відповідь сервера:", response)
+                    return response.json()
+                }).then(data => {
+                    console.log("Дані з сервера:", data)
+                }).catch(error => {
+                    console.error("Помилка при fetch:", error)
                 })
-                    .then(response => {
-                        console.log("Відповідь сервера:", response)
-                        return response.json()
-                    }).then(data => {
-                        console.log("Дані з сервера:", data)
-                    }).catch(error => {
-                        console.error("Помилка при fetch:", error)
-                    })
             }
         })
 
