@@ -1,8 +1,8 @@
 @php
-    $performer = Auth::user()->performer;
-    if(!$performer){
-        to_route("general");
-    }
+$performer = Auth::user()->performer;
+if(!$performer){
+to_route("general");
+}
 @endphp
 <header>
     <nav x-data="{ open: false }" class="bg-white dark:bg-gray-800 border-b border-gray-100 dark:border-gray-700">
@@ -15,7 +15,7 @@
                         <x-nav-link :href="route('general')" :active="request()->routeIs('general')">
                             {{ __('General') }}
                         </x-nav-link>
-                        <x-nav-link :href="route('performerPanel')" :active="request()->routeIs('performerPanel')">
+                        <x-nav-link :href="route('panel')" :active="request()->routeIs('panel')">
                             {{ __('Panel') }}
                         </x-nav-link>
                         <x-nav-link :href="route('performerPanel/news')" :active="request()->routeIs('performerPanel/news')">
@@ -56,14 +56,16 @@
                                 {{ __('My Performer Page') }}
                             </x-dropdown-link>
 
+                            @if(Auth::user()->role == "admin")
                             <x-dropdown-link :href="route('users')">
                                 {{ __('adminpanel') }}
                             </x-dropdown-link>
+                            @endif
 
-                            <x-dropdown-link :href="route('performerPanel')">
+                            <x-dropdown-link :href="route('panel')">
                                 {{ __('performerPanel') }}
                             </x-dropdown-link>
-                            
+
 
                             <!-- Authentication -->
                             <form method="POST" action="{{ route('logout') }}">

@@ -40,7 +40,6 @@ class DiscographyController extends Controller
         if ($request->hasFile('image')) {
             $path = $request->file('image')->store('disks', 'public');
             $disk->image = $path;
-            $disk->save();
 
             $disk->addMedia($request->file('image'))
                 ->toMediaCollection('disks');

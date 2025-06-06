@@ -1,5 +1,6 @@
 <x-app-layout>
     <x-slot name="slot">
+        <h1 class="text-center">Song edit form</h1>
         <form action="{{ route("songUpdate", $song) }}" method="post">
             @csrf
             @method("patch")

@@ -23,6 +23,6 @@ trait PerformerTrait
 
         return round($songRating->reduce(function ($carry, $item) {
             return $carry * $item;
-        }, 1), 2);
+        }, 0), 2);
     }
 }

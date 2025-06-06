@@ -24,7 +24,7 @@
                         <form action="{{ route("playlistDelete", $playlist->id) }}" method="post">
                             @csrf
                             @method('delete')
-                            <input type="submit" value="Remove">
+                            <input  type="submit"  class="removeButton" value="Remove">
                         </form>
                     </td>
                     </td>

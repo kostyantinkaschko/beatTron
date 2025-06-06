@@ -1,4 +1,4 @@
-<x-site-layout>
+<x-performer-layout>
     <x-slot name="main">
         <div class="performerObj">
             <h1 class="performerName">{{ $performer->name }}</h1>
@@ -9,21 +9,15 @@
         </div>
         @if($performer->discographies->isNotEmpty())
             <div class="disks">
-                <h2>Discography</h2>
+                <h2>Discography:</h2>
+                {{-- @dd($performer->discographies) --}}
                 @foreach ($performer->discographies as $disk)
-                    @php
-                        $media = $disk->getFirstMedia("disks");
-                    @endphp
-                    <a class="disk" href="{{ route("disk", $disk->id) }}">
-                        @if($media)
-                            <img src="{{ $media->getUrl() }}" alt="Disk image">
-                        @endif
-                        {{ $disk->name }}
+                    <a href="{{ route("disk", $disk->id) }}" class="disk">
+                        <h2>{{ $disk->name }}</h2>
                     </a>
                 @endforeach
             </div>
         @endif
-
         @if($performer->songs->isNotEmpty())
             <table  class="audioPlayerTable">
                 @foreach ($performer->songs as $song)
@@ -49,4 +43,4 @@
             </div>
         @endif
     </x-slot>
-</x-site-layout>
+</x-performer-layout>

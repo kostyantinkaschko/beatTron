@@ -1,3 +1,3 @@
-<footer class="text-center">
+{{-- <footer class="text-center">
     <p>Квадрати захоплять світ! &copy;</p>
-</footer>
+</footer> --}}

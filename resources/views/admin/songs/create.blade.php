@@ -1,5 +1,6 @@
 <x-app-layout>
     <x-slot name="slot">
+        <h1 class="text-center">Song creation form</h1>
         <form action="{{ route("songStore") }}" method="post" enctype="multipart/form-data">
             @csrf
             <label>name</label>
@@ -42,10 +43,13 @@
             @error("status")
             <p>{{ $message }}</p>
             @enderror
-            <input type="file" name="song">
-            @error("song")
+            <label>Song file:</label>
+            <label class="file">
+                <input type="file" name="song">
+                @error("file")
                 <p>{{ $message }}</p>
-            @enderror
+                @enderror
+            </label>
             <input type="submit">
         </form>
     </x-slot>

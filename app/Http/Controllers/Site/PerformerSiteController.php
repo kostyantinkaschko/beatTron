@@ -29,7 +29,7 @@ class PerformerSiteController extends Controller
      */
     public function site()
     {
-        $performers = Performer::select("id", "name", "instagram", "facebook", "x", "youtube")->withTrashed()->paginate(30);
+        $performers = Performer::select("id", "name", "instagram", "facebook", "x", "youtube")->paginate(30);
         $playlists = collect([]);
         if (Auth::check()) {
             $playlists = Playlist::where("user_id", "=",  Auth::id())->get();

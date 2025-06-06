@@ -39,14 +39,14 @@ class DiscographyController extends Controller
         $disk = Discography::with(["performer", "genre", "songs"])->find($id);
 
         $songs = $this->processSongs(
-            Song::withTrashed()->take(10)->get()
+            Song::where("disk_id" , "=", $id)->get()
         );
 
         $playlists = [];
         if (Auth::check()) {
             $playlists = Playlist::where("user_id", Auth::id())->get();
         }
-        dd($disk);
+        // dd($disk);
         return view("site.discography.disk", compact("disk", "songs", "playlists"));
     }
 }

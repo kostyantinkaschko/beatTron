@@ -1,5 +1,5 @@
 @if ($song)
-<tr class="song">
+<tr data-listen-url="{{ route('completedListening', ['id' => $song->id]) }}" class="song">
     <td class="play-cell">
         <button class="play-button" data-id="{{ $song->id }}" onclick="audio({{ $song->id }})"></button>
     </td>
@@ -41,7 +41,7 @@
     <td>
 
 
-        <form action="{{ route('addSong') }}" method="post" class="addSongToPlaylist">
+        <form action="{{ route('addSong') }}" method="post" class="addSongToPlaylist withoutFormStyle">
             @csrf
 
             @if($userHasPlaylists && $availablePlaylists->isNotEmpty())
@@ -51,8 +51,6 @@
                 <option value="{{ $pl->id }}">{{ $pl->name }}</option>
                 @endforeach
             </select>
-            <input type="hidden" name="song" value="{{ $song->id }}">
-            <input type="submit" value="Send">
             @elseif(!$userHasPlaylists)
             <select class="playlist_select lackOfPlaylists" disabled>
                 <option>You don't have any playlists</option>
@@ -64,13 +62,13 @@
             @endif
 
             <input type="hidden" name="song" value="{{ $song->id }}">
-            <input type="submit" value="Send" {{ $availablePlaylists->isEmpty() ? 'disabled' : '' }}>
+            <input type="submit" value="Send" class="submitWithoutStyle" {{ $availablePlaylists->isEmpty() ? 'disabled' : '' }}>
         </form>
 
     </td>
     @endif
     <td>
-        <form action="{{ route("songRate", $song->id) }}" method="post">
+        <form class="withoutFormStyle" action="{{ route("songRate", $song->id) }}" method="post">
             @csrf
             <select name="rate" data-song-id="{{ $song->id }}" class="rate-select">
                 <option value="empty">Rate the Song</option>
@@ -78,7 +76,7 @@
                     <option value="{{ $i }}" {{ $song->user_rate == $i ? "selected" : "" }}>{{ $i }}</option>
                     @endfor
             </select>
-            <input type="submit" value="Send">
+            <input type="submit" value="Send" class="submitWithoutStyle">
         </form>
     </td>
     @if(!empty($song->average_rate) && $song->average_rate > 0 && $song->average_rate < 6)

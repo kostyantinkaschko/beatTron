@@ -1,5 +1,6 @@
 <x-performer-layout>
     <x-slot name="main">
+        <h1 class="text-center">Disk edit form</h1>
         <form action="{{ route("performerPanel/diskUpdate", $disk) }}" method="post">
             @csrf
             @method("patch")
@@ -15,7 +16,8 @@
             <select name="performer_id">
                 @foreach ($performers as $performer)
                     <option value="{{ $performer->id }}" {{ $disk->performer_id == $performer->id ? 'selected' : '' }}>
-                        {{ $performer->name }}</option>
+                        {{ $performer->name }}
+                    </option>
                 @endforeach
             </select>
             @error("performer_id")

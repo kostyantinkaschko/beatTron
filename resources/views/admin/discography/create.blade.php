@@ -1,5 +1,6 @@
 <x-app-layout>
     <x-slot name="slot">
+        <h1 class="text-center">Disk creation form</h1>
         <form action="{{"diskStore"}}" method="post" enctype="multipart/form-data">
             @csrf
             <div>
@@ -53,12 +54,13 @@
             @error("status")
             <p>{{ $message }}</p>
             @enderror
-            <div>
+            <label>Image:</label>
+            <label class="file">
                 <input type="file" name="image">
                 @error("file")
                 <p>{{ $message }}</p>
                 @enderror
-            </div>
+            </label>
             <input type="submit">
         </form>
     </x-slot>

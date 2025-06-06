@@ -2,7 +2,7 @@
     <x-slot name="main">
         @if(!empty($songs))
             <h1>Results:</h1>
-            <table class="songs">
+            <table  class="songs audioPlayerTable">
                 <tbody>
                     @foreach ($songs as $song)
                         @include('layouts.songPlay')

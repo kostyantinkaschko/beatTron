@@ -8,51 +8,35 @@ body {
     font-size: 1px;
 }
 
-.audio-player {
-    width: 100%;
-    position: fixed;
-    left: 0;
-    bottom: 0;
+
+form:not(.searchForm, .withoutFormStyle) {
+    display: flex;
+    flex-direction: column;
+    align-content: center;
+    align-items: flex-start;
+}
+
+input {
+    font-size: 16rem !important;
+}
+
+input[type=submit] {
+    text-align: center;
+}
+
+
+input[type=text],
+textarea,
+select {
+    margin-top: 5rem;
+    width: 370px;
 }
 
 header {
     margin-bottom: 20rem;
 }
 
-.audio-player audio {
-    background: #fff;
-    border-top: 3px solid rgb(31 41 55 / var(--tw-bg-opacity, 1));
-}
 
-.audio-player audio {
-    width: 100%;
-}
-
-.audioInfo,
-.listeningCount {
-    position: absolute;
-
-    padding: 10rem;
-    width: 20%;
-    text-align: center;
-    border-bottom: 6.5px solid rgb(31 41 55 / var(--tw-bg-opacity, 1));
-    background: #fff;
-}
-
-.audioInfo {
-    top: -75.7rem;
-    right: 11rem;
-}
-
-.listeningCount {
-    top: -228%;
-    left: 79.2%;
-}
-
-.audioInfo h2,
-.listeningCount h2 {
-    color: #000;
-}
 
 .none {
     display: none;
@@ -61,6 +45,10 @@ header {
 
 .performerName {
     font-size: 36rem;
+}
+
+.disk img {
+    width: 200rem;
 }
 
 .disks {
@@ -92,8 +80,13 @@ header {
 }
 
 
+.audioPlayerTable {
+    margin-top: 10rem;
+}
+
 h1,
 h2,
+h3,
 a,
 p,
 label,
@@ -137,6 +130,13 @@ option {
     justify-content: center;
     column-gap: 10rem;
     width: 100%;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    width: 15%;
+    margin-right: 20px;
 }
 
 .performer,
@@ -222,7 +222,7 @@ main h1 {
 .searchForm {
     display: flex;
     align-items: center;
-    column-gap: 10rem;
+    column-gap: 5rem;
 }
 
 .searchForm input {
@@ -245,7 +245,7 @@ main h1 {
 .searchSubmit:after {
     content: "";
     position: absolute;
-    left: 0;
+    left: -10rem;
     top: 50%;
     width: 28rem;
     height: 27rem;
@@ -275,6 +275,7 @@ main h1 {
 }
 
 
+
 .wrapper {
     max-width: 960rem;
     margin: 0 auto;
@@ -287,8 +288,100 @@ main h1 {
 }
 
 .topline {
+    max-width: 1290rem;
+    margin: 0 auto;
     padding: 15rem;
 }
+
+
+.play-cell {
+    margin-right: 25rem;
+}
+
+.play-button {
+    position: relative;
+    width: 24px;
+    height: 24px;
+    background: none;
+    border: none;
+    cursor: pointer;
+}
+
+select {
+    all: unset;
+    font-size: 16rem;
+    height: 23rem;
+    width: 140rem;
+    border: 3px solid black;
+    border-radius: 10rem;
+    padding: 4rem;
+    text-align: center;
+    cursor: pointer;
+}
+
+select:hover,
+select:focus {
+    filter: drop-shadow(2px 4px 6px black);
+}
+
+input[type=file] {
+    width: 117px;
+}
+
+.playlists {
+    margin: 20rem 0;
+}
+
+
+.audio-player {
+    width: 100%;
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    z-index: 999999;
+}
+
+.audio-player audio {
+    background: #fff;
+    border-top: 3px solid rgb(31 41 55 / var(--tw-bg-opacity, 1));
+}
+
+
+.audio-player audio {
+    width: 100%;
+}
+
+.audioInfo,
+.listeningCount {
+    position: absolute;
+
+    padding: 10rem;
+    width: 20%;
+    text-align: center;
+    border-bottom: 6.5px solid rgb(31 41 55 / var(--tw-bg-opacity, 1));
+    background: #fff;
+}
+
+.audioInfo {
+    top: -75.7rem;
+    right: 11rem;
+}
+
+.listeningCount {
+    top: -228%;
+    left: 79.2%;
+}
+
+.audioInfo h2,
+.listeningCount h2 {
+    color: #000;
+}
+
+
+.performerName {
+    font-size: 36rem;
+}
+
 
 .song {
     background: rgb(31 41 55 / var(--tw-bg-opacity, 1));
@@ -304,18 +397,6 @@ main h1 {
     margin-right: 10rem;
 }
 
-.play-cell {
-    margin-right: 25rem;
-}
-
-.play-button {
-    position: relative;
-    width: 24px;
-    height: 24px;
-    background: none;
-    border: none;
-    cursor: pointer;
-}
 
 .play-button::before {
     content: "";
@@ -346,24 +427,11 @@ main h1 {
     right: 20000010%;
 }
 
-select {
-    all: unset;
-    font-size: 16rem;
-    height: 23rem;
-    width: 140rem;
-    border: 3px solid black;
-    border-radius: 10rem;
-    padding: 4rem;
-    text-align: center;
-    cursor: pointer;
-}
-
-select:hover,
-select:focus {
-    filter: drop-shadow(2px 4px 6px black);
+main {
+    padding-bottom: 20rem;
 }
 
 
-.playlists {
-    margin: 20rem 0;
+main {
+    padding-bottom: 20rem;
 }

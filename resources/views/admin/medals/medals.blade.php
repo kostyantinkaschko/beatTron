@@ -54,7 +54,7 @@
                     <form action="{{ route("medalDelete", $medal->id) }}" method="post">
                         @csrf
                         @method('delete')
-                        <input type="submit" value="Remove">
+                        <input  type="submit"  class="removeButton" value="Remove">
                     </form>
                 </td>
                 <td class="border border-gray-400 dark:text-white"><a href="{{ route("medalEdit", $medal->id) }}">Edit</a></td>

@@ -8,6 +8,7 @@ use App\Models\Playlist;
 use App\Traits\SongTrait;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Models\Discography;
 use Illuminate\Support\Facades\Auth;
 
 class SongController extends Controller
@@ -69,7 +70,9 @@ class SongController extends Controller
             $playlists = Playlist::where("user_id", "=",  Auth::id())->get();
         }
 
-        return view("site.song", compact("song", "playlists"));
+        $disk = Discography::find($song->disk_id);
+
+        return view("site.song", compact("song", "playlists", "disk"));
     }
 
     /**

@@ -8,7 +8,7 @@
         </form>
 
 
-        <table class="songs">
+        <table class="songs audioPlayerTable">
             @foreach($songs as $song)
                 @include('layouts.songPlay')
             @endforeach

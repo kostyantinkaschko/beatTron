@@ -2,8 +2,16 @@
 @tailwind components;
 @tailwind utilities;
 
-.img200px{
+.img200px {
     width: 200px;
+}
+
+
+form:not(.searchForm, .withoutFormStyle) {
+    display: flex;
+    flex-direction: column;
+    align-content: center;
+    align-items: flex-start;
 }
 
 
@@ -14,10 +22,27 @@ p,
 label,
 li,
 input[type='submit'],
-td{
+td {
     color: #fff;
 }
-select, 
-option{
+
+select,
+option {
     color: #000;
 }
+
+
+
+input[type=text],
+textarea,
+select {
+    margin-top: 5px;
+    width: 370px;
+}
+
+
+h1 {
+    font-size: 30px;
+}
+
+

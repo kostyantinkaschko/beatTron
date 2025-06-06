@@ -36,7 +36,7 @@ use App\Http\Controllers\PerformerPanel\DiscographyController as PerformerPanDis
 Route::get("/", [GeneralController::class, "index"]);
 Route::get("general", [GeneralController::class, "index"])->name("general");
 Route::get("admin/", [UserController::class, "index"]);
-Route::post('/songs/{id}/listen', [SongController::class, 'incrementListeningCount']);
+Route::post('/songs/{id}/listen', [SongController::class, 'incrementListeningCount'])->name("completedListening");
 
 
 Route::middleware([SiteMiddleware::class])->group(function (): void {
@@ -65,7 +65,7 @@ Route::middleware([SiteMiddleware::class])->group(function (): void {
 });
 
 Route::prefix("performerPanel")->middleware([PerformerPanelMiddleware::class])->group(function () {
-    Route::get("performerPanel", [PerformerPanelController::class, "index"])->name("performerPanel");
+    Route::get("panel", [PerformerPanelController::class, "index"])->name("panel");
     Route::get("performerEdit", [PerformerPanelController::class, "performerEdit"])->name("performerPanel/performerEdit");;
     Route::patch("performerPanel/update/{performer}", [PerformerPanelController::class, "performerUpdate"])->name("performerPanel/update");
 
@@ -73,7 +73,7 @@ Route::prefix("performerPanel")->middleware([PerformerPanelMiddleware::class])->
     Route::get("news", [PerfNewsController::class, "news"])->name("performerPanel/news");
     Route::get("newsCreate", [PerfNewsController::class, "create"])->name("performerPanel/newsCreate");
     Route::patch("newsStore", [PerfNewsController::class, "store"])->name("performerPanel/newsStore");
-    Route::delete("articleDelete", [PerfNewsController::class, "remove"])->name("performerPanel/articleDelete");
+    Route::delete("articleDelete/{id}", [PerfNewsController::class, "remove"])->name("performerPanel/articleDelete");
     Route::patch("articleRestore", [PerfNewsController::class, "restore"])->name("performerPanel/articleRestore");
     Route::get("newsUpdate", [PerfNewsController::class, "update"]);
     Route::get("articleEdit/{id}", [PerfNewsController::class, "articleEdit"])->name("performerPanel/articleEdit");

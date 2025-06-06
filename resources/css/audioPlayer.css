@@ -1,0 +1,92 @@
+.audio-player {
+    width: 100%;
+    position: fixed;
+    left: 0;
+    bottom: 0;
+}
+
+.audio-player audio {
+    background: #fff;
+    border-top: 3px solid rgb(31 41 55 / var(--tw-bg-opacity, 1));
+}
+
+
+.audio-player audio {
+    width: 100%;
+}
+
+.audioInfo,
+.listeningCount {
+    position: absolute;
+
+    padding: 10rem;
+    width: 20%;
+    text-align: center;
+    border-bottom: 6.5px solid rgb(31 41 55 / var(--tw-bg-opacity, 1));
+    background: #fff;
+}
+
+.audioInfo {
+    top: -75.7rem;
+    right: 11rem;
+}
+
+.listeningCount {
+    top: -228%;
+    left: 79.2%;
+}
+
+.audioInfo h2,
+.listeningCount h2 {
+    color: #000;
+}
+
+
+.performerName {
+    font-size: 36rem;
+}
+
+
+.song {
+    background: rgb(31 41 55 / var(--tw-bg-opacity, 1));
+    border: 3rem solid rgb(75 85 99 / var(--tw-border-opacity, 1));
+    border-radius: 4rem;
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 5rem;
+    align-items: center;
+}
+
+.song td:not(:first-child) {
+    margin-right: 10rem;
+}
+
+
+.play-button::before {
+    content: "";
+    position: absolute;
+    left: 9px;
+    top: 9px;
+    width: 0;
+    height: 0;
+    border-top: 6px solid transparent;
+    border-bottom: 6px solid transparent;
+    border-left: 10px solid rgb(75 85 99 / var(--tw-border-opacity, 1));
+}
+
+.play-button.playing::before {
+    border: none;
+    left: 9px;
+    top: 6px;
+    width: 4px;
+    height: 16px;
+    background: rgb(75 85 99 / var(--tw-border-opacity, 1));
+    box-shadow: 8px 0 0 rgb(75 85 99 / var(--tw-border-opacity, 1));
+}
+
+.currentSongWithSearch {
+    height: 0;
+    width: 0;
+    position: absolute;
+    right: 20000010%;
+}

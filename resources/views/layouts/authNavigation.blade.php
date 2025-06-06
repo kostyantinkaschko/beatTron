@@ -64,7 +64,7 @@
                             {{ __('adminpanel') }}
                         </x-dropdown-link>
                         @endif
-                        <x-dropdown-link :href="route('performerPanel')">
+                        <x-dropdown-link :href="route('panel')">
                             {{ __('Studio') }}
                         </x-dropdown-link>
 

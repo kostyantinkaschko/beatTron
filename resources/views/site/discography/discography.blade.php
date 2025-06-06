@@ -19,6 +19,7 @@
                 @endif
                 @endforeach
             </div>
+        </div>
             <div class="mt-4 pagination">
                 {{ $disks->appends(request()->query())->links() }}
             </div>

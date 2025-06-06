@@ -7,57 +7,59 @@
             <button type="submit" class="bg-blue-500 text-white p-2">Search</button>
         </form>
 
-        <table class="border-collapse border border-gray-400">
-            <thead>
+        <div class="overflow-x-auto">
+            <table class="border-collapse border border-gray-400">
+                <thead>
+                    <tr>
+                        <th class="border border-gray-400 dark:text-white">id:</th>
+                        <th class="border border-gray-400 dark:text-white">name:</th>
+                        <th class="border border-gray-400 dark:text-white">surname:</th>
+                        <th class="border border-gray-400 dark:text-white">email:</th>
+                        <th class="border border-gray-400 dark:text-white">phone:</th>
+                        <th class="border border-gray-400 dark:text-white">rank:</th>
+                        <th class="border border-gray-400 dark:text-white">exp:</th>
+                        <th class="border border-gray-400 dark:text-white">role:</th>
+                        <th class="border border-gray-400 dark:text-white">Created_at:</th>
+                        <th class="border border-gray-400 dark:text-white">Updated_at:</th>
+                        <th class="border border-gray-400 dark:text-white">Deleted_at:</th>
+                        <th class="border border-gray-400 dark:text-white" colspan="2">Act:</th>
+                    </tr>
+                </thead>
+                @foreach ($users as $user)
                 <tr>
-                    <th class="border border-gray-400 dark:text-white">id:</th>
-                    <th class="border border-gray-400 dark:text-white">name:</th>
-                    <th class="border border-gray-400 dark:text-white">surname:</th>
-                    <th class="border border-gray-400 dark:text-white">email:</th>
-                    <th class="border border-gray-400 dark:text-white">phone:</th>
-                    <th class="border border-gray-400 dark:text-white">rank:</th>
-                    <th class="border border-gray-400 dark:text-white">exp:</th>
-                    <th class="border border-gray-400 dark:text-white">role:</th>
-                    <th class="border border-gray-400 dark:text-white">Created_at:</th>
-                    <th class="border border-gray-400 dark:text-white">Updated_at:</th>
-                    <th class="border border-gray-400 dark:text-white">Deleted_at:</th>
-                    <th class="border border-gray-400 dark:text-white" colspan="2">Act:</th>
+                    <td class="border border-gray-400 dark:text-white">{{ $user->id }}</td>
+                    <td class="border border-gray-400 dark:text-white">{{ $user->name }}</td>
+                    <td class="border border-gray-400 dark:text-white">{{ $user->surname }}</td>
+                    <td class="border border-gray-400 dark:text-white">{{ $user->email }}</td>
+                    <td class="border border-gray-400 dark:text-white">{{ $user->phone }}</td>
+                    <td class="border border-gray-400 dark:text-white">{{ $user->rank }}</td>
+                    <td class="border border-gray-400 dark:text-white">{{ $user->exp }}</td>
+                    <td class="border border-gray-400 dark:text-white">{{ $user->role }}</td>
+                    <td class="border border-gray-400 dark:text-white">{{ $user->created_at }}</td>
+                    <td class="border border-gray-400 dark:text-white">{{ $user->updated_at }}</td>
+                    <td class="border border-gray-400 dark:text-white">{{ $user->deleted_at }}</td>
+                    @if ($user->trashed())
+                    <td class="border border-gray-400 dark:text-white text-center" colspan="2">
+                        <form action="{{ route("userRestore", $user->id) }}" method="post">
+                            @csrf
+                            @method('patch')
+                            <input type="submit" value="Restore">
+                        </form>
+                    </td>
+                    @else
+                    <td class="border border-gray-400 dark:text-white">
+                        <form action="{{ route("userDelete", $user->id) }}" method="post">
+                            @csrf
+                            @method('delete')
+                            <input  type="submit"  class="removeButton" value="Remove">
+                        </form>
+                    </td>
+                    <td class="border border-gray-400 dark:text-white"><a href="{{ route("userEdit", $user->id) }}">Edit</a></td>
+                    @endif
                 </tr>
-            </thead>
-            @foreach ($users as $user)
-            <tr>
-                <td class="border border-gray-400 dark:text-white">{{ $user->id }}</td>
-                <td class="border border-gray-400 dark:text-white">{{ $user->name }}</td>
-                <td class="border border-gray-400 dark:text-white">{{ $user->surname }}</td>
-                <td class="border border-gray-400 dark:text-white">{{ $user->email }}</td>
-                <td class="border border-gray-400 dark:text-white">{{ $user->phone }}</td>
-                <td class="border border-gray-400 dark:text-white">{{ $user->rank }}</td>
-                <td class="border border-gray-400 dark:text-white">{{ $user->exp }}</td>
-                <td class="border border-gray-400 dark:text-white">{{ $user->role }}</td>
-                <td class="border border-gray-400 dark:text-white">{{ $user->created_at }}</td>
-                <td class="border border-gray-400 dark:text-white">{{ $user->updated_at }}</td>
-                <td class="border border-gray-400 dark:text-white">{{ $user->deleted_at }}</td>
-                @if ($user->trashed())
-                <td class="border border-gray-400 dark:text-white text-center" colspan="2">
-                    <form action="{{ route("userRestore", $user->id) }}" method="post">
-                        @csrf
-                        @method('patch')
-                        <input type="submit" value="Restore">
-                    </form>
-                </td>
-                @else
-                <td class="border border-gray-400 dark:text-white">
-                    <form action="{{ route("userDelete", $user->id) }}" method="post">
-                        @csrf
-                        @method('delete')
-                        <input type="submit" value="Remove">
-                    </form>
-                </td>
-                <td class="border border-gray-400 dark:text-white"><a href="{{ route("userEdit", $user->id) }}">Edit</a></td>
-                @endif
-            </tr>
-            @endforeach
-        </table>
+                @endforeach
+            </table>
+        </div>
         <div class="mt-4">
             {{ $users->appends(request()->query())->links() }}
         </div>

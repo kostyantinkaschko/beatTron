@@ -1,5 +1,6 @@
 <x-app-layout>
     <x-slot name="slot">
+        <h1 class="text-center">Genre creation form</h1>
         <form action="{{ route("genreStore") }}" method="post">
             @csrf
             <label>title:</label>

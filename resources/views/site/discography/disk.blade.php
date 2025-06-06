@@ -4,7 +4,7 @@
         <a href="{{ route("performerPage", $disk->performer->id) }}">By {{ $disk->performer->name }}</a>
         <h3>{{ $disk->type }}</h3>
         <p>{{ $disk->description }}</p>
-        <table class="songs">
+        <table  class="songs audioPlayerTable">
             @foreach ($songs as $song)
             @include('layouts.songPlay')
             @endforeach

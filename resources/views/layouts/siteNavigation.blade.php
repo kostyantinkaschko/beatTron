@@ -1,8 +1,11 @@
 <header class="text-[11rem]">
     <nav x-data="{ open: false }" class="bg-white dark:bg-gray-800 border-b border-gray-100 dark:border-gray-700">
-        <div class="flex justify-between topline wrapper">
+        <div class="flex justify-between topline">
             <!-- Logo or brand name can be added here if necessary -->
             <div class="flex">
+                <div class="logo">
+                    <img src="{{ mix('resources/img/logo.png') }}" alt="BeatTron">
+                </div>
                 <!-- Navigation Links -->
                 <div class="navLinks">
                     <x-nav-link :href="route('general')" :active="request()->routeIs('general')">
@@ -67,7 +70,7 @@
                             {{ __('adminpanel') }}
                         </x-dropdown-link>
                         @endif
-                        <x-dropdown-link :href="route('performerPanel')">
+                        <x-dropdown-link :href="route('panel')">
                             {{ __('Studio') }}
                         </x-dropdown-link>
 

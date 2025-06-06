@@ -1,6 +1,6 @@
 <x-site-layout>
     <x-slot name="main">
-        <table class="songs">
+        <table class="songs audioPlayerTable">
             <tbody>
                 @foreach ($songs as $song)
                 @include('layouts.songPlay')
@@ -12,7 +12,15 @@
             <h2>Performers</h2>
             <ul class="performerBlock">
                 @foreach ($performers as $performer)
-                <li><a class="performer" href="{{ route("performerPage", $performer->id) }}">{{ $performer->name }} ({{ $performer->rate }})</a></li>
+                <li>
+                    <a class="performer" href="{{ route('performerPage', $performer->id) }}">
+                        {{ $performer->name }}
+                        @if ($performer->rate > 0 && $performer->rate < 6)
+                            ({{ $performer->rate }})
+                            @endif
+                            </a>
+                </li>
+
                 @endforeach
             </ul>
         </div>
